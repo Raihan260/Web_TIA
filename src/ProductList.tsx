@@ -3,36 +3,85 @@ import ProductCard, { type Product } from './ProductCard';
 
 const products: Product[] = [
   {
-    id: 'denim-basic-slim',
-    name: 'Denim Slim Fit Basic',
-    sizeRange: ['S', 'M', 'L', 'XL'],
-    wholesalePrice: 'Rp75.000 / pcs',
-    minimumOrder: 'Min. 5 pcs / model',
-    tags: ['Best Seller', 'Bahan Lembut', 'Cocok Sehari-hari'],
+    id: 'denim-amelia-basic',
+    name: 'Celana Denim Amelia Basic',
+    tags: ['Best Seller', 'Nyaman Dipakai', 'Mudah Dipadu'],
+    seriesOptions: [
+      {
+        name: 'Seri 1 (Uk. 4, 5, 6)',
+        pricePerPiece: 80000,
+        totalPrice: 240000,
+      },
+      {
+        name: 'Seri 2 (Uk. 7, 8, 9)',
+        pricePerPiece: 82500,
+        totalPrice: 247500,
+      },
+      {
+        name: 'Seri 3 (Uk. 10, 11, 12)',
+        pricePerPiece: 85000,
+        totalPrice: 255000,
+      },
+      {
+        name: 'Seri 4 (Uk. 13, 14, 15)',
+        pricePerPiece: 90000,
+        totalPrice: 270000,
+      },
+    ],
   },
   {
-    id: 'denim-ribbon',
-    name: 'Denim Ribbon Girl',
-    sizeRange: ['S', 'M', 'L'],
-    wholesalePrice: 'Rp78.000 / pcs',
-    minimumOrder: 'Min. 4 pcs / model',
-    tags: ['Detail Pita', 'Model Feminim'],
+    id: 'denim-naya-slim',
+    name: 'Celana Denim Naya Slim Fit',
+    tags: ['Rapi & Modis', 'Cocok Untuk Sekolah'],
+    seriesOptions: [
+      {
+        name: 'Seri 1 (Uk. 4, 5, 6)',
+        pricePerPiece: 80000,
+        totalPrice: 240000,
+      },
+      {
+        name: 'Seri 2 (Uk. 7, 8, 9)',
+        pricePerPiece: 82500,
+        totalPrice: 247500,
+      },
+      {
+        name: 'Seri 3 (Uk. 10, 11, 12)',
+        pricePerPiece: 85000,
+        totalPrice: 255000,
+      },
+      {
+        name: 'Seri 4 (Uk. 13, 14, 15)',
+        pricePerPiece: 90000,
+        totalPrice: 270000,
+      },
+    ],
   },
   {
-    id: 'denim-boyfriend',
-    name: 'Denim Boyfriend Kids',
-    sizeRange: ['M', 'L', 'XL'],
-    wholesalePrice: 'Rp82.000 / pcs',
-    minimumOrder: 'Min. 5 pcs / model',
-    tags: ['Loose Fit', 'Tren Kekinian'],
-  },
-  {
-    id: 'denim-flower',
-    name: 'Denim Flower Embroidery',
-    sizeRange: ['S', 'M', 'L', 'XL'],
-    wholesalePrice: 'Rp88.000 / pcs',
-    minimumOrder: 'Min. 3 pcs / model',
-    tags: ['Bordir Bunga', 'Premium'],
+    id: 'denim-salsa-straight',
+    name: 'Celana Denim Salsa Straight',
+    tags: ['Model Favorit Ibu', 'Tidak Ketat', 'Gerak Bebas'],
+    seriesOptions: [
+      {
+        name: 'Seri 1 (Uk. 4, 5, 6)',
+        pricePerPiece: 80000,
+        totalPrice: 240000,
+      },
+      {
+        name: 'Seri 2 (Uk. 7, 8, 9)',
+        pricePerPiece: 82500,
+        totalPrice: 247500,
+      },
+      {
+        name: 'Seri 3 (Uk. 10, 11, 12)',
+        pricePerPiece: 85000,
+        totalPrice: 255000,
+      },
+      {
+        name: 'Seri 4 (Uk. 13, 14, 15)',
+        pricePerPiece: 90000,
+        totalPrice: 270000,
+      },
+    ],
   },
 ];
 
