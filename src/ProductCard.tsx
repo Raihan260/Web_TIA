@@ -10,6 +10,7 @@ export interface SeriesOption {
 export interface Product {
   id: string;
   name: string;
+  category: string;
   imageUrl?: string;
   tags?: string[];
   seriesOptions: SeriesOption[];
