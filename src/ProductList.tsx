@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useState } from 'react';
 import ProductCard, { type Product } from './ProductCard';
 
 const products: Product[] = [
@@ -86,6 +87,9 @@ const products: Product[] = [
 ];
 
 const ProductList: FC = () => {
+  const [showAll, setShowAll] = useState(false);
+  const displayedProducts = showAll ? products : products.slice(0, 3);
+
   return (
     <section id="katalog" className="border-t border-b border-slate-200 bg-gray-50">
       <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
@@ -105,9 +109,19 @@ const ProductList: FC = () => {
         </div>
 
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
+          {displayedProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShowAll((prev) => !prev)}
+            className="rounded-full border border-pink-200 bg-white px-5 py-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-pink-300 hover:bg-pink-50 hover:text-slate-900"
+          >
+            {showAll ? 'Tampilkan Lebih Sedikit' : 'Lihat Semua Koleksi Denim'}
+          </button>
         </div>
       </div>
     </section>
