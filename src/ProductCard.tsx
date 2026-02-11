@@ -35,6 +35,10 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
     ...product.seriesOptions.map((option) => option.pricePerPiece),
   );
 
+  const whatsappMessage = encodeURIComponent(
+    `Halo Admin TIA Collection, saya tertarik untuk pesan grosir model *${product.name}*. Boleh minta info stok serinya?`,
+  );
+
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
@@ -100,6 +104,16 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
             ))}
           </div>
         </div>
+      </div>
+      <div className="px-4 pb-4">
+        <a
+          href={`https://wa.me/6285219847122?text=${whatsappMessage}`}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex w-full items-center justify-center rounded-full bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-600"
+        >
+          Pesan Model Ini
+        </a>
       </div>
     </article>
   );

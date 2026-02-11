@@ -53,12 +53,12 @@ const App: FC = () => {
                 <p>
                   WhatsApp Admin:{' '}
                   <a
-                    href="https://wa.me/6281234567890"
+                    href="https://wa.me/6285219847122"
                     target="_blank"
                     rel="noreferrer"
                     className="font-semibold text-green-600 underline-offset-4 hover:underline"
                   >
-                    0812-3456-7890
+                    0852-1984-7122
                   </a>
                 </p>
                 <p className="text-xs text-slate-500">

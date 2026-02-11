@@ -33,7 +33,7 @@ const Hero: FC = () => {
               <span>Lihat Katalog Denim</span>
             </a>
             <a
-              href="https://wa.me/6281234567890"
+              href="https://wa.me/6285219847122"
               target="_blank"
               rel="noreferrer"
               className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-green-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-green-400/60 transition hover:bg-green-400 sm:w-auto"

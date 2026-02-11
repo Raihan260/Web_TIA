@@ -35,7 +35,7 @@ const Navbar: FC = () => {
             </a>
           </div>
           <a
-            href="https://wa.me/6281234567890"
+            href="https://wa.me/6285219847122"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-green-400/60 transition hover:bg-green-400"
@@ -68,7 +68,7 @@ const Navbar: FC = () => {
               Kontak
             </a>
             <a
-              href="https://wa.me/6281234567890"
+              href="https://wa.me/6285219847122"
               target="_blank"
               rel="noreferrer"
               className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-green-400/60 transition hover:bg-green-400"
