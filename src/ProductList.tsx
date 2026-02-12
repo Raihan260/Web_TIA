@@ -139,15 +139,18 @@ const ProductList: FC = () => {
           ))}
         </div>
 
-        <div className="mt-8 flex justify-center">
-          <button
-            type="button"
-            onClick={() => setShowAll((prev) => !prev)}
-            className="rounded-full border border-pink-200 bg-white px-5 py-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-pink-300 hover:bg-pink-50 hover:text-slate-900"
-          >
-            {showAll ? 'Tampilkan Lebih Sedikit' : 'Lihat Semua Koleksi Denim'}
-          </button>
-        </div>
+        {/* Tombol hanya muncul jika produk lebih dari 3 */}
+        {filteredProducts.length > 3 && (
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setShowAll((prev) => !prev)}
+              className="rounded-full border border-pink-200 bg-white px-5 py-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-pink-300 hover:bg-pink-50 hover:text-slate-900"
+            >
+              {showAll ? 'Tampilkan Lebih Sedikit' : 'Lihat Semua Koleksi'}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
