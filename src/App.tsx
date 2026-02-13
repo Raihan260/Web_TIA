@@ -1,20 +1,20 @@
 import type { FC } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import Navbar from './Navbar';
 import Hero from './Hero';
 import ProductList from './ProductList';
+import ProductDetail from './ProductDetail';
 import { Truck, ShieldCheck, BadgePercent, Clock, MessageCircle } from 'lucide-react';
 
-const App: FC = () => {
+const Home: FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50 text-slate-800 font-sans">
-      <Navbar />
-      <main>
-        <Hero />
-        
-        {/* Katalog Section */}
-        <ProductList />
+    <>
+      <Hero />
+      {/* Katalog Section */}
+      <ProductList />
 
-        {/* Section Keunggulan / Value Proposition */}
+      {/* Section Keunggulan / Value Proposition */}
         <section className="bg-white py-12 border-t border-slate-100">
           <div className="mx-auto max-w-6xl px-4">
             <div className="text-center mb-10">
@@ -123,7 +123,42 @@ const App: FC = () => {
         >
           <MessageCircle className="h-7 w-7" />
         </a>
-      </main>
+      </>
+  );
+};
+
+const ScrollToTop = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.substring(1);
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+    }
+
+    window.scrollTo(0, 0);
+  }, [location.pathname, location.hash]);
+
+  return null;
+};
+
+const App: FC = () => {
+  return (
+    <div className="min-h-screen bg-gray-50 text-slate-800 font-sans">
+      <BrowserRouter>
+        <ScrollToTop />
+        <Navbar />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+          </Routes>
+        </main>
+      </BrowserRouter>
     </div>
   );
 };

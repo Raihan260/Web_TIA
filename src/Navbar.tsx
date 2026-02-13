@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { Phone, Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,7 +9,7 @@ const Navbar: FC = () => {
   return (
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-sm">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:py-4">
-        <a href="#" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-pink-400 text-sm font-semibold text-white shadow-sm shadow-pink-300/70">
             TIA
           </span>
@@ -20,19 +21,19 @@ const Navbar: FC = () => {
               Denim Anak Perempuan Grosir
             </span>
           </div>
-        </a>
+        </Link>
 
         <div className="hidden items-center gap-8 md:flex">
           <div className="flex items-center gap-6 text-sm font-medium text-slate-700">
-            <a href="#katalog" className="hover:text-slate-900">
+            <Link to="/#katalog" className="hover:text-slate-900">
               Katalog
-            </a>
-            <a href="#tentang" className="hover:text-slate-900">
+            </Link>
+            <Link to="/#tentang" className="hover:text-slate-900">
               Tentang Kami
-            </a>
-            <a href="#kontak" className="hover:text-slate-900">
+            </Link>
+            <Link to="/#kontak" className="hover:text-slate-900">
               Kontak
-            </a>
+            </Link>
           </div>
           <a
             href="https://wa.me/6285219847122"
@@ -58,15 +59,15 @@ const Navbar: FC = () => {
       {isOpen && (
         <div className="border-t border-slate-200 bg-white md:hidden">
           <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 text-sm font-medium text-slate-700">
-            <a href="#katalog" className="py-1" onClick={() => setIsOpen(false)}>
+            <Link to="/#katalog" className="py-1" onClick={() => setIsOpen(false)}>
               Katalog
-            </a>
-            <a href="#tentang" className="py-1" onClick={() => setIsOpen(false)}>
+            </Link>
+            <Link to="/#tentang" className="py-1" onClick={() => setIsOpen(false)}>
               Tentang Kami
-            </a>
-            <a href="#kontak" className="py-1" onClick={() => setIsOpen(false)}>
+            </Link>
+            <Link to="/#kontak" className="py-1" onClick={() => setIsOpen(false)}>
               Kontak
-            </a>
+            </Link>
             <a
               href="https://wa.me/6285219847122"
               target="_blank"
