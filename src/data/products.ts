@@ -64,7 +64,7 @@ export const products: Product[] = [
     category: 'Denim Panjang',
     imageUrl: '/images/Celana-jeans-skena-Kd-5017.jpg',
     tags: ['Best Seller', 'Jeans Skena'],
-    seriesOptions: denimSeriesOptions.slice(0, 3), // Khusus ini cuma 3 seri
+    seriesOptions: denimSeriesOptions
   },
   {
     id: 'jeans-skena-5004',

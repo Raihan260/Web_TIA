@@ -100,11 +100,13 @@ const Home: FC = () => {
               </ul>
             </div>
             <div>
-              <h4 className="text-white font-bold mb-4">Alamat Gudang</h4>
+              <h4 className="text-white font-bold mb-4">Alamat Toko</h4>
               <p>
-                Jl. Contoh Bisnis No. 123<br />
-                Kecamatan Tanah Abang, Jakarta Pusat<br />
-                DKI Jakarta 10240
+                Tanah Abang Blok A Lt. Ground Los B No.89, Jakarta, Indonesia
+              </p>
+              <br />
+              <p>
+                Pasar Jaya Cipulir Lt 1 BKS No 51, Jakarta, Indonesia
               </p>
             </div>
           </div>
