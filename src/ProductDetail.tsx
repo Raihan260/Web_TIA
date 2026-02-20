@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { products } from './data/products';
 
@@ -36,6 +37,14 @@ const ProductDetail: FC = () => {
   const placeholderImage =
     'https://via.placeholder.com/800x600.png?text=Denim+Anak+Perempuan';
 
+  const [activeImage, setActiveImage] = useState(
+    product.imageUrl || placeholderImage,
+  );
+
+  useEffect(() => {
+    setActiveImage(product.imageUrl || placeholderImage);
+  }, [product, placeholderImage]);
+
   const minPricePerPiece = Math.min(
     ...product.seriesOptions.map((option) => option.pricePerPiece),
   );
@@ -57,11 +66,36 @@ const ProductDetail: FC = () => {
           <div>
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
               <img
-                src={product.imageUrl || placeholderImage}
+                src={activeImage}
                 alt={product.name}
                 className="h-full w-full object-cover"
               />
             </div>
+            {product.gallery && product.gallery.length > 0 && (
+              <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+                {product.gallery.map((image) => {
+                  const isActive = activeImage === image;
+                  return (
+                    <button
+                      key={image}
+                      type="button"
+                      onClick={() => setActiveImage(image)}
+                      className={`h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 ${
+                        isActive
+                          ? 'border-pink-500'
+                          : 'border-transparent hover:border-pink-300'
+                      }`}
+                   >
+                      <img
+                        src={image}
+                        alt={product.name}
+                        className="h-full w-full object-cover"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           <div className="space-y-4">

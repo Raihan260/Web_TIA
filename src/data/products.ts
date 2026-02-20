@@ -9,6 +9,7 @@ export interface Product {
   name: string;
   category: string;
   imageUrl?: string;
+  gallery?: string[]; // <--- Tambahkan baris ini
   tags?: string[];
   seriesOptions: SeriesOption[];
 }
@@ -334,6 +335,14 @@ export const products: Product[] = [
     name: 'Celana Katun Skena (Kd: 5039)',
     category: 'Celana Katun',
     imageUrl: '/images/Celana-katun-skena-Kode-5039.jpg',
+    // --- TAMBAHKAN GALLERY DI BAWAH INI ---
+    gallery: [
+      '/images/Celana-katun-skena-Kode-5039.jpg',
+      '/images/Celana-katun-skena-Kode-5039-(2).jpg',
+      '/images/Celana-katun-skena-Kode-5039-(3).jpg',
+      '/images/Celana-katun-skena-Kode-5039-(4).jpg'
+    ],
+    // --------------------------------------
     tags: ['Bahan Adem'],
     seriesOptions: cottonSeriesOptions,
   },
