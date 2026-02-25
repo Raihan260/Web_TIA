@@ -1,10 +1,13 @@
 import type { FC } from 'react';
-import { Phone, Menu, X } from 'lucide-react';
+import { Phone, Menu, X, ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useCartStore } from './store/useCartStore';
 
 const Navbar: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const cartCount = useCartStore((state) => state.cartCount());
+  const setIsCartOpen = useCartStore((state) => state.setIsCartOpen);
 
   return (
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-sm">
@@ -23,7 +26,7 @@ const Navbar: FC = () => {
           </div>
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-6 md:flex">
           <div className="flex items-center gap-6 text-sm font-medium text-slate-700">
             <Link to="/#katalog" className="hover:text-slate-900">
               Katalog
@@ -35,6 +38,19 @@ const Navbar: FC = () => {
               Kontak
             </Link>
           </div>
+          <button
+            type="button"
+            onClick={() => setIsCartOpen(true)}
+            className="relative inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-3 py-2 text-slate-700 shadow-sm hover:bg-slate-100"
+            aria-label="Lihat keranjang inquiry"
+          >
+            <ShoppingBag className="h-5 w-5" />
+            {cartCount > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-pink-500 px-1 text-[10px] font-bold text-white">
+                {cartCount}
+              </span>
+            )}
+          </button>
           <a
             href="https://wa.me/6285219847122"
             target="_blank"
@@ -68,6 +84,24 @@ const Navbar: FC = () => {
             <Link to="/#kontak" className="py-1" onClick={() => setIsOpen(false)}>
               Kontak
             </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setIsCartOpen(true);
+                setIsOpen(false);
+              }}
+              className="mt-1 inline-flex items-center justify-between rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50"
+            >
+              <span className="flex items-center gap-2">
+                <ShoppingBag className="h-4 w-4" />
+                <span>Keranjang Inquiry</span>
+              </span>
+              {cartCount > 0 && (
+                <span className="ml-2 inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-pink-500 px-1 text-[11px] font-bold text-white">
+                  {cartCount}
+                </span>
+              )}
+            </button>
             <a
               href="https://wa.me/6285219847122"
               target="_blank"

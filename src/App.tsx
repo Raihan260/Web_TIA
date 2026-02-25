@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Hero from './Hero';
 import ProductList from './ProductList';
 import ProductDetail from './ProductDetail';
+import CartDrawer from './CartDrawer';
 import { Truck, ShieldCheck, BadgePercent, Clock, MessageCircle } from 'lucide-react';
 
 const Home: FC = () => {
@@ -154,6 +155,7 @@ const App: FC = () => {
       <BrowserRouter>
         <ScrollToTop />
         <Navbar />
+        <CartDrawer />
         <main>
           <Routes>
             <Route path="/" element={<Home />} />

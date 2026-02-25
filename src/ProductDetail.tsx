@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { products } from './data/products';
 import ProductCard from './ProductCard'; // <-- Import komponen kartu produk
+import { useCartStore } from './store/useCartStore';
 
 const formatRupiah = (value: number) =>
   new Intl.NumberFormat('id-ID', {
@@ -15,6 +16,8 @@ const formatRupiah = (value: number) =>
 const ProductDetail: FC = () => {
   const { id } = useParams<{ id: string }>();
   const product = products.find((item) => item.id === id);
+  const addToCart = useCartStore((state) => state.addToCart);
+  const setIsCartOpen = useCartStore((state) => state.setIsCartOpen);
 
   const placeholderImage =
     'https://via.placeholder.com/800x600.png?text=Denim+Anak+Perempuan';
@@ -52,10 +55,6 @@ const ProductDetail: FC = () => {
 
   const minPricePerPiece = Math.min(
     ...product.seriesOptions.map((option) => option.pricePerPiece),
-  );
-
-  const whatsappMessage = encodeURIComponent(
-    `Halo Admin TIA Collection, saya tertarik untuk pesan grosir model *${product.name}*. Boleh minta info stok serinya?`,
   );
 
   // --- 3. LOGIKA REKOMENDASI PRODUK LAINNYA ---
@@ -173,14 +172,20 @@ const ProductDetail: FC = () => {
               </div>
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href={`https://wa.me/6285219847122?text=${whatsappMessage}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex flex-1 items-center justify-center rounded-full bg-green-500 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-green-400/60 transition hover:bg-green-600"
+                <button
+                  type="button"
+                  onClick={() => addToCart(product)}
+                  className="inline-flex flex-1 items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-slate-700/60 transition hover:bg-slate-800"
                 >
-                  Pesan Model Ini via WhatsApp
-                </a>
+                  Tambah Model Ini ke Keranjang
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsCartOpen(true)}
+                  className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
+                >
+                  Lihat Keranjang Saya
+                </button>
                 <Link
                   to="/"
                   className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
