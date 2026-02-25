@@ -1,13 +1,16 @@
 import type { FC } from 'react';
-import { Shirt } from 'lucide-react';
+import { Shirt, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { Product } from './data/products';
+import { useCartStore } from './store/useCartStore';
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
+  const addToCart = useCartStore((state) => state.addToCart);
+
   const placeholderImage =
     'https://via.placeholder.com/400x300.png?text=Denim+Anak+Perempuan';
 
@@ -61,10 +64,18 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
           )}
         </div>
 
-        <div className="mt-2">
+        <div className="mt-2 flex flex-col gap-2">
+          <button
+            type="button"
+            onClick={() => addToCart(product)}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
+          >
+            <ShoppingBag className="h-4 w-4" />
+            <span>Tambah ke Keranjang</span>
+          </button>
           <Link
             to={`/product/${product.id}`}
-            className="inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
+            className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
           >
             Lihat Detail
           </Link>
