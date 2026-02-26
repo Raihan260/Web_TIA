@@ -285,7 +285,7 @@ export const products: Product[] = [
   {
     id: 'jeans-pop-849',
     name: 'Celana Jeans Pop (Kd: 849)',
-    category: 'Denim Panjang',
+    category: 'Denim Pendek',
     imageUrl: '/images/Celana-jeans-pop-Kd-849.jpg',
     tags: ['Pop Style'],
     seriesOptions: denimSeriesOptions,
