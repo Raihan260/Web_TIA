@@ -143,7 +143,9 @@ const ScrollToTop = () => {
       }
     }
 
-    window.scrollTo(0, 0);
+    if (location.pathname.startsWith('/product')) {
+      window.scrollTo(0, 0);
+    }
   }, [location.pathname, location.hash]);
 
   return null;

@@ -1,6 +1,6 @@
-import type { FC } from 'react';
+import type { FC, MouseEvent } from 'react';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { products } from './data/products';
 import ProductCard from './ProductCard'; // <-- Import komponen kartu produk
 import { useCartStore } from './store/useCartStore';
@@ -15,6 +15,7 @@ const formatRupiah = (value: number) =>
 
 const ProductDetail: FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const product = products.find((item) => item.id === id);
   const addToCart = useCartStore((state) => state.addToCart);
   const setIsCartOpen = useCartStore((state) => state.setIsCartOpen);
@@ -24,6 +25,15 @@ const ProductDetail: FC = () => {
 
   // 1. PINDAHKAN HOOKS KE ATAS SINI (Wajib di React)
   const [activeImage, setActiveImage] = useState<string>('');
+
+  const handleGoBack = (e: MouseEvent) => {
+    e.preventDefault();
+    if (window.history.state && window.history.state.idx > 0) {
+      navigate(-1);
+    } else {
+      navigate('/', { replace: true });
+    }
+  };
 
   useEffect(() => {
     if (product) {
@@ -75,7 +85,11 @@ const ProductDetail: FC = () => {
       <section className="border-t border-b border-slate-200 bg-gray-50">
         <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
           <div className="mb-6 text-sm text-slate-600">
-            <Link to="/" className="hover:text-slate-900 underline-offset-2 hover:underline">
+            <Link
+              to="/"
+              onClick={handleGoBack}
+              className="hover:text-slate-900 underline-offset-2 hover:underline"
+            >
               &larr; Kembali ke Katalog
             </Link>
           </div>
@@ -188,6 +202,7 @@ const ProductDetail: FC = () => {
                 </button>
                 <Link
                   to="/"
+                  onClick={handleGoBack}
                   className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
                 >
                   Kembali ke Katalog
