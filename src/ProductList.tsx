@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
 import { products } from './data/products';
 
@@ -8,8 +8,20 @@ const categories = ['Semua', 'Denim Panjang', 'Denim Pendek', 'Rok Denim', 'Cela
  
 
 const ProductList: FC = () => {
-  const [showAll, setShowAll] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<string>('Semua');
+  const [showAll, setShowAll] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return sessionStorage.getItem('tia_showAll') === 'true';
+  });
+  const [activeCategory, setActiveCategory] = useState<string>(() => {
+    if (typeof window === 'undefined') return 'Semua';
+    return sessionStorage.getItem('tia_category') || 'Semua';
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    sessionStorage.setItem('tia_category', activeCategory);
+    sessionStorage.setItem('tia_showAll', showAll.toString());
+  }, [activeCategory, showAll]);
 
   const filteredProducts =
     activeCategory === 'Semua'
