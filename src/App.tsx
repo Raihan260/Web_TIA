@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './Navbar';
 import Hero from './Hero';
@@ -113,8 +113,15 @@ const Home: FC = () => {
               </p>
             </div>
           </div>
-          <div className="border-t border-slate-800 mt-10 pt-6 text-center text-xs">
-            &copy; {new Date().getFullYear()} TIA Collection. All rights reserved.
+          <div className="border-t border-slate-800 mt-10 pt-6 text-center text-xs flex justify-center items-center gap-1">
+            <span>&copy; {new Date().getFullYear()}</span>
+            <Link
+              to="/admin"
+              className="cursor-pointer hover:text-slate-300 transition-colors"
+            >
+              TIA Collection
+            </Link>
+            <span>. All rights reserved.</span>
           </div>
         </footer>
 
