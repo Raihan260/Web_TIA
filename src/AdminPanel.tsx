@@ -18,6 +18,9 @@ type Category = (typeof categories)[number];
 
 const AdminPanel: FC = () => {
   const addProduct = useProductStore((state) => state.addProduct);
+  const productList = useProductStore((state) => state.productList);
+  const deleteProduct = useProductStore((state) => state.deleteProduct);
+  const updateProduct = useProductStore((state) => state.updateProduct);
 
   const [id, setId] = useState('');
   const [name, setName] = useState('');
@@ -25,6 +28,7 @@ const AdminPanel: FC = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [tagsInput, setTagsInput] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -72,22 +76,38 @@ const AdminPanel: FC = () => {
 
     try {
       setIsSaving(true);
-      const success = await addProduct(newProduct);
-
-      if (success) {
-        alert('Produk Berhasil Ditambahkan');
-
-        setId('');
-        setName('');
-        setCategory('Denim Panjang');
-        setImageUrl('');
-        setTagsInput('');
+      if (editingId) {
+        await updateProduct(editingId, newProduct);
+        alert('Produk Berhasil Diperbarui!');
       } else {
-        alert('Gagal menyimpan produk. Silakan coba lagi.');
+        const success = await addProduct(newProduct);
+
+        if (!success) {
+          alert('Gagal menyimpan produk. Silakan coba lagi.');
+          return;
+        }
+
+        alert('Produk Berhasil Ditambahkan!');
       }
+
+      setId('');
+      setName('');
+      setCategory('Denim Panjang');
+      setImageUrl('');
+      setTagsInput('');
+      setEditingId(null);
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setId('');
+    setName('');
+    setCategory('Denim Panjang');
+    setImageUrl('');
+    setTagsInput('');
   };
 
   return (
@@ -123,7 +143,12 @@ const AdminPanel: FC = () => {
                   value={id}
                   onChange={(e) => setId(e.target.value)}
                   placeholder="Contoh: jeans-skena-9999"
-                  className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
+                  disabled={editingId !== null}
+                  className={`w-full rounded-lg border px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100 ${
+                    editingId !== null
+                      ? 'border-slate-200 bg-slate-100 text-slate-500 cursor-not-allowed'
+                      : 'border-slate-200 bg-white'
+                  }`}
                 />
                 <p className="text-[11px] text-slate-500">Gunakan format yang konsisten dan unik.</p>
               </div>
@@ -200,15 +225,104 @@ const AdminPanel: FC = () => {
               <p className="text-[11px] text-slate-500">
                 Data produk akan tersimpan langsung di database Supabase.
               </p>
-              <button
-                type="submit"
-                disabled={isSaving}
-                className="inline-flex items-center justify-center rounded-full bg-pink-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-pink-700 disabled:opacity-70 disabled:cursor-not-allowed"
-              >
-                {isSaving ? 'Menyimpan...' : 'Simpan Produk'}
-              </button>
+              <div className="flex items-center gap-3">
+                {editingId !== null && (
+                  <button
+                    type="button"
+                    onClick={handleCancelEdit}
+                    className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
+                  >
+                    Batal Edit
+                  </button>
+                )}
+                <button
+                  type="submit"
+                  disabled={isSaving}
+                  className="inline-flex items-center justify-center rounded-full bg-pink-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-pink-700 disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {isSaving
+                    ? editingId
+                      ? 'Menyimpan Perubahan...'
+                      : 'Menyimpan...'
+                    : editingId
+                      ? 'Update Produk'
+                      : 'Tambah Produk Baru'}
+                </button>
+              </div>
             </div>
           </form>
+        </div>
+
+        <div className="mt-10 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+          <div className="mb-4 flex items-center justify-between gap-2">
+            <div>
+              <h2 className="text-base font-semibold text-slate-900">Daftar Produk</h2>
+              <p className="text-xs text-slate-500">Kelola produk yang sudah tersimpan di Supabase.</p>
+            </div>
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-slate-700">
+              Total: {productList.length}
+            </span>
+          </div>
+
+          {productList.length === 0 ? (
+            <p className="text-sm text-slate-500">Belum ada produk. Tambahkan produk baru terlebih dahulu.</p>
+          ) : (
+            <div className="grid gap-3 md:grid-cols-2">
+              {productList.map((product) => (
+                <div
+                  key={product.id}
+                  className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
+                >
+                  <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg bg-white ring-1 ring-slate-200">
+                    {product.imageUrl ? (
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-[10px] text-slate-400">
+                        Tidak ada gambar
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-semibold text-slate-900">{product.name}</p>
+                    <p className="text-[11px] text-slate-500">ID: {product.id}</p>
+                    <p className="text-[11px] text-slate-500">Kategori: {product.category}</p>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingId(product.id);
+                        setId(product.id);
+                        setName(product.name);
+                        setCategory(product.category as Category);
+                        setImageUrl(product.imageUrl ?? '');
+                        setTagsInput(product.tags ? product.tags.join(', ') : '');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold text-white shadow-sm transition hover:bg-slate-800"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (window.confirm('Yakin ingin menghapus produk ini?')) {
+                          deleteProduct(product.id);
+                        }
+                      }}
+                      className="rounded-full bg-red-600 px-3 py-1 text-[11px] font-semibold text-white shadow-sm transition hover:bg-red-700"
+                    >
+                      Hapus
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

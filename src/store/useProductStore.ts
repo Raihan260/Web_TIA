@@ -7,6 +7,8 @@ interface ProductState {
   isLoading: boolean;
   fetchProducts: () => Promise<void>;
   addProduct: (newProduct: Product) => Promise<boolean>;
+  deleteProduct: (id: string) => Promise<void>;
+  updateProduct: (id: string, updatedData: Partial<Product>) => Promise<void>;
 }
 
 export const useProductStore = create<ProductState>((set) => ({
@@ -34,5 +36,31 @@ export const useProductStore = create<ProductState>((set) => ({
 
     set((state) => ({ productList: [...state.productList, newProduct] }));
     return true;
+  },
+  deleteProduct: async (id: string) => {
+    const { error } = await supabase.from('products').delete().eq('id', id);
+
+    if (error) {
+      console.error('Error deleting product from Supabase:', error.message);
+      return;
+    }
+
+    set((state) => ({
+      productList: state.productList.filter((product) => product.id !== id),
+    }));
+  },
+  updateProduct: async (id: string, updatedData: Partial<Product>) => {
+    const { error } = await supabase.from('products').update(updatedData).eq('id', id);
+
+    if (error) {
+      console.error('Error updating product in Supabase:', error.message);
+      return;
+    }
+
+    set((state) => ({
+      productList: state.productList.map((product) =>
+        product.id === id ? { ...product, ...updatedData } : product,
+      ),
+    }));
   },
 }));
