@@ -11,6 +11,7 @@ import {
 } from './data/products';
 import { useProductStore } from './store/useProductStore';
 import SeedData from './SeedData';
+import AdminLogin from './AdminLogin';
 
 const categories = ['Denim Panjang', 'Denim Pendek', 'Rok Denim', 'Celana Katun', 'Gamis'] as const;
 
@@ -22,6 +23,9 @@ const AdminPanel: FC = () => {
   const deleteProduct = useProductStore((state) => state.deleteProduct);
   const updateProduct = useProductStore((state) => state.updateProduct);
 
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => typeof window !== 'undefined' && sessionStorage.getItem('admin_auth') === 'true',
+  );
   const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [category, setCategory] = useState<Category>('Denim Panjang');
@@ -110,6 +114,19 @@ const AdminPanel: FC = () => {
     setTagsInput('');
   };
 
+  if (!isAuthenticated) {
+    return (
+      <AdminLogin
+        onLoginSuccess={() => {
+          setIsAuthenticated(true);
+          if (typeof window !== 'undefined') {
+            sessionStorage.setItem('admin_auth', 'true');
+          }
+        }}
+      />
+    );
+  }
+
   return (
     <section className="min-h-screen bg-gray-50 py-10">
       <div className="mx-auto max-w-3xl px-4">
@@ -120,12 +137,26 @@ const AdminPanel: FC = () => {
               Tambahkan produk baru ke katalog tanpa perlu mengubah kode.
             </p>
           </div>
-          <Link
-            to="/"
-            className="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
-          >
-            Kembali ke Katalog
-          </Link>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  sessionStorage.removeItem('admin_auth');
+                }
+                setIsAuthenticated(false);
+              }}
+              className="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+            >
+              Logout
+            </button>
+            <Link
+              to="/"
+              className="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+            >
+              Kembali ke Katalog
+            </Link>
+          </div>
         </div>
 
         <SeedData />
