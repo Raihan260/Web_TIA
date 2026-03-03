@@ -1,22 +1,38 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import type { Product } from '../data/products';
-import { products } from '../data/products';
+import { supabase } from '../lib/supabase';
 
 interface ProductState {
   productList: Product[];
-  addProduct: (newProduct: Product) => void;
+  isLoading: boolean;
+  fetchProducts: () => Promise<void>;
+  addProduct: (newProduct: Product) => Promise<boolean>;
 }
 
-export const useProductStore = create<ProductState>()(
-  persist(
-    (set) => ({
-      productList: products,
-      addProduct: (newProduct) =>
-        set((state) => ({ productList: [...state.productList, newProduct] })),
-    }),
-    {
-      name: 'tia-product-store',
-    },
-  ),
-);
+export const useProductStore = create<ProductState>((set) => ({
+  productList: [],
+  isLoading: false,
+  fetchProducts: async () => {
+    set({ isLoading: true });
+    const { data, error } = await supabase.from('products').select('*');
+
+    if (error) {
+      console.error('Error fetching products from Supabase:', error.message);
+      set({ productList: [], isLoading: false });
+      return;
+    }
+
+    set({ productList: (data ?? []) as Product[], isLoading: false });
+  },
+  addProduct: async (newProduct: Product) => {
+    const { error } = await supabase.from('products').insert([newProduct]);
+
+    if (error) {
+      console.error('Error inserting product into Supabase:', error.message);
+      return false;
+    }
+
+    set((state) => ({ productList: [...state.productList, newProduct] }));
+    return true;
+  },
+}));

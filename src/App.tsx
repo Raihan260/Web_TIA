@@ -8,6 +8,7 @@ import ProductDetail from './ProductDetail';
 import CartDrawer from './CartDrawer';
 import AdminPanel from './AdminPanel';
 import { Truck, ShieldCheck, BadgePercent, Clock, MessageCircle } from 'lucide-react';
+import { useProductStore } from './store/useProductStore';
 
 const Home: FC = () => {
   return (
@@ -153,6 +154,12 @@ const ScrollToTop = () => {
 };
 
 const App: FC = () => {
+  const fetchProducts = useProductStore((state) => state.fetchProducts);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
   return (
     <div className="min-h-screen bg-gray-50 text-slate-800 font-sans">
       <BrowserRouter>

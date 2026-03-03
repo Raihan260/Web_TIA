@@ -23,8 +23,9 @@ const AdminPanel: FC = () => {
   const [category, setCategory] = useState<Category>('Denim Panjang');
   const [imageUrl, setImageUrl] = useState('');
   const [tagsInput, setTagsInput] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     if (!id.trim() || !name.trim()) {
@@ -68,15 +69,24 @@ const AdminPanel: FC = () => {
       seriesOptions,
     };
 
-    addProduct(newProduct);
+    try {
+      setIsSaving(true);
+      const success = await addProduct(newProduct);
 
-    alert('Produk Berhasil Ditambahkan');
+      if (success) {
+        alert('Produk Berhasil Ditambahkan');
 
-    setId('');
-    setName('');
-    setCategory('Denim Panjang');
-    setImageUrl('');
-    setTagsInput('');
+        setId('');
+        setName('');
+        setCategory('Denim Panjang');
+        setImageUrl('');
+        setTagsInput('');
+      } else {
+        alert('Gagal menyimpan produk. Silakan coba lagi.');
+      }
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -185,13 +195,14 @@ const AdminPanel: FC = () => {
 
             <div className="flex items-center justify-between border-t border-slate-100 pt-4">
               <p className="text-[11px] text-slate-500">
-                Data produk akan tersimpan di browser (localStorage) sampai Anda menghapus cache.
+                Data produk akan tersimpan langsung di database Supabase.
               </p>
               <button
                 type="submit"
-                className="inline-flex items-center justify-center rounded-full bg-pink-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-pink-700"
+                disabled={isSaving}
+                className="inline-flex items-center justify-center rounded-full bg-pink-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-pink-700 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Simpan Produk
+                {isSaving ? 'Menyimpan...' : 'Simpan Produk'}
               </button>
             </div>
           </form>
