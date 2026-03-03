@@ -1,13 +1,14 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
-import { products } from './data/products';
+import { useProductStore } from './store/useProductStore';
 
 const categories = ['Semua', 'Denim Panjang', 'Denim Pendek', 'Rok Denim', 'Celana Katun', 'Gamis'] as const;
 
  
 
 const ProductList: FC = () => {
+  const productList = useProductStore((state) => state.productList);
   const [showAll, setShowAll] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return sessionStorage.getItem('tia_showAll') === 'true';
@@ -25,8 +26,8 @@ const ProductList: FC = () => {
 
   const filteredProducts =
     activeCategory === 'Semua'
-      ? products
-      : products.filter((product) => product.category === activeCategory);
+      ? productList
+      : productList.filter((product) => product.category === activeCategory);
 
   const displayedProducts = showAll
     ? filteredProducts

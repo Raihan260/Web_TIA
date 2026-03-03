@@ -6,6 +6,7 @@ import Hero from './Hero';
 import ProductList from './ProductList';
 import ProductDetail from './ProductDetail';
 import CartDrawer from './CartDrawer';
+import AdminPanel from './AdminPanel';
 import { Truck, ShieldCheck, BadgePercent, Clock, MessageCircle } from 'lucide-react';
 
 const Home: FC = () => {
@@ -162,6 +163,7 @@ const App: FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/admin" element={<AdminPanel />} />
           </Routes>
         </main>
       </BrowserRouter>

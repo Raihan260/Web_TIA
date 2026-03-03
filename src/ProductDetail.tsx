@@ -1,9 +1,9 @@
 import type { FC, MouseEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { products } from './data/products';
 import ProductCard from './ProductCard'; // <-- Import komponen kartu produk
 import { useCartStore } from './store/useCartStore';
+import { useProductStore } from './store/useProductStore';
 
 const formatRupiah = (value: number) =>
   new Intl.NumberFormat('id-ID', {
@@ -16,7 +16,8 @@ const formatRupiah = (value: number) =>
 const ProductDetail: FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const product = products.find((item) => item.id === id);
+  const productList = useProductStore((state) => state.productList);
+  const product = productList.find((item) => item.id === id);
   const addToCart = useCartStore((state) => state.addToCart);
   const setIsCartOpen = useCartStore((state) => state.setIsCartOpen);
 
@@ -68,13 +69,13 @@ const ProductDetail: FC = () => {
   );
 
   // --- 3. LOGIKA REKOMENDASI PRODUK LAINNYA ---
-  const relatedProducts = products
+  const relatedProducts = productList
     .filter((p) => p.id !== product.id && p.category === product.category)
     .slice(0, 4);
 
   // Jika produk dengan kategori sama kurang dari 4, pinjam produk dari kategori lain
   if (relatedProducts.length < 4) {
-    const moreProducts = products
+    const moreProducts = productList
       .filter((p) => p.id !== product.id && p.category !== product.category)
       .slice(0, 4 - relatedProducts.length);
     relatedProducts.push(...moreProducts);
