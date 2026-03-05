@@ -1,7 +1,7 @@
 import type { FC, FormEvent } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import type { Product } from './data/products';
+import type { Product, SeriesOption } from './data/products';
 import {
   denimSeriesOptions,
   shortDenimSeriesOptions,
@@ -16,6 +16,23 @@ import AdminLogin from './AdminLogin';
 const categories = ['Denim Panjang', 'Denim Pendek', 'Rok Denim', 'Celana Katun', 'Gamis'] as const;
 
 type Category = (typeof categories)[number];
+
+const getDefaultSeries = (cat: Category): SeriesOption[] => {
+  switch (cat) {
+    case 'Denim Panjang':
+      return denimSeriesOptions.map((option) => ({ ...option }));
+    case 'Denim Pendek':
+      return shortDenimSeriesOptions.map((option) => ({ ...option }));
+    case 'Celana Katun':
+      return cottonSeriesOptions.map((option) => ({ ...option }));
+    case 'Rok Denim':
+      return skirtSeriesOptions.map((option) => ({ ...option }));
+    case 'Gamis':
+      return gamisSeriesOptions.map((option) => ({ ...option }));
+    default:
+      return denimSeriesOptions.map((option) => ({ ...option }));
+  }
+};
 
 const AdminPanel: FC = () => {
   const addProduct = useProductStore((state) => state.addProduct);
@@ -33,6 +50,9 @@ const AdminPanel: FC = () => {
   const [tagsInput, setTagsInput] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [customSeries, setCustomSeries] = useState<SeriesOption[]>(() =>
+    getDefaultSeries('Denim Panjang'),
+  );
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -41,27 +61,6 @@ const AdminPanel: FC = () => {
       // Basic validation
       alert('ID dan Nama produk wajib diisi.');
       return;
-    }
-
-    let seriesOptions;
-    switch (category) {
-      case 'Denim Panjang':
-        seriesOptions = denimSeriesOptions;
-        break;
-      case 'Denim Pendek':
-        seriesOptions = shortDenimSeriesOptions;
-        break;
-      case 'Celana Katun':
-        seriesOptions = cottonSeriesOptions;
-        break;
-      case 'Rok Denim':
-        seriesOptions = skirtSeriesOptions;
-        break;
-      case 'Gamis':
-        seriesOptions = gamisSeriesOptions;
-        break;
-      default:
-        seriesOptions = denimSeriesOptions;
     }
 
     const tags = tagsInput
@@ -75,7 +74,7 @@ const AdminPanel: FC = () => {
       category,
       imageUrl: imageUrl.trim() || undefined,
       tags: tags.length ? tags : undefined,
-      seriesOptions,
+      seriesOptions: customSeries,
     };
 
     try {
@@ -99,6 +98,7 @@ const AdminPanel: FC = () => {
       setCategory('Denim Panjang');
       setImageUrl('');
       setTagsInput('');
+      setCustomSeries(getDefaultSeries('Denim Panjang'));
       setEditingId(null);
     } finally {
       setIsSaving(false);
@@ -112,6 +112,7 @@ const AdminPanel: FC = () => {
     setCategory('Denim Panjang');
     setImageUrl('');
     setTagsInput('');
+    setCustomSeries(getDefaultSeries('Denim Panjang'));
   };
 
   if (!isAuthenticated) {
@@ -207,7 +208,13 @@ const AdminPanel: FC = () => {
                 <select
                   id="category"
                   value={category}
-                  onChange={(e) => setCategory(e.target.value as Category)}
+                  onChange={(e) => {
+                    const cat = e.target.value as Category;
+                    setCategory(cat);
+                    if (!editingId) {
+                      setCustomSeries(getDefaultSeries(cat));
+                    }
+                  }}
                   className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
                 >
                   {categories.map((cat) => (
@@ -250,6 +257,101 @@ const AdminPanel: FC = () => {
                 className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
               />
               <p className="text-[11px] text-slate-500">Pisahkan dengan koma untuk beberapa tag.</p>
+            </div>
+
+            <div className="mt-4 rounded-xl bg-slate-50 p-4 ring-1 ring-slate-200">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-600">
+                Atur Pilihan Seri &amp; Harga (1 Seri = 3 Pcs)
+              </p>
+              <div className="mt-3 space-y-3">
+                {customSeries.map((series, index) => (
+                  <div
+                    key={index}
+                    className="grid gap-2 rounded-lg bg-white p-3 text-xs ring-1 ring-slate-200 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_auto] md:items-end"
+                  >
+                    <div className="space-y-1">
+                      <label className="block text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                        Nama Seri
+                      </label>
+                      <input
+                        type="text"
+                        value={series.name}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setCustomSeries((prev) =>
+                            prev.map((item, idx) =>
+                              idx === index ? { ...item, name: value } : item,
+                            ),
+                          );
+                        }}
+                        className="w-full rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-300 focus:ring-2 focus:ring-pink-100"
+                        placeholder="Seri 1 (Uk. 4, 5, 6)"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="block text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                        Harga / Pcs
+                      </label>
+                      <input
+                        type="number"
+                        min={0}
+                        value={series.pricePerPiece}
+                        onChange={(e) => {
+                          const price = Number(e.target.value) || 0;
+                          setCustomSeries((prev) =>
+                            prev.map((item, idx) =>
+                              idx === index
+                                ? {
+                                    ...item,
+                                    pricePerPiece: price,
+                                    totalPrice: price * 3,
+                                  }
+                                : item,
+                            ),
+                          );
+                        }}
+                        className="w-full rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-300 focus:ring-2 focus:ring-pink-100"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="block text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                        Total 1 Seri
+                      </label>
+                      <input
+                        type="text"
+                        value={series.totalPrice}
+                        disabled
+                        className="w-full rounded-lg border border-slate-100 bg-slate-50 px-2 py-1.5 text-xs text-slate-700 shadow-sm outline-none"
+                      />
+                    </div>
+                    <div className="flex items-end justify-end">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCustomSeries((prev) =>
+                            prev.filter((_, idx) => idx !== index),
+                          );
+                        }}
+                        className="rounded-full bg-red-50 px-3 py-1 text-[10px] font-semibold text-red-600 ring-1 ring-red-100 transition hover:bg-red-100"
+                      >
+                        Hapus
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() =>
+                  setCustomSeries((prev) => [
+                    ...prev,
+                    { name: '', pricePerPiece: 0, totalPrice: 0 },
+                  ])
+                }
+                className="mt-3 inline-flex items-center rounded-full border border-dashed border-slate-300 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-700 shadow-sm transition hover:border-pink-300 hover:text-pink-700"
+              >
+                + Tambah Seri
+              </button>
             </div>
 
             <div className="flex items-center justify-between border-t border-slate-100 pt-4">
@@ -332,6 +434,11 @@ const AdminPanel: FC = () => {
                         setCategory(product.category as Category);
                         setImageUrl(product.imageUrl ?? '');
                         setTagsInput(product.tags ? product.tags.join(', ') : '');
+                        setCustomSeries(
+                          product.seriesOptions && product.seriesOptions.length > 0
+                            ? product.seriesOptions
+                            : getDefaultSeries(product.category as Category),
+                        );
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
                       className="rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold text-white shadow-sm transition hover:bg-slate-800"
