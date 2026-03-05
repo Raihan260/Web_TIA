@@ -1,5 +1,6 @@
 import type { FC, FormEvent } from 'react';
 import { useState } from 'react';
+import { Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { Product, SeriesOption } from './data/products';
 import {
@@ -53,6 +54,17 @@ const AdminPanel: FC = () => {
   const [customSeries, setCustomSeries] = useState<SeriesOption[]>(() =>
     getDefaultSeries('Denim Panjang'),
   );
+  const [adminSearch, setAdminSearch] = useState('');
+
+  const adminSearchNormalized = adminSearch.trim().toLowerCase();
+
+  const filteredAdminProducts = productList.filter((product) => {
+    if (!adminSearchNormalized) return true;
+    return (
+      product.name.toLowerCase().includes(adminSearchNormalized) ||
+      product.id.toLowerCase().includes(adminSearchNormalized)
+    );
+  });
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -397,11 +409,26 @@ const AdminPanel: FC = () => {
             </span>
           </div>
 
+          <div className="mb-4">
+            <div className="relative w-full max-w-md">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                value={adminSearch}
+                onChange={(e) => setAdminSearch(e.target.value)}
+                placeholder="Cari produk berdasarkan nama atau ID..."
+                className="w-full rounded-full border border-slate-200 bg-white px-4 py-2 pl-9 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
+              />
+            </div>
+          </div>
+
           {productList.length === 0 ? (
             <p className="text-sm text-slate-500">Belum ada produk. Tambahkan produk baru terlebih dahulu.</p>
+          ) : filteredAdminProducts.length === 0 ? (
+            <p className="text-sm text-slate-500">Produk tidak ditemukan.</p>
           ) : (
             <div className="grid gap-3 md:grid-cols-2">
-              {productList.map((product) => (
+              {filteredAdminProducts.map((product) => (
                 <div
                   key={product.id}
                   className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"

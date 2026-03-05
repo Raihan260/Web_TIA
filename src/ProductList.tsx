@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
+import { Search } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { useProductStore } from './store/useProductStore';
 
@@ -17,6 +18,7 @@ const ProductList: FC = () => {
     if (typeof window === 'undefined') return 'Semua';
     return sessionStorage.getItem('tia_category') || 'Semua';
   });
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -24,10 +26,11 @@ const ProductList: FC = () => {
     sessionStorage.setItem('tia_showAll', showAll.toString());
   }, [activeCategory, showAll]);
 
-  const filteredProducts =
-    activeCategory === 'Semua'
-      ? productList
-      : productList.filter((product) => product.category === activeCategory);
+  const filteredProducts = productList.filter((product) => {
+    const matchesCategory = activeCategory === 'Semua' || product.category === activeCategory;
+    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   const displayedProducts = showAll
     ? filteredProducts
@@ -51,7 +54,20 @@ const ProductList: FC = () => {
           </p>
         </div>
 
-        <div className="mt-6 flex gap-2 overflow-x-auto pb-4">
+        <div className="mt-6 flex justify-center">
+          <div className="relative w-full max-w-md">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cari produk berdasarkan nama..."
+              className="w-full rounded-full border border-slate-200 bg-white px-4 py-2 pl-9 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
+            />
+          </div>
+        </div>
+
+        <div className="mt-4 flex gap-2 overflow-x-auto pb-4">
           {categories.map((category) => {
             const isActive = activeCategory === category;
             return (
