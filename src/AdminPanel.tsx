@@ -48,6 +48,7 @@ const AdminPanel: FC = () => {
   const [name, setName] = useState('');
   const [category, setCategory] = useState<Category>('Denim Panjang');
   const [imageUrl, setImageUrl] = useState('');
+  const [galleryUrls, setGalleryUrls] = useState<string[]>([]);
   const [tagsInput, setTagsInput] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -85,6 +86,7 @@ const AdminPanel: FC = () => {
       name: name.trim(),
       category,
       imageUrl: imageUrl.trim() || undefined,
+      gallery: galleryUrls.filter((url) => url.trim().length > 0),
       tags: tags.length ? tags : undefined,
       seriesOptions: customSeries,
     };
@@ -110,6 +112,7 @@ const AdminPanel: FC = () => {
       setCategory('Denim Panjang');
       setImageUrl('');
       setTagsInput('');
+      setGalleryUrls([]);
       setCustomSeries(getDefaultSeries('Denim Panjang'));
       setEditingId(null);
     } finally {
@@ -124,6 +127,7 @@ const AdminPanel: FC = () => {
     setCategory('Denim Panjang');
     setImageUrl('');
     setTagsInput('');
+    setGalleryUrls([]);
     setCustomSeries(getDefaultSeries('Denim Panjang'));
   };
 
@@ -254,6 +258,49 @@ const AdminPanel: FC = () => {
                 />
                 <p className="text-[11px] text-slate-500">Bisa berupa path lokal atau URL penuh.</p>
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-xs font-semibold uppercase tracking-wide text-slate-700">
+                Galeri Gambar Tambahan (Opsional)
+              </label>
+              <p className="text-[11px] text-slate-500">
+                Tambahkan URL foto lain untuk varian warna atau angle berbeda. Opsional.
+              </p>
+              <div className="mt-1 space-y-2">
+                {galleryUrls.map((url, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={url}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setGalleryUrls((prev) =>
+                          prev.map((item, idx) => (idx === index ? value : item)),
+                        );
+                      }}
+                      placeholder="Masukkan URL varian warna atau angle lain..."
+                      className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-300 focus:ring-2 focus:ring-pink-100"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setGalleryUrls((prev) => prev.filter((_, idx) => idx !== index));
+                      }}
+                      className="rounded-full bg-red-50 px-3 py-1 text-[10px] font-semibold text-red-600 ring-1 ring-red-100 transition hover:bg-red-100"
+                    >
+                      Hapus
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => setGalleryUrls((prev) => [...prev, ''])}
+                className="mt-1 inline-flex items-center rounded-full border border-dashed border-slate-300 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-700 shadow-sm transition hover:border-pink-300 hover:text-pink-700"
+              >
+                + Tambah Foto Galeri
+              </button>
             </div>
 
             <div className="space-y-1.5">
@@ -461,6 +508,7 @@ const AdminPanel: FC = () => {
                         setCategory(product.category as Category);
                         setImageUrl(product.imageUrl ?? '');
                         setTagsInput(product.tags ? product.tags.join(', ') : '');
+                         setGalleryUrls(product.gallery || []);
                         setCustomSeries(
                           product.seriesOptions && product.seriesOptions.length > 0
                             ? product.seriesOptions
