@@ -113,11 +113,10 @@ const ProductDetail: FC = () => {
                         key={image}
                         type="button"
                         onClick={() => setActiveImage(image)}
-                        className={`h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 ${
-                          isActive
+                        className={`h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 ${isActive
                             ? 'border-pink-500'
                             : 'border-transparent hover:border-pink-300'
-                        }`}
+                          }`}
                       >
                         <img
                           src={image}
@@ -146,7 +145,7 @@ const ProductDetail: FC = () => {
               </div>
 
               <div className="rounded-lg bg-orange-500 px-3 py-2 text-xs font-extrabold text-white inline-flex items-center">
-                HANYA JUAL PER SERI (Isi 3 pcs)
+                HANYA JUAL PER SERI
               </div>
 
               {product.tags && product.tags.length > 0 && (
@@ -164,7 +163,7 @@ const ProductDetail: FC = () => {
 
               <div className="mt-4 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-600">
-                  Pilihan Seri (1 Seri = 3 pcs)
+                  Pilihan Ukuran Seri
                 </p>
                 <div className="mt-3 space-y-2">
                   {product.seriesOptions.map((option) => (
@@ -175,7 +174,7 @@ const ProductDetail: FC = () => {
                       <div className="min-w-0">
                         <p className="truncate font-semibold text-slate-800">{option.name}</p>
                         <p className="text-[11px] text-slate-500">
-                          {formatRupiah(option.pricePerPiece)} / pcs
+                          {formatRupiah(option.pricePerPiece)} / pcs &times; {option.pieces || 3} pcs
                         </p>
                       </div>
                       <p className="ml-3 whitespace-nowrap text-sm font-extrabold text-slate-900">

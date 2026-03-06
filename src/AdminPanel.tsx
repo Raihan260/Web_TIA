@@ -192,11 +192,10 @@ const AdminPanel: FC = () => {
                   onChange={(e) => setId(e.target.value)}
                   placeholder="Contoh: jeans-skena-9999"
                   disabled={editingId !== null}
-                  className={`w-full rounded-lg border px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100 ${
-                    editingId !== null
+                  className={`w-full rounded-lg border px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100 ${editingId !== null
                       ? 'border-slate-200 bg-slate-100 text-slate-500 cursor-not-allowed'
                       : 'border-slate-200 bg-white'
-                  }`}
+                    }`}
                 />
                 <p className="text-[11px] text-slate-500">Gunakan format yang konsisten dan unik.</p>
               </div>
@@ -320,13 +319,13 @@ const AdminPanel: FC = () => {
 
             <div className="mt-4 rounded-xl bg-slate-50 p-4 ring-1 ring-slate-200">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-600">
-                Atur Pilihan Seri &amp; Harga (1 Seri = 3 Pcs)
+                Atur Pilihan Seri &amp; Harga
               </p>
               <div className="mt-3 space-y-3">
                 {customSeries.map((series, index) => (
                   <div
                     key={index}
-                    className="grid gap-2 rounded-lg bg-white p-3 text-xs ring-1 ring-slate-200 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_auto] md:items-end"
+                    className="grid gap-2 rounded-lg bg-white p-3 text-xs ring-1 ring-slate-200 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.5fr)_auto] md:items-end"
                   >
                     <div className="space-y-1">
                       <label className="block text-[10px] font-semibold uppercase tracking-wide text-slate-600">
@@ -361,10 +360,35 @@ const AdminPanel: FC = () => {
                             prev.map((item, idx) =>
                               idx === index
                                 ? {
-                                    ...item,
-                                    pricePerPiece: price,
-                                    totalPrice: price * 3,
-                                  }
+                                  ...item,
+                                  pricePerPiece: price,
+                                  totalPrice: price * (item.pieces || 3),
+                                }
+                                : item,
+                            ),
+                          );
+                        }}
+                        className="w-full rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-300 focus:ring-2 focus:ring-pink-100"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="block text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                        Jml Pcs
+                      </label>
+                      <input
+                        type="number"
+                        min={1}
+                        value={series.pieces || 3}
+                        onChange={(e) => {
+                          const newPieces = Number(e.target.value) || 3;
+                          setCustomSeries((prev) =>
+                            prev.map((item, idx) =>
+                              idx === index
+                                ? {
+                                  ...item,
+                                  pieces: newPieces,
+                                  totalPrice: item.pricePerPiece * newPieces,
+                                }
                                 : item,
                             ),
                           );
@@ -404,7 +428,7 @@ const AdminPanel: FC = () => {
                 onClick={() =>
                   setCustomSeries((prev) => [
                     ...prev,
-                    { name: '', pricePerPiece: 0, totalPrice: 0 },
+                    { name: '', pricePerPiece: 0, pieces: 3, totalPrice: 0 },
                   ])
                 }
                 className="mt-3 inline-flex items-center rounded-full border border-dashed border-slate-300 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-700 shadow-sm transition hover:border-pink-300 hover:text-pink-700"
@@ -508,7 +532,7 @@ const AdminPanel: FC = () => {
                         setCategory(product.category as Category);
                         setImageUrl(product.imageUrl ?? '');
                         setTagsInput(product.tags ? product.tags.join(', ') : '');
-                         setGalleryUrls(product.gallery || []);
+                        setGalleryUrls(product.gallery || []);
                         setCustomSeries(
                           product.seriesOptions && product.seriesOptions.length > 0
                             ? product.seriesOptions
