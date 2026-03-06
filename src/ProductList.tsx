@@ -6,7 +6,7 @@ import { useProductStore } from './store/useProductStore';
 
 const categories = ['Semua', 'Denim Panjang', 'Denim Pendek', 'Rok Denim', 'Celana Katun', 'Gamis'] as const;
 
- 
+
 
 const ProductList: FC = () => {
   const productList = useProductStore((state) => state.productList);
@@ -32,9 +32,11 @@ const ProductList: FC = () => {
     return matchesCategory && matchesSearch;
   });
 
+  const reversedFilteredProducts = [...filteredProducts].reverse();
+
   const displayedProducts = showAll
-    ? filteredProducts
-    : filteredProducts.slice(0, 3);
+    ? reversedFilteredProducts
+    : reversedFilteredProducts.slice(0, 3);
 
   return (
     <section id="katalog" className="border-t border-b border-slate-200 bg-gray-50">
