@@ -21,7 +21,7 @@ const Home: FC = () => {
         <section className="bg-white py-12 border-t border-slate-100">
           <div className="mx-auto max-w-6xl px-4">
             <div className="text-center mb-10">
-              <h2 className="text-2xl font-bold text-slate-900">Kenapa Mitra Memilih TIA Collection?</h2>
+              <h2 className="text-2xl font-bold text-slate-900">Kenapa Mitra Memilih TIA Kids?</h2>
               <p className="text-slate-600 mt-2 text-sm">Kami paham kebutuhan bisnis Anda akan barang berkualitas dengan harga bersaing.</p>
             </div>
             

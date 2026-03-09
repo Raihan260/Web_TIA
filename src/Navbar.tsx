@@ -18,7 +18,7 @@ const Navbar: FC = () => {
           </span>
           <div className="flex flex-col leading-tight">
             <span className="text-sm font-semibold tracking-wide text-slate-900">
-              TIA Collection
+              TIA Kids
             </span>
             <span className="text-xs text-slate-500">
               Denim Anak Perempuan Grosir
