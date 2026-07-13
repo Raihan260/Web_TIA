@@ -1,32 +1,44 @@
 import type { FC, FormEvent } from 'react';
 import { useState } from 'react';
+import { supabase } from './lib/supabase';
 
 interface AdminLoginProps {
   onLoginSuccess: () => void;
 }
 
-// Set VITE_ADMIN_PIN in your .env file, e.g.:
-// VITE_ADMIN_PIN=123456
-const ADMIN_PIN = import.meta.env.VITE_ADMIN_PIN as string | undefined;
-
 const AdminLogin: FC<AdminLoginProps> = ({ onLoginSuccess }) => {
-  const [pin, setPin] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+    setError('');
 
-    if (!ADMIN_PIN) {
-      console.error('VITE_ADMIN_PIN is not set in the environment variables.');
-      setError('Konfigurasi PIN admin belum diatur. Hubungi developer.');
+    if (!email.trim() || !password) {
+      setError('Email dan password wajib diisi.');
       return;
     }
 
-    if (pin.trim() === ADMIN_PIN) {
-      setError('');
+    try {
+      setIsSubmitting(true);
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+
+      if (signInError) {
+        setError('Email atau password salah.');
+        return;
+      }
+
       onLoginSuccess();
-    } else {
-      setError('PIN salah. Silakan coba lagi.');
+    } catch (err) {
+      console.error(err);
+      setError('Terjadi kesalahan saat login. Silakan coba lagi.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -35,22 +47,41 @@ const AdminLogin: FC<AdminLoginProps> = ({ onLoginSuccess }) => {
       <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
         <h1 className="text-lg font-semibold text-slate-900 mb-1 text-center">Login Admin</h1>
         <p className="mb-5 text-xs text-slate-500 text-center">
-          Masukkan PIN akses admin untuk membuka halaman pengelolaan produk.
+          Masuk dengan akun admin untuk mengelola produk.
         </p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <label
-              htmlFor="admin-pin"
+              htmlFor="admin-email"
               className="block text-xs font-semibold uppercase tracking-wide text-slate-700"
             >
-              PIN Akses Admin
+              Email
             </label>
             <input
-              id="admin-pin"
+              id="admin-email"
+              type="email"
+              autoComplete="username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="admin@tiacollection.com"
+              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label
+              htmlFor="admin-password"
+              className="block text-xs font-semibold uppercase tracking-wide text-slate-700"
+            >
+              Password
+            </label>
+            <input
+              id="admin-password"
               type="password"
-              value={pin}
-              onChange={(e) => setPin(e.target.value)}
-              placeholder="Masukkan PIN"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Masukkan password"
               className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
             />
           </div>
@@ -59,9 +90,10 @@ const AdminLogin: FC<AdminLoginProps> = ({ onLoginSuccess }) => {
 
           <button
             type="submit"
-            className="mt-2 inline-flex w-full items-center justify-center rounded-full bg-pink-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-pink-700"
+            disabled={isSubmitting}
+            className="mt-2 inline-flex w-full items-center justify-center rounded-full bg-pink-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-pink-700 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Masuk ke Admin Panel
+            {isSubmitting ? 'Memproses...' : 'Masuk ke Admin Panel'}
           </button>
         </form>
       </div>

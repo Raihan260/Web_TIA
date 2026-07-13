@@ -1,5 +1,5 @@
 import type { FC, FormEvent } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { Product, SeriesOption } from './data/products';
@@ -11,6 +11,7 @@ import {
   gamisSeriesOptions,
 } from './data/products';
 import { useProductStore } from './store/useProductStore';
+import { supabase } from './lib/supabase';
 import SeedData from './SeedData';
 import AdminLogin from './AdminLogin';
 
@@ -41,9 +42,24 @@ const AdminPanel: FC = () => {
   const deleteProduct = useProductStore((state) => state.deleteProduct);
   const updateProduct = useProductStore((state) => state.updateProduct);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    () => typeof window !== 'undefined' && sessionStorage.getItem('admin_auth') === 'true',
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setIsAuthenticated(!!data.session);
+      setIsCheckingAuth(false);
+    });
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
   const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [category, setCategory] = useState<Category>('Denim Panjang');
@@ -131,17 +147,16 @@ const AdminPanel: FC = () => {
     setCustomSeries(getDefaultSeries('Denim Panjang'));
   };
 
-  if (!isAuthenticated) {
+  if (isCheckingAuth) {
     return (
-      <AdminLogin
-        onLoginSuccess={() => {
-          setIsAuthenticated(true);
-          if (typeof window !== 'undefined') {
-            sessionStorage.setItem('admin_auth', 'true');
-          }
-        }}
-      />
+      <section className="flex min-h-screen items-center justify-center bg-gray-50">
+        <p className="text-sm text-slate-500">Memeriksa sesi login...</p>
+      </section>
     );
+  }
+
+  if (!isAuthenticated) {
+    return <AdminLogin onLoginSuccess={() => setIsAuthenticated(true)} />;
   }
 
   return (
@@ -157,10 +172,8 @@ const AdminPanel: FC = () => {
           <div className="flex items-center gap-3">
             <button
               type="button"
-              onClick={() => {
-                if (typeof window !== 'undefined') {
-                  sessionStorage.removeItem('admin_auth');
-                }
+              onClick={async () => {
+                await supabase.auth.signOut();
                 setIsAuthenticated(false);
               }}
               className="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
