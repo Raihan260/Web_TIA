@@ -1,73 +1,89 @@
-# React + TypeScript + Vite
+# TIA Collection - Website Katalog & Admin
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Website katalog online untuk **TIA Collection**, toko grosir gamis dan busana muslim anak. Menampilkan katalog produk ke publik, dan menyediakan Admin Panel privat untuk mengelola data produk.
 
-Currently, two official plugins are available:
+## Fitur
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Katalog produk publik dengan pencarian dan detail per produk (galeri foto, pilihan harga per "seri").
+- Keranjang belanja sederhana (disimpan di memori browser).
+- Admin Panel (`/admin`) untuk tambah, ubah, dan hapus produk — dilindungi login (email & password).
+- Data produk disimpan di Supabase (PostgreSQL) dengan Row Level Security: siapa saja bisa membaca katalog, tapi hanya admin yang login yang bisa mengubah data.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- [Vite](https://vite.dev/) + React 19 + TypeScript
+- [React Router](https://reactrouter.com/) — routing (`/`, `/product/:id`, `/admin`)
+- [Zustand](https://zustand-demo.pmnd.rs/) — state management (produk & keranjang)
+- [Supabase](https://supabase.com/) — database (PostgreSQL) + Authentication
+- [Tailwind CSS](https://tailwindcss.com/) — styling
+- [lucide-react](https://lucide.dev/) — ikon
 
-## Expanding the ESLint configuration
+## Persiapan
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **Clone repo dan install dependency**
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+   ```bash
+   git clone https://github.com/Raihan260/Web_TIA.git
+   cd Web_TIA
+   npm install
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+2. **Buat file `.env`**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+   Salin `.env.example` menjadi `.env`, lalu isi dengan kredensial Supabase Anda:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   ```
+   VITE_SUPABASE_URL=https://xxxxxxxx.supabase.co
+   VITE_SUPABASE_ANON_KEY=sb_publishable_xxxxxxxx
+   ```
+
+   Kredensial ini bisa dilihat di Supabase Dashboard → **Settings → API**. Pakai **publishable key** (`sb_publishable_...`), bukan `service_role` key.
+
+   ⚠️ **Jangan pernah commit file `.env`** — file ini sudah masuk `.gitignore`.
+
+3. **Siapkan database Supabase**
+
+   Jalankan isi file `supabase_schema.sql` di **SQL Editor** pada project Supabase Anda. Ini akan membuat tabel `products` beserta aturan keamanan (RLS): baca data terbuka untuk siapa saja, sementara tambah/ubah/hapus data hanya untuk user yang sudah login.
+
+4. **Buat akun admin**
+
+   Di Supabase Dashboard → **Authentication → Users**, buat satu user (email + password). Akun ini yang dipakai untuk login di halaman `/admin` — tidak ada pendaftaran akun baru lewat aplikasi.
+
+## Menjalankan Proyek
+
+```bash
+npm run dev       # jalankan development server
+npm run build     # build untuk production (cek tipe + build Vite)
+npm run lint      # jalankan ESLint
+npm run preview   # preview hasil build production secara lokal
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Buka `http://localhost:5173` untuk katalog, dan `http://localhost:5173/admin` untuk Admin Panel.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Struktur Proyek (ringkas)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── data/products.ts        # Tipe data produk & data awal (untuk migrasi/seed)
+├── lib/supabase.ts         # Inisialisasi Supabase client
+├── store/                  # State management (Zustand)
+│   ├── useProductStore.ts  # Fetch/tambah/ubah/hapus produk dari Supabase
+│   └── useCartStore.ts     # Keranjang belanja
+├── AdminLogin.tsx          # Form login admin (Supabase Auth)
+├── AdminPanel.tsx          # CRUD produk (perlu login)
+├── SeedData.tsx            # Tombol migrasi data awal ke Supabase (sekali pakai)
+├── ProductList.tsx / ProductCard.tsx / ProductDetail.tsx  # Katalog & detail produk
+└── App.tsx                 # Routing utama
+```
+
+Untuk penjelasan arsitektur dan konteks bisnis yang lebih lengkap, lihat [`PROJECT_OVERVIEW.md`](./PROJECT_OVERVIEW.md).
+
+## Catatan Keamanan
+
+- Login admin memakai **Supabase Auth** (email + password) — bukan PIN statis.
+- Row Level Security (RLS) di tabel `products` membatasi insert/update/delete hanya untuk user yang terautentikasi (`role: authenticated`). Baca (`SELECT`) tetap terbuka untuk publik karena katalog memang untuk pengunjung umum.
+- Jangan pernah commit `.env`, API key, atau kredensial lain ke repo ini.
