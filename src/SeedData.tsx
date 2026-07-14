@@ -18,10 +18,8 @@ const SeedData: FC = () => {
     try {
       setIsSeeding(true);
 
-      // Hanya kirim field yang ada di tabel Supabase (tanpa gallery)
-      const payload = products.map(({ gallery, ...rest }) => rest);
-
-      const { error } = await supabase.from('products').insert(payload);
+      // Kirim seluruh field produk, termasuk gallery (kolom ini sudah ada di tabel Supabase)
+      const { error } = await supabase.from('products').insert(products);
 
       if (error) {
         console.error('Error seeding products to Supabase:', error.message);

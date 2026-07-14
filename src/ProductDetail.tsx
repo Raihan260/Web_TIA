@@ -26,6 +26,11 @@ const ProductDetail: FC = () => {
 
   // 1. PINDAHKAN HOOKS KE ATAS SINI (Wajib di React)
   const [activeImage, setActiveImage] = useState<string>('');
+  // Melacak produk terakhir yang sudah di-render, untuk tahu kapan harus
+  // me-reset activeImage (dilakukan saat render, bukan di useEffect, mengikuti
+  // pola resmi React untuk "Resetting state when a prop changes":
+  // https://react.dev/learn/you-might-not-need-an-effect
+  const [renderedProductId, setRenderedProductId] = useState<string | undefined>(undefined);
 
   const handleGoBack = (e: MouseEvent) => {
     e.preventDefault();
@@ -36,13 +41,16 @@ const ProductDetail: FC = () => {
     }
   };
 
+  if (product && renderedProductId !== product.id) {
+    setRenderedProductId(product.id);
+    setActiveImage(product.imageUrl || placeholderImage);
+  }
+
   useEffect(() => {
-    if (product) {
-      setActiveImage(product.imageUrl || placeholderImage);
-      // Auto-scroll ke atas saat pindah halaman produk
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [product, placeholderImage, id]);
+    // Auto-scroll ke atas saat pindah halaman produk (efek terhadap sistem
+    // eksternal/DOM, jadi memang tempatnya di useEffect, bukan setState).
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [id]);
 
   // 2. KONDISI JIKA PRODUK TIDAK ADA (Harus di bawah hooks)
   if (!product) {
