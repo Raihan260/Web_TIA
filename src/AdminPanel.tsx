@@ -67,6 +67,7 @@ const AdminPanel: FC = () => {
   const [galleryUrls, setGalleryUrls] = useState<string[]>([]);
   const [tagsInput, setTagsInput] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [customSeries, setCustomSeries] = useState<SeriesOption[]>(() =>
     getDefaultSeries('Denim Panjang'),
@@ -110,13 +111,19 @@ const AdminPanel: FC = () => {
     try {
       setIsSaving(true);
       if (editingId) {
-        await updateProduct(editingId, newProduct);
+        const result = await updateProduct(editingId, newProduct);
+
+        if (!result.success) {
+          alert(`Gagal memperbarui produk: ${result.error ?? 'Terjadi kesalahan tak terduga.'}`);
+          return;
+        }
+
         alert('Produk Berhasil Diperbarui!');
       } else {
-        const success = await addProduct(newProduct);
+        const result = await addProduct(newProduct);
 
-        if (!success) {
-          alert('Gagal menyimpan produk. Silakan coba lagi.');
+        if (!result.success) {
+          alert(`Gagal menyimpan produk: ${result.error ?? 'Terjadi kesalahan tak terduga.'}`);
           return;
         }
 
@@ -559,14 +566,21 @@ const AdminPanel: FC = () => {
                     </button>
                     <button
                       type="button"
-                      onClick={() => {
-                        if (window.confirm('Yakin ingin menghapus produk ini?')) {
-                          deleteProduct(product.id);
+                      disabled={deletingId === product.id}
+                      onClick={async () => {
+                        if (!window.confirm('Yakin ingin menghapus produk ini?')) return;
+
+                        setDeletingId(product.id);
+                        const result = await deleteProduct(product.id);
+                        setDeletingId(null);
+
+                        if (!result.success) {
+                          alert(`Gagal menghapus produk: ${result.error ?? 'Terjadi kesalahan tak terduga.'}`);
                         }
                       }}
-                      className="rounded-full bg-red-600 px-3 py-1 text-[11px] font-semibold text-white shadow-sm transition hover:bg-red-700"
+                      className="rounded-full bg-red-600 px-3 py-1 text-[11px] font-semibold text-white shadow-sm transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                      Hapus
+                      {deletingId === product.id ? 'Menghapus...' : 'Hapus'}
                     </button>
                   </div>
                 </div>
