@@ -66,8 +66,10 @@ const AdminPanel: FC = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [galleryUrls, setGalleryUrls] = useState<string[]>([]);
   const [tagsInput, setTagsInput] = useState('');
+  const [isAvailable, setIsAvailable] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
   const [isUploadingMainImage, setIsUploadingMainImage] = useState(false);
   const [isUploadingGallery, setIsUploadingGallery] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -108,6 +110,7 @@ const AdminPanel: FC = () => {
       gallery: galleryUrls.filter((url) => url.trim().length > 0),
       tags: tags.length ? tags : undefined,
       seriesOptions: customSeries,
+      isAvailable,
     };
 
     try {
@@ -139,6 +142,7 @@ const AdminPanel: FC = () => {
       setTagsInput('');
       setGalleryUrls([]);
       setCustomSeries(getDefaultSeries('Denim Panjang'));
+      setIsAvailable(true);
       setEditingId(null);
     } finally {
       setIsSaving(false);
@@ -154,6 +158,7 @@ const AdminPanel: FC = () => {
     setTagsInput('');
     setGalleryUrls([]);
     setCustomSeries(getDefaultSeries('Denim Panjang'));
+    setIsAvailable(true);
   };
 
   if (isCheckingAuth) {
@@ -385,6 +390,39 @@ const AdminPanel: FC = () => {
               <p className="text-[11px] text-slate-500">Pisahkan dengan koma untuk beberapa tag.</p>
             </div>
 
+            <div className="space-y-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wide text-slate-700">
+                Status Stok
+              </label>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsAvailable(true)}
+                  className={`flex-1 rounded-lg border px-3 py-2 text-xs font-semibold transition ${
+                    isAvailable
+                      ? 'border-green-300 bg-green-50 text-green-700 ring-1 ring-green-200'
+                      : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300'
+                  }`}
+                >
+                  Tersedia
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsAvailable(false)}
+                  className={`flex-1 rounded-lg border px-3 py-2 text-xs font-semibold transition ${
+                    !isAvailable
+                      ? 'border-red-300 bg-red-50 text-red-700 ring-1 ring-red-200'
+                      : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300'
+                  }`}
+                >
+                  Stok Habis
+                </button>
+              </div>
+              <p className="text-[11px] text-slate-500">
+                Produk "Stok Habis" tetap tersimpan (tidak perlu dihapus), tapi ditandai habis di katalog.
+              </p>
+            </div>
+
             <div className="mt-4 rounded-xl bg-slate-50 p-4 ring-1 ring-slate-200">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-600">
                 Atur Pilihan Seri &amp; Harga
@@ -588,7 +626,18 @@ const AdminPanel: FC = () => {
                     )}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-slate-900">{product.name}</p>
+                    <div className="flex items-center gap-1.5">
+                      <p className="truncate text-sm font-semibold text-slate-900">{product.name}</p>
+                      <span
+                        className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                          product.isAvailable === false
+                            ? 'bg-red-50 text-red-600 ring-1 ring-red-200'
+                            : 'bg-green-50 text-green-700 ring-1 ring-green-200'
+                        }`}
+                      >
+                        {product.isAvailable === false ? 'Stok Habis' : 'Tersedia'}
+                      </span>
+                    </div>
                     <p className="text-[11px] text-slate-500">ID: {product.id}</p>
                     <p className="text-[11px] text-slate-500">Kategori: {product.category}</p>
                   </div>
@@ -603,6 +652,7 @@ const AdminPanel: FC = () => {
                         setImageUrl(product.imageUrl ?? '');
                         setTagsInput(product.tags ? product.tags.join(', ') : '');
                         setGalleryUrls(product.gallery || []);
+                        setIsAvailable(product.isAvailable ?? true);
                         setCustomSeries(
                           product.seriesOptions && product.seriesOptions.length > 0
                             ? product.seriesOptions
@@ -613,6 +663,32 @@ const AdminPanel: FC = () => {
                       className="rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold text-white shadow-sm transition hover:bg-slate-800"
                     >
                       Edit
+                    </button>
+                    <button
+                      type="button"
+                      disabled={togglingId === product.id}
+                      onClick={async () => {
+                        setTogglingId(product.id);
+                        const result = await updateProduct(product.id, {
+                          isAvailable: !(product.isAvailable ?? true),
+                        });
+                        setTogglingId(null);
+
+                        if (!result.success) {
+                          alert(`Gagal mengubah status stok: ${result.error ?? 'Terjadi kesalahan tak terduga.'}`);
+                        }
+                      }}
+                      className={`rounded-full px-3 py-1 text-[11px] font-semibold shadow-sm transition disabled:cursor-not-allowed disabled:opacity-60 ${
+                        product.isAvailable === false
+                          ? 'bg-green-600 text-white hover:bg-green-700'
+                          : 'bg-amber-500 text-white hover:bg-amber-600'
+                      }`}
+                    >
+                      {togglingId === product.id
+                        ? 'Menyimpan...'
+                        : product.isAvailable === false
+                          ? 'Tandai Tersedia'
+                          : 'Tandai Habis'}
                     </button>
                     <button
                       type="button"

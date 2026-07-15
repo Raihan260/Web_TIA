@@ -9,8 +9,10 @@ create table if not exists public.products (
   name text not null,
   category text not null,
   "imageUrl" text,
+  gallery text[],
   tags text[],
-  "seriesOptions" jsonb not null
+  "seriesOptions" jsonb not null,
+  "isAvailable" boolean not null default true
 );
 
 -- Enable Row Level Security

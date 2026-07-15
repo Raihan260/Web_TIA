@@ -10,6 +10,7 @@ interface ProductCardProps {
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const addToCart = useCartStore((state) => state.addToCart);
+  const isOutOfStock = product.isAvailable === false;
 
   const placeholderImage =
     'https://via.placeholder.com/400x300.png?text=Denim+Anak+Perempuan';
@@ -32,7 +33,9 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
         <img
           src={product.imageUrl || placeholderImage}
           alt={product.name}
-          className="h-full w-full object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-95"
+          className={`h-full w-full object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-95 ${
+            isOutOfStock ? 'grayscale' : ''
+          }`}
           loading="lazy"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/20 via-transparent to-transparent" />
@@ -40,6 +43,11 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
           <Shirt className="h-3.5 w-3.5" />
           <span>{product.category}</span>
         </div>
+        {isOutOfStock && (
+          <div className="absolute right-3 top-3 rounded-full bg-slate-900/85 px-2 py-1 text-[11px] font-semibold text-white">
+            Stok Habis
+          </div>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col gap-3 px-4 pb-4 pt-3">
@@ -67,11 +75,12 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
         <div className="mt-2 flex flex-col gap-2">
           <button
             type="button"
+            disabled={isOutOfStock}
             onClick={() => addToCart(product)}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300"
           >
             <ShoppingBag className="h-4 w-4" />
-            <span>Tambah ke Keranjang</span>
+            <span>{isOutOfStock ? 'Stok Habis' : 'Tambah ke Keranjang'}</span>
           </button>
           <Link
             to={`/product/${product.id}`}

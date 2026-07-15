@@ -13,6 +13,7 @@ export interface Product {
   gallery?: string[]; // <--- Tambahkan baris ini
   tags?: string[];
   seriesOptions: SeriesOption[];
+  isAvailable?: boolean; // Status stok: true = tersedia, false = habis. Default true.
 }
 
 // =========================================

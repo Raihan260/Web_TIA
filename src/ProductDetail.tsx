@@ -112,35 +112,55 @@ const ProductDetail: FC = () => {
                   className="h-full w-full object-cover transition-opacity duration-300"
                 />
               </div>
-              {product.gallery && product.gallery.length > 0 && (
-                <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-                  {product.gallery.map((image) => {
-                    const isActive = activeImage === image;
-                    return (
-                      <button
-                        key={image}
-                        type="button"
-                        onClick={() => setActiveImage(image)}
-                        className={`h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 ${isActive
-                            ? 'border-pink-500'
-                            : 'border-transparent hover:border-pink-300'
-                          }`}
-                      >
-                        <img
-                          src={image}
-                          alt={product.name}
-                          className="h-full w-full object-cover"
-                        />
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
+              {(() => {
+                // Gabungkan gambar utama + galeri jadi satu daftar thumbnail,
+                // supaya gambar utama juga bisa diklik balik (bukan cuma galeri tambahan).
+                const allImages = [
+                  product.imageUrl,
+                  ...(product.gallery ?? []),
+                ].filter((image, index, arr): image is string => {
+                  return Boolean(image) && arr.indexOf(image) === index;
+                });
+
+                if (allImages.length <= 1) return null;
+
+                return (
+                  <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+                    {allImages.map((image) => {
+                      const isActive = activeImage === image;
+                      return (
+                        <button
+                          key={image}
+                          type="button"
+                          onClick={() => setActiveImage(image)}
+                          className={`h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 ${isActive
+                              ? 'border-pink-500'
+                              : 'border-transparent hover:border-pink-300'
+                            }`}
+                        >
+                          <img
+                            src={image}
+                            alt={product.name}
+                            className="h-full w-full object-cover"
+                          />
+                        </button>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
             </div>
 
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 rounded-full bg-pink-100 px-3 py-1 text-xs font-semibold text-pink-700">
-                <span className="uppercase tracking-wide">{product.category}</span>
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="inline-flex items-center gap-2 rounded-full bg-pink-100 px-3 py-1 text-xs font-semibold text-pink-700">
+                  <span className="uppercase tracking-wide">{product.category}</span>
+                </div>
+                {product.isAvailable === false && (
+                  <div className="inline-flex items-center gap-2 rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
+                    Stok Habis
+                  </div>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -196,10 +216,11 @@ const ProductDetail: FC = () => {
               <div className="mt-6 flex flex-col gap-3 md:flex-row">
                 <button
                   type="button"
+                  disabled={product.isAvailable === false}
                   onClick={() => addToCart(product)}
-                  className="inline-flex flex-1 items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-slate-700/60 transition hover:bg-slate-800"
+                  className="inline-flex flex-1 items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-slate-700/60 transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
                 >
-                  Tambah Model Ini ke Keranjang
+                  {product.isAvailable === false ? 'Stok Habis' : 'Tambah Model Ini ke Keranjang'}
                 </button>
                 <button
                   type="button"
