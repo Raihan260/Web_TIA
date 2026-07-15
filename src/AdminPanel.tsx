@@ -12,6 +12,7 @@ import {
 } from './data/products';
 import { useProductStore } from './store/useProductStore';
 import { supabase } from './lib/supabase';
+import { uploadImageToStorage } from './lib/uploadImage';
 import SeedData from './SeedData';
 import AdminLogin from './AdminLogin';
 
@@ -68,6 +69,8 @@ const AdminPanel: FC = () => {
   const [tagsInput, setTagsInput] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [isUploadingMainImage, setIsUploadingMainImage] = useState(false);
+  const [isUploadingGallery, setIsUploadingGallery] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [customSeries, setCustomSeries] = useState<SeriesOption[]>(() =>
     getDefaultSeries('Denim Panjang'),
@@ -264,18 +267,44 @@ const AdminPanel: FC = () => {
               </div>
 
               <div className="space-y-1.5">
-                <label htmlFor="imageUrl" className="block text-xs font-semibold uppercase tracking-wide text-slate-700">
-                  URL Gambar Utama
+                <label htmlFor="imageUpload" className="block text-xs font-semibold uppercase tracking-wide text-slate-700">
+                  Gambar Utama
                 </label>
+
+                {imageUrl && (
+                  <img
+                    src={imageUrl}
+                    alt="Pratinjau gambar utama"
+                    className="mb-2 h-28 w-28 rounded-lg border border-slate-200 object-cover"
+                  />
+                )}
+
                 <input
-                  id="imageUrl"
-                  type="text"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder="Contoh: /images/Celana-jeans-skena-Kd-5099.jpg"
-                  className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
+                  id="imageUpload"
+                  type="file"
+                  accept="image/*"
+                  disabled={isUploadingMainImage}
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+
+                    setIsUploadingMainImage(true);
+                    const result = await uploadImageToStorage(file);
+                    setIsUploadingMainImage(false);
+
+                    if (!result.url) {
+                      alert(`Gagal upload gambar: ${result.error ?? 'Terjadi kesalahan tak terduga.'}`);
+                      return;
+                    }
+
+                    setImageUrl(result.url);
+                    e.target.value = '';
+                  }}
+                  className="block w-full text-xs text-slate-600 file:mr-3 file:rounded-full file:border-0 file:bg-pink-50 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-pink-700 hover:file:bg-pink-100"
                 />
-                <p className="text-[11px] text-slate-500">Bisa berupa path lokal atau URL penuh.</p>
+                <p className="text-[11px] text-slate-500">
+                  {isUploadingMainImage ? 'Sedang mengunggah...' : 'Pilih gambar dari perangkat Anda (JPG/PNG).'}
+                </p>
               </div>
             </div>
 
@@ -284,23 +313,21 @@ const AdminPanel: FC = () => {
                 Galeri Gambar Tambahan (Opsional)
               </label>
               <p className="text-[11px] text-slate-500">
-                Tambahkan URL foto lain untuk varian warna atau angle berbeda. Opsional.
+                Tambahkan foto lain untuk varian warna atau angle berbeda. Opsional.
               </p>
               <div className="mt-1 space-y-2">
                 {galleryUrls.map((url, index) => (
                   <div key={index} className="flex items-center gap-2">
-                    <input
-                      type="text"
-                      value={url}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        setGalleryUrls((prev) =>
-                          prev.map((item, idx) => (idx === index ? value : item)),
-                        );
-                      }}
-                      placeholder="Masukkan URL varian warna atau angle lain..."
-                      className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-300 focus:ring-2 focus:ring-pink-100"
-                    />
+                    {url && (
+                      <img
+                        src={url}
+                        alt={`Pratinjau galeri ${index + 1}`}
+                        className="h-10 w-10 rounded-md border border-slate-200 object-cover"
+                      />
+                    )}
+                    <span className="flex-1 truncate rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+                      {url || '(belum ada gambar)'}
+                    </span>
                     <button
                       type="button"
                       onClick={() => {
@@ -313,13 +340,37 @@ const AdminPanel: FC = () => {
                   </div>
                 ))}
               </div>
-              <button
-                type="button"
-                onClick={() => setGalleryUrls((prev) => [...prev, ''])}
-                className="mt-1 inline-flex items-center rounded-full border border-dashed border-slate-300 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-700 shadow-sm transition hover:border-pink-300 hover:text-pink-700"
-              >
-                + Tambah Foto Galeri
-              </button>
+              <input
+                id="galleryUpload"
+                type="file"
+                accept="image/*"
+                multiple
+                disabled={isUploadingGallery}
+                onChange={async (e) => {
+                  const files = Array.from(e.target.files ?? []);
+                  if (files.length === 0) return;
+
+                  setIsUploadingGallery(true);
+
+                  for (const file of files) {
+                    const result = await uploadImageToStorage(file);
+
+                    if (!result.url) {
+                      alert(`Gagal upload salah satu gambar galeri: ${result.error ?? 'Terjadi kesalahan tak terduga.'}`);
+                      continue;
+                    }
+
+                    setGalleryUrls((prev) => [...prev, result.url as string]);
+                  }
+
+                  setIsUploadingGallery(false);
+                  e.target.value = '';
+                }}
+                className="block w-full text-xs text-slate-600 file:mr-3 file:rounded-full file:border-0 file:bg-pink-50 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-pink-700 hover:file:bg-pink-100"
+              />
+              <p className="text-[11px] text-slate-500">
+                {isUploadingGallery ? 'Sedang mengunggah...' : 'Bisa pilih beberapa gambar sekaligus.'}
+              </p>
             </div>
 
             <div className="space-y-1.5">
@@ -473,16 +524,18 @@ const AdminPanel: FC = () => {
                 )}
                 <button
                   type="submit"
-                  disabled={isSaving}
+                  disabled={isSaving || isUploadingMainImage || isUploadingGallery}
                   className="inline-flex items-center justify-center rounded-full bg-pink-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-pink-700 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isSaving
                     ? editingId
                       ? 'Menyimpan Perubahan...'
                       : 'Menyimpan...'
-                    : editingId
-                      ? 'Update Produk'
-                      : 'Tambah Produk Baru'}
+                    : isUploadingMainImage || isUploadingGallery
+                      ? 'Menunggu upload gambar selesai...'
+                      : editingId
+                        ? 'Update Produk'
+                        : 'Tambah Produk Baru'}
                 </button>
               </div>
             </div>
