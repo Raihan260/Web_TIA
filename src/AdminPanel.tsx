@@ -13,7 +13,6 @@ import {
 import { useProductStore } from './store/useProductStore';
 import { supabase } from './lib/supabase';
 import { uploadImageToStorage } from './lib/uploadImage';
-import SeedData from './SeedData';
 import AdminLogin from './AdminLogin';
 
 const categories = ['Denim Panjang', 'Denim Pendek', 'Rok Denim', 'Celana Katun', 'Gamis'] as const;
@@ -198,8 +197,6 @@ const AdminPanel: FC = () => {
             </Link>
           </div>
         </div>
-
-        <SeedData />
 
         <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
           <form onSubmit={handleSubmit} className="space-y-5">
