@@ -105,7 +105,7 @@ const ProductDetail: FC = () => {
 
           <div className="grid gap-8 md:grid-cols-2">
             <div>
-              <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                 <img
                   src={activeImage}
                   alt={product.name}
@@ -193,7 +193,7 @@ const ProductDetail: FC = () => {
                 </div>
               </div>
 
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-6 flex flex-col gap-3 md:flex-row">
                 <button
                   type="button"
                   onClick={() => addToCart(product)}
