@@ -9,6 +9,7 @@ import CartDrawer from './CartDrawer';
 import AdminPanel from './AdminPanel';
 import { Truck, ShieldCheck, BadgePercent, Clock, MessageCircle } from 'lucide-react';
 import { useProductStore } from './store/useProductStore';
+import { isSupabaseConfigured } from './lib/supabase';
 
 const Home: FC = () => {
   return (
@@ -169,6 +170,12 @@ const App: FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 text-slate-800 font-sans">
+      {!isSupabaseConfigured && (
+        <div className="bg-red-600 px-4 py-2 text-center text-xs font-semibold text-white">
+          Konfigurasi database belum lengkap (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY). Katalog
+          dan Admin Panel tidak akan berfungsi sampai ini diperbaiki di pengaturan hosting.
+        </div>
+      )}
       <BrowserRouter>
         <ScrollToTop />
         <Navbar />
