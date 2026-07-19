@@ -63,7 +63,7 @@ const AdminLogin: FC<AdminLoginProps> = ({ onLoginSuccess }) => {
               autoComplete="username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@tiacollection.com"
+              placeholder="admin@fathiakids.com"
               className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
             />
           </div>

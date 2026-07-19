@@ -1,6 +1,6 @@
-# TIA Collection - Website Katalog & Admin
+# Fathia Kids - Website Katalog & Admin
 
-Website katalog online untuk **TIA Collection**, toko grosir gamis dan busana muslim anak. Menampilkan katalog produk ke publik, dan menyediakan Admin Panel privat untuk mengelola data produk.
+Website katalog online untuk **Fathia Kids**, toko grosir gamis dan busana muslim anak. Menampilkan katalog produk ke publik, dan menyediakan Admin Panel privat untuk mengelola data produk.
 
 ## Fitur
 

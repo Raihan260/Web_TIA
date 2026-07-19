@@ -14,11 +14,11 @@ const Navbar: FC = () => {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:py-4">
         <Link to="/" className="flex items-center gap-2">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-pink-400 text-sm font-semibold text-white shadow-sm shadow-pink-300/70">
-            TIA
+            FK
           </span>
           <div className="flex flex-col leading-tight">
             <span className="text-sm font-semibold tracking-wide text-slate-900">
-              TIA Kids
+              Fathia Kids
             </span>
             <span className="text-xs text-slate-500">
               Denim Anak Perempuan Grosir

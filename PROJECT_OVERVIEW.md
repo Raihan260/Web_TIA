@@ -1,13 +1,13 @@
-# Project Overview — TIA Collection Website
+# Project Overview — Fathia Kids Website
 
 > Dokumen ini menjelaskan **konteks bisnis dan arsitektur teknis** proyek secara menyeluruh. Untuk cara menjalankan proyek secara praktis, lihat [`README.md`](./README.md).
 
 ## Konteks Bisnis
 
-TIA Collection adalah toko **grosir gamis dan busana muslim anak**. Website ini melayani dua kebutuhan:
+Fathia Kids adalah toko **grosir gamis dan busana muslim anak**. Website ini melayani dua kebutuhan:
 
 1. **Katalog publik** — calon mitra reseller/pembeli grosir bisa melihat produk, harga per "seri" (paket harga bertingkat berdasarkan rentang ukuran), dan menghubungi toko lewat WhatsApp.
-2. **Admin Panel privat** — tim internal TIA Collection mengelola data produk (tambah, ubah, hapus) tanpa perlu sentuh database secara langsung.
+2. **Admin Panel privat** — tim internal Fathia Kids mengelola data produk (tambah, ubah, hapus) tanpa perlu sentuh database secara langsung.
 
 Website ini **bukan** platform e-commerce dengan checkout online — transaksi tetap difinalisasi lewat WhatsApp (sesuai model bisnis grosir/reseller).
 

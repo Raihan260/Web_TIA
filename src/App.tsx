@@ -22,7 +22,7 @@ const Home: FC = () => {
         <section className="bg-white py-12 border-t border-slate-100">
           <div className="mx-auto max-w-6xl px-4">
             <div className="text-center mb-10">
-              <h2 className="text-2xl font-bold text-slate-900">Kenapa Mitra Memilih TIA Kids?</h2>
+              <h2 className="text-2xl font-bold text-slate-900">Kenapa Mitra Memilih Fathia Kids?</h2>
               <p className="text-slate-600 mt-2 text-sm">Kami paham kebutuhan bisnis Anda akan barang berkualitas dengan harga bersaing.</p>
             </div>
             
@@ -56,7 +56,7 @@ const Home: FC = () => {
                 </h2>
                 <div className="space-y-3 text-slate-700 leading-relaxed text-sm md:text-base">
                   <p>
-                    <strong>TIA Collection</strong> hadir untuk menjawab kebutuhan para pemilik toko dan 
+                    <strong>Fathia Kids</strong> hadir untuk menjawab kebutuhan para pemilik toko dan 
                     <em>reseller</em> yang mencari supplier baju anak tangan pertama yang amanah dan profesional.
                   </p>
                   <p>
@@ -75,7 +75,7 @@ const Home: FC = () => {
                     <p className="text-lg font-semibold text-slate-800">Siap Jadi Mitra Sukses Anda?</p>
                     <p className="text-sm text-slate-500 mb-4">Konsultasikan kebutuhan stok toko Anda sekarang.</p>
                     <a
-                      href="https://wa.me/6285219847122?text=Halo%20Admin%20TIA%20Collection,%20saya%20mau%20konsultasi%20stok."
+                      href="https://wa.me/6285219847122?text=Halo%20Admin%20Fathia%20Kids,%20saya%20mau%20konsultasi%20stok."
                       target="_blank"
                       rel="noreferrer"
                       className="inline-block bg-green-500 text-white font-bold py-3 px-8 rounded-full hover:bg-green-600 transition shadow-lg shadow-green-200"
@@ -92,14 +92,14 @@ const Home: FC = () => {
         <footer id="kontak" className="bg-slate-900 text-slate-400 py-10 text-sm">
           <div className="mx-auto max-w-6xl px-4 grid md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-white font-bold text-lg mb-4">TIA Collection</h3>
+              <h3 className="text-white font-bold text-lg mb-4">Fathia Kids</h3>
               <p className="mb-4">Supplier Grosir Pakaian Anak Tangan Pertama. Kualitas Butik, Harga Konveksi.</p>
             </div>
             <div>
               <h4 className="text-white font-bold mb-4">Hubungi Kami</h4>
               <ul className="space-y-2">
                 <li>WhatsApp: 0852-1984-7122</li>
-                <li>Email: admin@tiacollection.com</li>
+                <li>Email: admin@fathiakids.com</li>
                 <li>Jam Operasional: Senin - Sabtu (08.00 - 17.00)</li>
               </ul>
             </div>
@@ -120,7 +120,7 @@ const Home: FC = () => {
               to="/admin"
               className="cursor-pointer hover:text-slate-300 transition-colors"
             >
-              TIA Collection
+              Fathia Kids
             </Link>
             <span>. All rights reserved.</span>
           </div>
@@ -128,7 +128,7 @@ const Home: FC = () => {
 
         {/* Floating WhatsApp Button */}
         <a
-          href="https://wa.me/6285219847122?text=Halo%20Admin%20TIA%20Collection,%20saya%20mau%20tanya%20katalog%20grosir."
+          href="https://wa.me/6285219847122?text=Halo%20Admin%20Fathia%20Kids,%20saya%20mau%20tanya%20katalog%20grosir."
           target="_blank"
           rel="noreferrer"
           className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-lg shadow-green-500/40 transition-transform hover:scale-110 hover:bg-green-600"

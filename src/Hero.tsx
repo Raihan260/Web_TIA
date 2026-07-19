@@ -32,7 +32,7 @@ const Hero: FC = () => {
               <span>Lihat Katalog Grosir</span>
             </a>
             <a
-              href="https://wa.me/6285219847122?text=Halo%20Admin%20TIA%20Collection,%20saya%20mau%20tanya%20info%20kemitraan%20reseller."
+              href="https://wa.me/6285219847122?text=Halo%20Admin%20Fathia%20Kids,%20saya%20mau%20tanya%20info%20kemitraan%20reseller."
               target="_blank"
               rel="noreferrer"
               className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-green-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-green-400/40 transition hover:bg-green-600 sm:w-auto"
@@ -60,7 +60,7 @@ const Hero: FC = () => {
             <div className="aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-100 relative">
                <img 
                 src="https://via.placeholder.com/600x450.png?text=FOTO+GUDANG/STOK+REAL" 
-                alt="Stok Gudang TIA Collection" 
+                alt="Stok Gudang Fathia Kids" 
                 className="h-full w-full object-cover"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">

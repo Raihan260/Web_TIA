@@ -20,7 +20,7 @@ const CartDrawer: FC = () => {
       window.open(
         'https://wa.me/6285219847122?text=' +
           encodeURIComponent(
-            'Halo Admin TIA Collection, saya mau tanya katalog grosir pakaian anak.',
+            'Halo Admin Fathia Kids, saya mau tanya katalog grosir pakaian anak.',
           ),
         '_blank',
       );
@@ -28,7 +28,7 @@ const CartDrawer: FC = () => {
     }
 
     const lines: string[] = [];
-    lines.push('Halo Admin TIA Collection, saya mau order/tanya model berikut:');
+    lines.push('Halo Admin Fathia Kids, saya mau order/tanya model berikut:');
     lines.push('');
 
     items.forEach((item, index) => {
