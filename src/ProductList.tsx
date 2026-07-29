@@ -10,6 +10,7 @@ const categories = ['Semua', 'Denim Panjang', 'Denim Pendek', 'Rok Denim', 'Cela
 
 const ProductList: FC = () => {
   const productList = useProductStore((state) => state.productList);
+  const isLoading = useProductStore((state) => state.isLoading);
   const [showAll, setShowAll] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return sessionStorage.getItem('tia_showAll') === 'true';
@@ -28,7 +29,14 @@ const ProductList: FC = () => {
 
   const filteredProducts = productList.filter((product) => {
     const matchesCategory = activeCategory === 'Semua' || product.category === activeCategory;
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const query = searchQuery.trim().toLowerCase();
+    const matchesSearch =
+      query.length === 0 ||
+      product.name.toLowerCase().includes(query) ||
+      product.category.toLowerCase().includes(query) ||
+      (product.tags ?? []).some((tag) => tag.toLowerCase().includes(query));
+
     return matchesCategory && matchesSearch;
   });
 
@@ -37,6 +45,8 @@ const ProductList: FC = () => {
   const displayedProducts = showAll
     ? reversedFilteredProducts
     : reversedFilteredProducts.slice(0, 3);
+
+  const isFiltering = activeCategory !== 'Semua' || searchQuery.trim().length > 0;
 
   return (
     <section id="katalog" className="border-t border-b border-slate-200 bg-gray-50">
@@ -63,7 +73,7 @@ const ProductList: FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari produk berdasarkan nama..."
+              placeholder="Cari produk berdasarkan nama, kategori, atau tag..."
               className="w-full rounded-full border border-slate-200 bg-white px-4 py-2 pl-9 text-sm text-slate-900 shadow-sm outline-none ring-0 transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
             />
           </div>
@@ -92,11 +102,52 @@ const ProductList: FC = () => {
           })}
         </div>
 
-        <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {displayedProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                className="animate-pulse overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+              >
+                <div className="aspect-[4/3] bg-slate-200" />
+                <div className="space-y-2 px-4 pb-4 pt-3">
+                  <div className="h-4 w-3/4 rounded bg-slate-200" />
+                  <div className="h-4 w-1/2 rounded bg-slate-200" />
+                  <div className="mt-2 h-9 w-full rounded-full bg-slate-200" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : displayedProducts.length === 0 ? (
+          <div className="mt-8 flex flex-col items-center gap-2 rounded-xl border border-dashed border-slate-300 bg-white/60 px-6 py-12 text-center">
+            <p className="text-sm font-semibold text-slate-700">
+              {isFiltering ? 'Produk tidak ditemukan' : 'Belum ada produk di katalog'}
+            </p>
+            <p className="max-w-sm text-xs text-slate-500">
+              {isFiltering
+                ? 'Coba ubah kata kunci pencarian atau pilih kategori lain, atau hubungi admin untuk cek stok terbaru.'
+                : 'Katalog sedang kami perbarui. Hubungi admin lewat WhatsApp untuk info stok dan model terbaru.'}
+            </p>
+            {isFiltering && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery('');
+                  setActiveCategory('Semua');
+                }}
+                className="mt-2 rounded-full border border-pink-200 bg-white px-4 py-1.5 text-xs font-semibold text-slate-800 shadow-sm transition hover:border-pink-300 hover:bg-pink-50"
+              >
+                Reset pencarian & kategori
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {displayedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
 
         {/* Tombol hanya muncul jika produk lebih dari 3 */}
         {filteredProducts.length > 3 && (
