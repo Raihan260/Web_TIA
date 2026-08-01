@@ -56,10 +56,9 @@ const Hero: FC = () => {
 
         <div className="flex-1 w-full max-w-md">
           <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
-            {/* Ganti src ini dengan foto tumpukan stok celana di gudang Anda nanti */}
             <div className="aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-100 relative">
                <img 
-                src="https://via.placeholder.com/600x450.png?text=FOTO+GUDANG/STOK+REAL" 
+                src="/hero-stok-gudang.jpg" 
                 alt="Stok Gudang Fathia Kids" 
                 className="h-full w-full object-cover"
               />
