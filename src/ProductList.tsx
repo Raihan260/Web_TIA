@@ -42,9 +42,10 @@ const ProductList: FC = () => {
 
   const reversedFilteredProducts = [...filteredProducts].reverse();
 
+  const PREVIEW_COUNT = 6; // kelipatan 2 (grid HP) dan 3 (grid desktop), supaya baris selalu penuh
   const displayedProducts = showAll
     ? reversedFilteredProducts
-    : reversedFilteredProducts.slice(0, 3);
+    : reversedFilteredProducts.slice(0, PREVIEW_COUNT);
 
   const isFiltering = activeCategory !== 'Semua' || searchQuery.trim().length > 0;
 
@@ -150,7 +151,7 @@ const ProductList: FC = () => {
         )}
 
         {/* Tombol hanya muncul jika produk lebih dari 3 */}
-        {filteredProducts.length > 3 && (
+        {filteredProducts.length > PREVIEW_COUNT && (
           <div className="mt-8 flex justify-center">
             <button
               type="button"
