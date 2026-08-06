@@ -50,12 +50,12 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
         )}
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 px-4 pb-4 pt-3">
+      <div className="flex flex-1 flex-col gap-2 px-3 pb-3 pt-2.5 sm:gap-3 sm:px-4 sm:pb-4 sm:pt-3">
         <div>
-          <h3 className="text-sm font-semibold tracking-tight text-slate-900">
+          <h3 className="line-clamp-2 text-xs font-semibold tracking-tight text-slate-900 sm:text-sm">
             {product.name}
           </h3>
-          <p className="mt-1 text-sm font-semibold text-orange-600">
+          <p className="mt-1 text-xs font-semibold text-orange-600 sm:text-sm">
             Mulai {formatRupiah(minPricePerPiece)} / pcs
           </p>
           {product.tags && product.tags.length > 0 && (
@@ -72,19 +72,19 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
           )}
         </div>
 
-        <div className="mt-2 flex flex-col gap-2">
+        <div className="mt-1 flex flex-col gap-1.5 sm:mt-2 sm:gap-2">
           <button
             type="button"
             disabled={isOutOfStock}
             onClick={() => addToCart(product)}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-slate-900 px-2 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300 sm:gap-2 sm:px-4 sm:text-sm"
           >
-            <ShoppingBag className="h-4 w-4" />
-            <span>{isOutOfStock ? 'Stok Habis' : 'Tambah ke Keranjang'}</span>
+            <ShoppingBag className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
+            <span className="truncate">{isOutOfStock ? 'Stok Habis' : 'Tambah ke Keranjang'}</span>
           </button>
           <Link
             to={`/product/${product.id}`}
-            className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
+            className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white px-2 py-2 text-xs font-semibold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 sm:px-4 sm:text-sm"
           >
             Lihat Detail
           </Link>
