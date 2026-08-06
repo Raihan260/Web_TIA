@@ -103,7 +103,7 @@ const ProductList: FC = () => {
         </div>
 
         {isLoading ? (
-          <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
@@ -142,7 +142,7 @@ const ProductList: FC = () => {
             )}
           </div>
         ) : (
-          <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
             {displayedProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
