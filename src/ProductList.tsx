@@ -42,7 +42,7 @@ const ProductList: FC = () => {
 
   const reversedFilteredProducts = [...filteredProducts].reverse();
 
-  const PREVIEW_COUNT = 6; // kelipatan 2 (grid HP) dan 3 (grid desktop), supaya baris selalu penuh
+  const PREVIEW_COUNT = 4; // HP menampilkan 4; desktop menampilkan 3 lewat lg:hidden di item ke-4
   const displayedProducts = showAll
     ? reversedFilteredProducts
     : reversedFilteredProducts.slice(0, PREVIEW_COUNT);
@@ -144,14 +144,16 @@ const ProductList: FC = () => {
           </div>
         ) : (
           <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
-            {displayedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {displayedProducts.map((product, index) => (
+              <div key={product.id} className={!showAll && index === 3 ? 'lg:hidden' : undefined}>
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
         )}
 
         {/* Tombol hanya muncul jika produk lebih dari 3 */}
-        {filteredProducts.length > PREVIEW_COUNT && (
+        {filteredProducts.length > 3 && (
           <div className="mt-8 flex justify-center">
             <button
               type="button"
