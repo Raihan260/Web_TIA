@@ -10,22 +10,22 @@ const Footer: FC = () => {
 
   return (
     <>
-      <footer className="twill bg-cream-deep text-ink/80">
+      <footer className="bg-ink text-cream/80">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-3">
           <div>
-            <p className="font-display text-xl font-extrabold text-ink">Fathia Kids</p>
+            <p className="font-display text-xl font-extrabold text-cream">Fathia Kids</p>
             <p className="mt-2 max-w-xs text-sm">
               Grosir denim anak perempuan, gamis anak perempuan, dan gamis dewasa untuk toko dan reseller.
             </p>
           </div>
           <div>
-            <p className="font-display font-extrabold text-ink">Katalog</p>
+            <p className="font-display font-extrabold text-cream">Katalog</p>
             <ul className="mt-3 space-y-2 text-sm">
               {CATEGORIES.map((category) => (
                 <li key={category}>
                   <Link
                     to={`/?kategori=${encodeURIComponent(category)}#katalog`}
-                    className="transition hover:text-ink"
+                    className="transition hover:text-cream"
                   >
                     {category}
                   </Link>
@@ -34,7 +34,7 @@ const Footer: FC = () => {
             </ul>
           </div>
           <div>
-            <p className="font-display font-extrabold text-ink">Hubungi kami</p>
+            <p className="font-display font-extrabold text-cream">Hubungi kami</p>
             <ul className="mt-3 space-y-2 text-sm">
               <li>WhatsApp {WA_DISPLAY}</li>
               <li>{EMAIL}</li>
@@ -43,9 +43,9 @@ const Footer: FC = () => {
           </div>
         </div>
         <div className="mx-auto max-w-6xl px-4">
-          <div className="seam py-5 text-center text-xs text-ink/60">
+          <div className="seam py-5 text-center text-xs text-cream/60">
             &copy; {new Date().getFullYear()}{' '}
-            <Link to="/admin" className="transition hover:text-ink">
+            <Link to="/admin" className="transition hover:text-cream">
               Fathia Kids
             </Link>
             . Semua hak dilindungi.

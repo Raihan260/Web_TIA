@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import SectionHeading from './SectionHeading';
 import { Link } from 'react-router-dom';
 import { useProductStore } from './store/useProductStore';
 import { CATEGORIES } from './lib/contact';
@@ -14,12 +15,12 @@ const CategoryTiles: FC = () => {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-      <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">Pilih kategori</h2>
-      <p className="mt-2 max-w-lg text-ink/70">
-        Tiga kategori yang kami jual. Pilih satu untuk melihat model dan seri yang tersedia.
-      </p>
+      <SectionHeading
+        title="Pilih kategori"
+        subtitle="Tiga kategori yang kami jual. Pilih satu untuk melihat model dan seri yang tersedia."
+      />
 
-      <div className="mt-8 grid gap-4 md:grid-cols-3">
+      <div className="mt-10 grid gap-4 md:grid-cols-3">
         {CATEGORIES.map((category) => {
           const items = productList.filter((p) => p.category === category);
           const cover = [...items].reverse().find((p) => p.imageUrl)?.imageUrl;

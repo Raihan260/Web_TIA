@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import SectionHeading from './SectionHeading';
 
 const benefits = [
   {
@@ -32,12 +33,11 @@ const Highlights: FC = () => {
       <section className="seam bg-cream-light">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-[0.8fr_1.2fr] md:py-20">
           <div>
-            <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">
-              Kenapa belanja di Fathia Kids
-            </h2>
-            <p className="mt-3 max-w-sm text-ink/70">
-              Kami menjual untuk pemilik toko dan reseller, jadi semuanya diatur supaya kulakan jadi mudah.
-            </p>
+            <SectionHeading
+              align="left"
+              title="Kenapa belanja di Fathia Kids"
+              subtitle="Kami menjual untuk pemilik toko dan reseller, jadi semuanya diatur supaya kulakan jadi mudah."
+            />
           </div>
           <dl className="divide-y-2 divide-dashed divide-thread/70">
             {benefits.map((item) => (
@@ -50,11 +50,10 @@ const Highlights: FC = () => {
         </div>
       </section>
 
-      <section id="cara-pesan" className="bg-mauve-soft">
+      <section id="cara-pesan" className="bg-cream-deep">
         <div className="mx-auto max-w-6xl px-4 py-14 md:py-20">
-          <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">Cara pesan</h2>
-          <p className="mt-2 max-w-md text-ink/70">Empat langkah, semuanya lewat website dan WhatsApp.</p>
-          <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <SectionHeading title="Cara pesan" subtitle="Empat langkah, semuanya lewat website dan WhatsApp." />
+          <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, index) => (
               <li key={step.title} className="rounded-2xl bg-white p-5 ring-1 ring-blush">
                 <span className="font-display text-3xl font-extrabold text-rose">{index + 1}</span>

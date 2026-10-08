@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import SectionHeading from './SectionHeading';
 import { useEffect, useState } from 'react';
 import { Search } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
@@ -63,13 +64,12 @@ const ProductList: FC = () => {
   return (
     <section id="katalog" className="scroll-mt-16 border-t-2 border-dashed border-thread/60 bg-paper">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">Katalog grosir</h2>
-        <p className="mt-2 max-w-xl text-ink/70">
-          Harga tertera per pcs dan dijual per seri. Stok bisa berubah, jadi konfirmasi ke admin sebelum
-          membayar.
-        </p>
+        <SectionHeading
+          title="Katalog grosir"
+          subtitle="Harga tertera per pcs dan dijual per seri. Stok bisa berubah, jadi konfirmasi ke admin sebelum membayar."
+        />
 
-        <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="mt-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Kategori">
             {categories.map((category) => {
               const isActive = activeCategory === category;

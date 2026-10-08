@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import SectionHeading from './SectionHeading';
 import { MapPin, Clock, MessageCircle } from 'lucide-react';
 import { STORES, OPEN_HOURS, mapsLink, waLink } from './lib/contact';
 
@@ -7,9 +8,7 @@ const AboutLocation: FC = () => {
     <section id="tentang" className="bg-cream-light">
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 md:grid-cols-2 md:py-20">
         <div>
-          <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">
-            Pemasok pakaian anak dan gamis sejak 2024
-          </h2>
+          <SectionHeading align="left" title="Pemasok pakaian anak dan gamis sejak 2024" />
           <div className="mt-4 space-y-3 leading-relaxed text-ink/75">
             <p>
               Fathia Kids melayani pemilik toko dan reseller yang mencari pemasok langsung yang jujur dan
@@ -32,7 +31,7 @@ const AboutLocation: FC = () => {
         </div>
 
         <div id="kontak" className="scroll-mt-24">
-          <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">Kunjungi toko kami</h2>
+          <SectionHeading align="left" title="Kunjungi toko kami" />
           <ul className="mt-5 divide-y-2 divide-dashed divide-thread/70">
             {STORES.map((store) => (
               <li key={store.name} className="flex gap-3 py-4 first:pt-0">
