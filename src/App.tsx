@@ -40,6 +40,11 @@ const ScrollToTop = () => {
       }
     }
 
+    if (location.pathname === '/' && !location.hash) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
     if (location.pathname.startsWith('/product') || location.pathname === '/katalog') {
       window.scrollTo(0, 0);
     }

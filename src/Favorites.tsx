@@ -5,13 +5,13 @@ import SectionHeading from './SectionHeading';
 import { useProductStore } from './store/useProductStore';
 import { waLink } from './lib/contact';
 
-const MAX_ITEMS = 6;
+const MAX_ITEMS = 3;
 
 const Favorites: FC = () => {
   const productList = useProductStore((state) => state.productList);
   const isLoading = useProductStore((state) => state.isLoading);
 
-  // Produk yang ditandai favorit di Admin Panel; jika belum ada, tampilkan produk terbaru.
+  // 3 produk yang dipilih di Admin Panel; jika belum ada yang dipilih, tampilkan 3 produk terbaru.
   const newestFirst = [...productList].reverse();
   const favorites = newestFirst.filter((product) => product.isFavorite);
   const shown = (favorites.length > 0 ? favorites : newestFirst).slice(0, MAX_ITEMS);
@@ -25,7 +25,7 @@ const Favorites: FC = () => {
         />
 
         {isLoading ? (
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-5">
             {[0, 1, 2].map((i) => (
               <div key={i} className="animate-pulse overflow-hidden rounded-2xl bg-white ring-1 ring-ink/10">
                 <div className="aspect-[4/5] bg-cream-deep" />
@@ -52,9 +52,11 @@ const Favorites: FC = () => {
             </a>
           </div>
         ) : (
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
+          <div className="-mx-4 mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0">
             {shown.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <div key={product.id} className="w-[72%] shrink-0 snap-center sm:w-[45%] md:w-auto">
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
         )}
