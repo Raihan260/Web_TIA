@@ -6,7 +6,7 @@ import { useCartStore } from './store/useCartStore';
 import { waLink } from './lib/contact';
 
 const links = [
-  { to: '/#katalog', label: 'Katalog' },
+  { to: '/katalog', label: 'Katalog' },
   { to: '/#cara-pesan', label: 'Cara pesan' },
   { to: '/#tentang', label: 'Tentang kami' },
   { to: '/#kontak', label: 'Lokasi' },

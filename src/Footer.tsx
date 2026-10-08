@@ -24,7 +24,7 @@ const Footer: FC = () => {
               {CATEGORIES.map((category) => (
                 <li key={category}>
                   <Link
-                    to={`/?kategori=${encodeURIComponent(category)}#katalog`}
+                    to={`/katalog?kategori=${encodeURIComponent(category)}`}
                     className="transition hover:text-cream"
                   >
                     {category}

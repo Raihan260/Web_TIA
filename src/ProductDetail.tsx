@@ -38,7 +38,7 @@ const ProductDetail: FC = () => {
     if (window.history.state && window.history.state.idx > 0) {
       navigate(-1);
     } else {
-      navigate('/', { replace: true });
+      navigate('/katalog', { replace: true });
     }
   };
 
@@ -64,7 +64,7 @@ const ProductDetail: FC = () => {
             Maaf, produk yang Anda cari tidak tersedia atau sudah tidak aktif.
           </p>
           <Link
-            to="/"
+            to="/katalog"
             className="inline-flex items-center justify-center rounded-full bg-mauve px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-mauve-deep"
           >
             Kembali ke Katalog
@@ -102,7 +102,7 @@ const ProductDetail: FC = () => {
         <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
           <div className="mb-6 text-sm text-slate-600">
             <Link
-              to="/"
+              to="/katalog"
               onClick={handleGoBack}
               className="hover:text-ink underline-offset-2 hover:underline"
             >
@@ -246,7 +246,7 @@ const ProductDetail: FC = () => {
                   Lihat Keranjang Saya
                 </button>
                 <Link
-                  to="/"
+                  to="/katalog"
                   onClick={handleGoBack}
                   className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
                 >
@@ -267,7 +267,7 @@ const ProductDetail: FC = () => {
             </h2>
             <p className="mt-1 text-sm text-ink/70">Pilihan lain untuk melengkapi etalase toko Anda</p>
           </div>
-          <Link to="/" className="text-sm font-bold text-rose hover:text-rose-deep underline underline-offset-4">
+          <Link to="/katalog" className="text-sm font-bold text-rose hover:text-rose-deep underline underline-offset-4">
             Lihat Semua Produk
           </Link>
         </div>
