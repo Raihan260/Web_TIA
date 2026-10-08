@@ -10,7 +10,7 @@ const Footer: FC = () => {
 
   return (
     <>
-      <footer className="twill bg-mauve-light text-ink/80">
+      <footer className="twill bg-cream-deep text-ink/80">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-3">
           <div>
             <p className="font-display text-xl font-extrabold text-ink">Fathia Kids</p>

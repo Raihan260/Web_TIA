@@ -4,7 +4,7 @@ import { STORES, OPEN_HOURS, mapsLink, waLink } from './lib/contact';
 
 const AboutLocation: FC = () => {
   return (
-    <section id="tentang" className="bg-white">
+    <section id="tentang" className="bg-cream-light">
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 md:grid-cols-2 md:py-20">
         <div>
           <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">

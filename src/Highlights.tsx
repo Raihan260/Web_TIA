@@ -29,7 +29,7 @@ const steps = [
 const Highlights: FC = () => {
   return (
     <>
-      <section className="seam bg-white">
+      <section className="seam bg-cream-light">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-[0.8fr_1.2fr] md:py-20">
           <div>
             <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">
