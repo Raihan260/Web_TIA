@@ -21,7 +21,7 @@ const Navbar: FC = () => {
               Fathia Kids
             </span>
             <span className="text-xs text-slate-500">
-              Denim Anak Perempuan Grosir
+              Grosir Denim & Gamis
             </span>
           </div>
         </Link>

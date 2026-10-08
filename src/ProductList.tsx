@@ -4,7 +4,7 @@ import { Search } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { useProductStore } from './store/useProductStore';
 
-const categories = ['Semua', 'Denim Panjang', 'Denim Pendek', 'Rok Denim', 'Celana Katun', 'Gamis'] as const;
+const categories = ['Semua', 'Denim Anak Perempuan', 'Gamis Anak Perempuan', 'Gamis Dewasa'] as const;
 
 
 
@@ -55,10 +55,10 @@ const ProductList: FC = () => {
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <h2 className="text-lg font-semibold tracking-tight text-slate-900 sm:text-xl">
-              Katalog Denim Grosir
+              Katalog Grosir
             </h2>
             <p className="max-w-xl text-sm text-slate-700">
-              Pilihan celana denim khusus anak perempuan dengan potongan rapi dan bahan nyaman.
+              Pilihan denim anak perempuan, gamis anak perempuan, dan gamis dewasa dengan jahitan rapi dan bahan nyaman.
               Siap dikirim untuk kebutuhan toko, butik, ataupun reseller rumahan.
             </p>
           </div>

@@ -60,8 +60,7 @@ const Home: FC = () => {
                     <em>reseller</em> yang mencari supplier baju anak tangan pertama yang amanah dan profesional.
                   </p>
                   <p>
-                    Kami memproduksi sendiri berbagai jenis pakaian anak perempuan mulai dari 
-                    <strong>Celana Denim, Gamis, Rok, hingga Celana Katun</strong>. Fokus kami adalah menciptakan 
+                    Kami memproduksi sendiri <strong>Denim Anak Perempuan, Gamis Anak Perempuan, dan Gamis Dewasa</strong>. Fokus kami adalah menciptakan 
                     produk yang nyaman dipakai anak-anak, namun tetap modis dan memiliki nilai jual tinggi.
                   </p>
                   <p>

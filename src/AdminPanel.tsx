@@ -5,32 +5,25 @@ import { Link } from 'react-router-dom';
 import type { Product, SeriesOption } from './data/products';
 import {
   denimSeriesOptions,
-  shortDenimSeriesOptions,
-  cottonSeriesOptions,
-  skirtSeriesOptions,
-  gamisSeriesOptions,
+  gamisAnakSeriesOptions,
+  gamisDewasaSeriesOptions,
 } from './data/products';
 import { useProductStore } from './store/useProductStore';
 import { supabase } from './lib/supabase';
 import { uploadImageToStorage } from './lib/uploadImage';
 import AdminLogin from './AdminLogin';
 
-const categories = ['Denim Panjang', 'Denim Pendek', 'Rok Denim', 'Celana Katun', 'Gamis'] as const;
+const categories = ['Denim Anak Perempuan', 'Gamis Anak Perempuan', 'Gamis Dewasa'] as const;
 
 type Category = (typeof categories)[number];
 
 const getDefaultSeries = (cat: Category): SeriesOption[] => {
   switch (cat) {
-    case 'Denim Panjang':
-      return denimSeriesOptions.map((option) => ({ ...option }));
-    case 'Denim Pendek':
-      return shortDenimSeriesOptions.map((option) => ({ ...option }));
-    case 'Celana Katun':
-      return cottonSeriesOptions.map((option) => ({ ...option }));
-    case 'Rok Denim':
-      return skirtSeriesOptions.map((option) => ({ ...option }));
-    case 'Gamis':
-      return gamisSeriesOptions.map((option) => ({ ...option }));
+    case 'Gamis Anak Perempuan':
+      return gamisAnakSeriesOptions.map((option) => ({ ...option }));
+    case 'Gamis Dewasa':
+      return gamisDewasaSeriesOptions.map((option) => ({ ...option }));
+    case 'Denim Anak Perempuan':
     default:
       return denimSeriesOptions.map((option) => ({ ...option }));
   }
@@ -62,7 +55,7 @@ const AdminPanel: FC = () => {
 
   const [id, setId] = useState('');
   const [name, setName] = useState('');
-  const [category, setCategory] = useState<Category>('Denim Panjang');
+  const [category, setCategory] = useState<Category>('Denim Anak Perempuan');
   const [imageUrl, setImageUrl] = useState('');
   const [galleryUrls, setGalleryUrls] = useState<string[]>([]);
   const [tagsInput, setTagsInput] = useState('');
@@ -74,7 +67,7 @@ const AdminPanel: FC = () => {
   const [isUploadingGallery, setIsUploadingGallery] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [customSeries, setCustomSeries] = useState<SeriesOption[]>(() =>
-    getDefaultSeries('Denim Panjang'),
+    getDefaultSeries('Denim Anak Perempuan'),
   );
   const [adminSearch, setAdminSearch] = useState('');
 
@@ -137,11 +130,11 @@ const AdminPanel: FC = () => {
 
       setId('');
       setName('');
-      setCategory('Denim Panjang');
+      setCategory('Denim Anak Perempuan');
       setImageUrl('');
       setTagsInput('');
       setGalleryUrls([]);
-      setCustomSeries(getDefaultSeries('Denim Panjang'));
+      setCustomSeries(getDefaultSeries('Denim Anak Perempuan'));
       setIsAvailable(true);
       setEditingId(null);
     } finally {
@@ -153,11 +146,11 @@ const AdminPanel: FC = () => {
     setEditingId(null);
     setId('');
     setName('');
-    setCategory('Denim Panjang');
+    setCategory('Denim Anak Perempuan');
     setImageUrl('');
     setTagsInput('');
     setGalleryUrls([]);
-    setCustomSeries(getDefaultSeries('Denim Panjang'));
+    setCustomSeries(getDefaultSeries('Denim Anak Perempuan'));
     setIsAvailable(true);
   };
 

@@ -17,7 +17,7 @@ const Hero: FC = () => {
               <span className="text-pink-500">Langsung Konveksi</span>
             </h1>
             <p className="max-w-xl text-balance text-base text-slate-600 sm:text-lg">
-              Solusi kulakan Denim, Gamis, dan Bawahan Anak dengan harga modal termurah. 
+              Solusi kulakan Denim Anak, Gamis Anak, dan Gamis Dewasa dengan harga modal termurah. 
               Kualitas butik, bahan nyaman, dan model selalu <i>up-to-date</i>. 
               Siap untungkan bisnis toko dan reseller Anda.
             </p>
