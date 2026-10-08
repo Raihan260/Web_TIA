@@ -1,70 +1,60 @@
 import type { FC } from 'react';
-import { Sparkles, ShoppingBag, MessageCircle, TrendingUp } from 'lucide-react';
+import { ShoppingBag, MessageCircle } from 'lucide-react';
+import { waLink } from './lib/contact';
 
 const Hero: FC = () => {
   return (
-    <section className="border-b border-slate-200 bg-white">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-8 px-4 py-10 md:flex-row md:py-16">
-        <div className="flex-1 space-y-6 text-center md:text-left">
-          <span className="inline-flex items-center gap-2 rounded-full bg-pink-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-pink-600 ring-1 ring-pink-200">
-            <Sparkles className="h-3.5 w-3.5 text-pink-500" />
-            Supplier Tangan Pertama
-          </span>
+    <section className="denim-twill relative overflow-hidden text-white">
+      {/* Jahitan di tepi, seperti topstitch pada celana jeans */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-3 rounded-[28px] border-2 border-dashed border-thread/70 md:inset-5"
+      />
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-8 py-14 md:grid-cols-[1.1fr_0.9fr] md:px-14 md:py-20">
+        <div>
+          <h1 className="text-balance text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+            Denim dan gamis, langsung dari produsen.
+          </h1>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/80 sm:text-lg">
+            Denim anak perempuan, gamis anak perempuan, dan gamis dewasa untuk toko dan reseller.
+            Dijual per seri, harga per pcs tertera jelas di setiap produk.
+          </p>
 
-          <div className="space-y-4">
-            <h1 className="text-balance text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
-              Pusat Grosir Baju Anak <br />
-              <span className="text-pink-500">Langsung Konveksi</span>
-            </h1>
-            <p className="max-w-xl text-balance text-base text-slate-600 sm:text-lg">
-              Solusi kulakan Denim Anak, Gamis Anak, dan Gamis Dewasa dengan harga modal termurah. 
-              Kualitas butik, bahan nyaman, dan model selalu <i>up-to-date</i>. 
-              Siap untungkan bisnis toko dan reseller Anda.
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center md:justify-start">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
               href="#katalog"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-slate-800 sm:w-auto"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-pink-500 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-pink-400"
             >
               <ShoppingBag className="h-4 w-4" />
-              <span>Lihat Katalog Grosir</span>
+              Lihat katalog
             </a>
             <a
-              href="https://wa.me/6285219847122?text=Halo%20Admin%20Fathia%20Kids,%20saya%20mau%20tanya%20info%20kemitraan%20reseller."
+              href={waLink('Halo Admin Fathia Kids, saya mau tanya info kemitraan reseller.')}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-green-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-green-400/40 transition hover:bg-green-600 sm:w-auto"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/70 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white hover:text-denim"
             >
               <MessageCircle className="h-4 w-4" />
-              <span>Gabung Reseller</span>
+              Tanya info reseller
             </a>
           </div>
 
-          <div className="flex items-center justify-center gap-6 text-xs font-medium text-slate-500 md:justify-start">
-            <div className="flex items-center gap-1.5">
-              <TrendingUp className="h-4 w-4 text-green-600" />
-              <span>Margin Tinggi</span>
-            </div>
-            <div className="h-1 w-1 rounded-full bg-slate-300" />
-            <div>Jaminan Kualitas</div>
-            <div className="h-1 w-1 rounded-full bg-slate-300" />
-            <div>Stok Continue</div>
-          </div>
+          <p className="mt-6 max-w-md text-sm text-white/65">
+            Satu seri berisi 3 pcs dengan ukuran berurutan, misalnya ukuran 4, 5, 6.
+          </p>
         </div>
 
-        <div className="flex-1 w-full max-w-md">
-          <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
-            <div className="aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-100 relative">
-               <img 
-                src="/hero-stok-gudang.jpg" 
-                alt="Stok Gudang Fathia Kids" 
+        <div className="mx-auto w-full max-w-md md:max-w-none">
+          <div className="rounded-3xl border-2 border-dashed border-thread p-2.5">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-denim-deep">
+              <img
+                src="/hero-stok-gudang.jpg"
+                alt="Tumpukan stok pakaian di gudang Fathia Kids"
                 className="h-full w-full object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                <p className="text-white font-bold text-sm">Stok Ribuan Pcs</p>
-                <p className="text-white/90 text-xs">Siap kirim ke seluruh Indonesia</p>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-denim-deep/90 to-transparent px-4 pb-3 pt-10">
+                <p className="text-sm font-semibold">Stok gudang Fathia Kids</p>
+                <p className="text-xs text-white/80">Dikirim ke seluruh Indonesia</p>
               </div>
             </div>
           </div>

@@ -10,9 +10,37 @@ body,
 
 body {
   margin: 0;
-  @apply bg-gray-50 text-slate-800 antialiased;
+  @apply bg-paper text-ink antialiased;
 }
 
-a {
-  @apply text-sky-700 hover:text-sky-800 transition-colors;
+h1,
+h2,
+h3 {
+  @apply font-display;
+}
+
+/* Tekstur kain denim (anyaman diagonal tipis) */
+.twill,
+.denim-twill {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.04) 0,
+    rgba(255, 255, 255, 0.04) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+}
+
+.denim-twill {
+  background-color: #25325e;
+}
+
+/* Garis jahitan (topstitch) sebagai pemisah */
+.seam {
+  border-top: 2px dashed rgba(232, 176, 75, 0.7);
+}
+
+:focus-visible {
+  outline: 2px solid #db2777;
+  outline-offset: 2px;
 }
