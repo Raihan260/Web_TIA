@@ -14,7 +14,7 @@ export default {
         ink: '#3a2f36',
         paper: '#fff9f7',
         blush: { DEFAULT: '#f6d5db', soft: '#fcebee' },
-        sage: { DEFAULT: '#557560', deep: '#3f5a49', light: '#cfe0d1', soft: '#e7f0e8' },
+        mauve: { DEFAULT: '#8a5f73', deep: '#6f4a5d', light: '#ecdbe2', soft: '#f8eff2' },
         rose: { DEFAULT: '#b5566f', deep: '#9a4259' },
         thread: '#dcb48c',
       },

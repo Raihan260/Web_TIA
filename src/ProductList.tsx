@@ -82,8 +82,8 @@ const ProductList: FC = () => {
                   onClick={() => selectCategory(category)}
                   className={
                     isActive
-                      ? 'whitespace-nowrap rounded-full bg-sage px-4 py-2 text-sm font-bold text-white'
-                      : 'whitespace-nowrap rounded-full border border-ink/15 bg-white px-4 py-2 text-sm font-semibold text-ink/75 transition hover:border-sage hover:text-sage-deep'
+                      ? 'whitespace-nowrap rounded-full bg-mauve px-4 py-2 text-sm font-bold text-white'
+                      : 'whitespace-nowrap rounded-full border border-ink/15 bg-white px-4 py-2 text-sm font-semibold text-ink/75 transition hover:border-mauve hover:text-mauve-deep'
                   }
                 >
                   {category}
@@ -109,11 +109,11 @@ const ProductList: FC = () => {
           <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
             {[0, 1, 2].map((i) => (
               <div key={i} className="animate-pulse overflow-hidden rounded-2xl bg-white ring-1 ring-ink/10">
-                <div className="aspect-[4/5] bg-sage-soft" />
+                <div className="aspect-[4/5] bg-mauve-soft" />
                 <div className="space-y-2 p-4">
-                  <div className="h-4 w-3/4 rounded bg-sage-soft" />
-                  <div className="h-4 w-1/2 rounded bg-sage-soft" />
-                  <div className="mt-2 h-10 w-full rounded-full bg-sage-soft" />
+                  <div className="h-4 w-3/4 rounded bg-mauve-soft" />
+                  <div className="h-4 w-1/2 rounded bg-mauve-soft" />
+                  <div className="mt-2 h-10 w-full rounded-full bg-mauve-soft" />
                 </div>
               </div>
             ))}
@@ -136,7 +136,7 @@ const ProductList: FC = () => {
                     setSearchQuery('');
                     selectCategory('Semua');
                   }}
-                  className="rounded-full border border-sage px-4 py-2 text-sm font-bold text-sage-deep transition hover:bg-sage hover:text-white"
+                  className="rounded-full border border-mauve px-4 py-2 text-sm font-bold text-mauve-deep transition hover:bg-mauve hover:text-white"
                 >
                   Tampilkan semua produk
                 </button>
@@ -166,7 +166,7 @@ const ProductList: FC = () => {
             <button
               type="button"
               onClick={() => setShowAll((prev) => !prev)}
-              className="rounded-full border-2 border-sage px-6 py-2.5 text-sm font-bold text-sage-deep transition hover:bg-sage hover:text-white"
+              className="rounded-full border-2 border-mauve px-6 py-2.5 text-sm font-bold text-mauve-deep transition hover:bg-mauve hover:text-white"
             >
               {showAll ? 'Tampilkan lebih sedikit' : 'Lihat semua produk'}
             </button>

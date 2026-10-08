@@ -32,7 +32,7 @@ const Hero: FC = () => {
               href={waLink('Halo Admin Fathia Kids, saya mau tanya info kemitraan reseller.')}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-sage px-6 py-3.5 text-sm font-bold text-sage-deep transition hover:bg-sage hover:text-white"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-mauve px-6 py-3.5 text-sm font-bold text-mauve-deep transition hover:bg-mauve hover:text-white"
             >
               <MessageCircle className="h-4 w-4" />
               Tanya info reseller
@@ -46,7 +46,7 @@ const Hero: FC = () => {
 
         <div className="mx-auto w-full max-w-md md:max-w-none">
           <div className="rounded-3xl border-2 border-dashed border-thread p-2.5">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-sage-soft">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-mauve-soft">
               <img
                 src="/hero-stok-gudang.jpg"
                 alt="Tumpukan stok pakaian di gudang Fathia Kids"

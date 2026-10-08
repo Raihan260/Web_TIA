@@ -42,7 +42,7 @@ const Highlights: FC = () => {
           <dl className="divide-y-2 divide-dashed divide-thread/70">
             {benefits.map((item) => (
               <div key={item.title} className="py-5 first:pt-0 last:pb-0">
-                <dt className="font-display text-lg font-extrabold text-sage-deep">{item.title}</dt>
+                <dt className="font-display text-lg font-extrabold text-mauve-deep">{item.title}</dt>
                 <dd className="mt-1 max-w-xl text-ink/75">{item.desc}</dd>
               </div>
             ))}
@@ -50,7 +50,7 @@ const Highlights: FC = () => {
         </div>
       </section>
 
-      <section id="cara-pesan" className="bg-sage-soft">
+      <section id="cara-pesan" className="bg-mauve-soft">
         <div className="mx-auto max-w-6xl px-4 py-14 md:py-20">
           <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">Cara pesan</h2>
           <p className="mt-2 max-w-md text-ink/70">Empat langkah, semuanya lewat website dan WhatsApp.</p>

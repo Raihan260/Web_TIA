@@ -65,7 +65,7 @@ const ProductDetail: FC = () => {
           </p>
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-full bg-sage px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-sage-deep"
+            className="inline-flex items-center justify-center rounded-full bg-mauve px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-mauve-deep"
           >
             Kembali ke Katalog
           </Link>
@@ -236,7 +236,7 @@ const ProductDetail: FC = () => {
                   type="button"
                   disabled={product.isAvailable === false || !selectedSeries}
                   onClick={() => selectedSeries && addToCart(product, selectedSeries)}
-                  className="inline-flex flex-1 items-center justify-center rounded-full bg-sage px-6 py-3 text-sm font-semibold text-white shadow-md shadow-sage/30 transition hover:bg-sage-deep disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+                  className="inline-flex flex-1 items-center justify-center rounded-full bg-mauve px-6 py-3 text-sm font-semibold text-white shadow-md shadow-mauve/30 transition hover:bg-mauve-deep disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
                 >
                   {product.isAvailable === false ? 'Stok Habis' : `Tambah ke Keranjang${selectedSeries ? ` · ${formatRupiah(selectedSeries.totalPrice)}` : ''}`}
                 </button>

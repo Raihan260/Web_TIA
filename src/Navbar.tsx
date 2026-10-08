@@ -21,7 +21,7 @@ const Navbar: FC = () => {
     <header className="sticky top-0 z-30 border-b-2 border-dashed border-thread/60 bg-paper/95 backdrop-blur-sm">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link to="/" className="flex items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sage font-display text-sm font-extrabold text-white ring-2 ring-thread ring-offset-2 ring-offset-paper">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-mauve font-display text-sm font-extrabold text-white ring-2 ring-thread ring-offset-2 ring-offset-paper">
             FK
           </span>
           <span className="flex flex-col leading-tight">

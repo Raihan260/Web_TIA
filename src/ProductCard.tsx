@@ -27,7 +27,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-ink/10 transition hover:ring-2 hover:ring-blush">
-      <Link to={`/product/${product.id}`} className="relative block aspect-[4/5] overflow-hidden bg-sage-soft">
+      <Link to={`/product/${product.id}`} className="relative block aspect-[4/5] overflow-hidden bg-mauve-soft">
         <img
           src={product.imageUrl || placeholderImage}
           alt={product.name}
@@ -36,7 +36,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
           }`}
           loading="lazy"
         />
-        <span className="absolute left-2.5 top-2.5 hidden items-center gap-1 sm:inline-flex rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-sage-deep">
+        <span className="absolute left-2.5 top-2.5 hidden items-center gap-1 sm:inline-flex rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-mauve-deep">
           <Shirt className="h-3.5 w-3.5" />
           {product.category}
         </span>
@@ -61,7 +61,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
               {product.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full bg-sage-soft px-2 py-0.5 text-[11px] font-semibold text-sage-deep"
+                  className="rounded-full bg-mauve-soft px-2 py-0.5 text-[11px] font-semibold text-mauve-deep"
                 >
                   {tag}
                 </span>
@@ -72,7 +72,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
         <Link
           to={`/product/${product.id}`}
-          className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-full bg-sage px-3 py-2.5 text-sm font-bold text-white transition hover:bg-sage-deep"
+          className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-full bg-mauve px-3 py-2.5 text-sm font-bold text-white transition hover:bg-mauve-deep"
         >
           <ListChecks className="h-4 w-4 shrink-0" />
           {isOutOfStock ? 'Lihat detail' : 'Pilih seri'}

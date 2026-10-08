@@ -72,7 +72,7 @@ const CartDrawer: FC = () => {
           {/* Header */}
           <div className="flex items-center justify-between border-b border-slate-200 px-4 py-4">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sage text-white">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-mauve text-white">
                 <ShoppingBag className="h-4 w-4" />
               </div>
               <div>
