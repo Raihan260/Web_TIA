@@ -72,11 +72,11 @@ const CartDrawer: FC = () => {
           {/* Header */}
           <div className="flex items-center justify-between border-b border-slate-200 px-4 py-4">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-white">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-mauve text-white">
                 <ShoppingBag className="h-4 w-4" />
               </div>
               <div>
-                <h2 className="text-sm font-semibold text-slate-900">Keranjang Inquiry</h2>
+                <h2 className="text-sm font-semibold text-ink">Keranjang Inquiry</h2>
                 <p className="text-[11px] text-slate-500">
                   Seri pilihan Anda akan dikirim ke Admin
                 </p>
@@ -124,13 +124,13 @@ const CartDrawer: FC = () => {
                           <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                             {item.product.category}
                           </p>
-                          <h3 className="line-clamp-2 text-sm font-bold text-slate-900">
+                          <h3 className="line-clamp-2 text-sm font-bold text-ink">
                             {item.product.name}
                           </h3>
                           <p className="mt-0.5 text-[11px] font-medium text-slate-600">
                             {item.series.name}
                           </p>
-                          <p className="mt-0.5 text-[11px] font-semibold text-orange-600">
+                          <p className="mt-0.5 text-[11px] font-semibold text-rose">
                             {formatRupiah(item.series.totalPrice)} / seri
                           </p>
                         </div>
@@ -180,7 +180,7 @@ const CartDrawer: FC = () => {
             {items.length > 0 && (
               <div className="mb-3 flex items-center justify-between text-sm">
                 <span className="font-medium text-slate-700">Estimasi total</span>
-                <span className="font-extrabold text-slate-900">{formatRupiah(totalPrice)}</span>
+                <span className="font-extrabold text-ink">{formatRupiah(totalPrice)}</span>
               </div>
             )}
             <p className="mb-3 text-[11px] leading-relaxed">
