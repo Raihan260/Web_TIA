@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Navbar from './Navbar';
 import Hero from './Hero';
 import ProductList from './ProductList';
+import Favorites from './Favorites';
 import ProductDetail from './ProductDetail';
 import CartDrawer from './CartDrawer';
 import AdminPanel from './AdminPanel';
@@ -19,7 +20,7 @@ const Home: FC = () => {
     <>
       <Hero />
       <CategoryTiles />
-      <ProductList />
+      <Favorites />
       <Highlights />
       <AboutLocation />
     </>
@@ -39,7 +40,7 @@ const ScrollToTop = () => {
       }
     }
 
-    if (location.pathname.startsWith('/product')) {
+    if (location.pathname.startsWith('/product') || location.pathname === '/katalog') {
       window.scrollTo(0, 0);
     }
   }, [location.pathname, location.hash, location.search]);
@@ -69,6 +70,7 @@ const App: FC = () => {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/katalog" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/admin" element={<AdminPanel />} />
           </Routes>

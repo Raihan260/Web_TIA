@@ -14,6 +14,7 @@ export interface Product {
   tags?: string[];
   seriesOptions: SeriesOption[];
   isAvailable?: boolean; // Status stok: true = tersedia, false = habis. Default true.
+  isFavorite?: boolean; // true = tampil di bagian "Produk favorit" pada halaman utama.
 }
 
 // =========================================

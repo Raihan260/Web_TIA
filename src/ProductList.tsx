@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import SectionHeading from './SectionHeading';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Search } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from './ProductCard';
@@ -12,30 +12,13 @@ const ProductList: FC = () => {
   const productList = useProductStore((state) => state.productList);
   const isLoading = useProductStore((state) => state.isLoading);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [showAll, setShowAll] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    try {
-      return sessionStorage.getItem('tia_showAll') === 'true';
-    } catch {
-      return false;
-    }
-  });
   const [searchQuery, setSearchQuery] = useState('');
 
   const categories = ['Semua', ...CATEGORIES];
   const categoryParam = searchParams.get('kategori');
   const activeCategory = categories.includes(categoryParam ?? '') ? (categoryParam as string) : 'Semua';
 
-  useEffect(() => {
-    try {
-      sessionStorage.setItem('tia_showAll', showAll.toString());
-    } catch {
-      // abaikan jika penyimpanan browser tidak tersedia
-    }
-  }, [showAll]);
-
   const selectCategory = (category: string) => {
-    setShowAll(false);
     setSearchParams(category === 'Semua' ? {} : { kategori: category }, { replace: true, preventScrollReset: true });
   };
 
@@ -52,18 +35,13 @@ const ProductList: FC = () => {
     return matchesCategory && matchesSearch;
   });
 
-  const reversedFilteredProducts = [...filteredProducts].reverse();
-
-  const PREVIEW_COUNT = 4; // HP menampilkan 4; desktop menampilkan 3 lewat lg:hidden di item ke-4
-  const displayedProducts = showAll
-    ? reversedFilteredProducts
-    : reversedFilteredProducts.slice(0, PREVIEW_COUNT);
+  const displayedProducts = [...filteredProducts].reverse();
 
   const isCategoryEmpty = activeCategory !== 'Semua' && searchQuery.trim().length === 0 && filteredProducts.length === 0;
   const isFiltering = activeCategory !== 'Semua' || searchQuery.trim().length > 0;
 
   return (
-    <section id="katalog" className="scroll-mt-16 border-t-2 border-dashed border-thread/60 bg-paper">
+    <section id="katalog" className="scroll-mt-16 bg-paper">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <SectionHeading
           title="Katalog grosir"
@@ -160,25 +138,12 @@ const ProductList: FC = () => {
           </div>
         ) : (
           <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
-            {displayedProducts.map((product, index) => (
-              <div key={product.id} className={!showAll && index === 3 ? 'lg:hidden' : undefined}>
-                <ProductCard product={product} />
-              </div>
+            {displayedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         )}
 
-        {filteredProducts.length > 3 && (
-          <div className="mt-8 flex justify-center">
-            <button
-              type="button"
-              onClick={() => setShowAll((prev) => !prev)}
-              className="rounded-full border-2 border-mauve px-6 py-2.5 text-sm font-bold text-mauve-deep transition hover:bg-mauve hover:text-white"
-            >
-              {showAll ? 'Tampilkan lebih sedikit' : 'Lihat semua produk'}
-            </button>
-          </div>
-        )}
       </div>
     </section>
   );

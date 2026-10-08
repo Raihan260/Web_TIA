@@ -12,8 +12,12 @@ create table if not exists public.products (
   gallery text[],
   tags text[],
   "seriesOptions" jsonb not null,
-  "isAvailable" boolean not null default true
+  "isAvailable" boolean not null default true,
+  "isFavorite" boolean not null default false
 );
+
+-- Untuk database yang sudah ada sebelum kolom ini ditambahkan:
+-- alter table public.products add column if not exists "isFavorite" boolean not null default false;
 
 -- Enable Row Level Security
 alter table public.products enable row level security;

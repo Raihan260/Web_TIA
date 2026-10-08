@@ -27,7 +27,7 @@ const CategoryTiles: FC = () => {
           return (
             <Link
               key={category}
-              to={`/?kategori=${encodeURIComponent(category)}#katalog`}
+              to={`/katalog?kategori=${encodeURIComponent(category)}`}
               className={`group relative flex aspect-[16/9] items-end overflow-hidden rounded-2xl text-white md:aspect-[5/4] ${cover ? '' : 'twill'} ${tone[category]}`}
             >
               {cover && (

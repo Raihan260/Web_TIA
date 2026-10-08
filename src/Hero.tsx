@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { Link } from 'react-router-dom';
 import { ShoppingBag, MessageCircle } from 'lucide-react';
 import { waLink } from './lib/contact';
 
@@ -28,13 +29,13 @@ const Hero: FC = () => {
         </p>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a
-            href="#katalog"
+          <Link
+            to="/katalog"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-cream px-7 py-3.5 text-sm font-bold text-ink transition hover:bg-white"
           >
             <ShoppingBag className="h-4 w-4" />
             Lihat katalog
-          </a>
+          </Link>
           <a
             href={waLink('Halo Admin Fathia Kids, saya mau tanya info kemitraan reseller.')}
             target="_blank"
