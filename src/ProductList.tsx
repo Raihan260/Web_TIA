@@ -22,11 +22,7 @@ const ProductList: FC = () => {
   });
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Hanya kategori yang sudah punya produk yang ditampilkan sebagai tab.
-  const availableCategories = CATEGORIES.filter((category) =>
-    productList.some((p) => p.category === category),
-  );
-  const categories = ['Semua', ...availableCategories];
+  const categories = ['Semua', ...CATEGORIES];
   const categoryParam = searchParams.get('kategori');
   const activeCategory = categories.includes(categoryParam ?? '') ? (categoryParam as string) : 'Semua';
 
@@ -63,6 +59,7 @@ const ProductList: FC = () => {
     ? reversedFilteredProducts
     : reversedFilteredProducts.slice(0, PREVIEW_COUNT);
 
+  const isCategoryEmpty = activeCategory !== 'Semua' && searchQuery.trim().length === 0 && filteredProducts.length === 0;
   const isFiltering = activeCategory !== 'Semua' || searchQuery.trim().length > 0;
 
   return (
@@ -74,11 +71,7 @@ const ProductList: FC = () => {
         />
 
         <div className="mt-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div
-            className={`flex gap-2 overflow-x-auto pb-1 ${availableCategories.length < 2 ? 'hidden' : ''}`}
-            role="tablist"
-            aria-label="Kategori"
-          >
+          <div className="flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Kategori">
             {categories.map((category) => {
               const isActive = activeCategory === category;
               return (
@@ -129,10 +122,16 @@ const ProductList: FC = () => {
         ) : displayedProducts.length === 0 ? (
           <div className="mt-8 flex flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-thread/70 bg-white px-6 py-12 text-center">
             <p className="font-display text-lg font-extrabold text-ink">
-              {isFiltering ? 'Produk tidak ditemukan' : 'Belum ada produk di katalog'}
+              {isCategoryEmpty
+                ? 'Produk kategori ini segera hadir'
+                : isFiltering
+                  ? 'Produk tidak ditemukan'
+                  : 'Belum ada produk di katalog'}
             </p>
             <p className="max-w-sm text-sm text-ink/70">
-              {isFiltering
+              {isCategoryEmpty
+                ? 'Model di kategori ini belum diunggah. Tanya admin lewat WhatsApp untuk model dan stok terbaru.'
+                : isFiltering
                 ? 'Coba kata kunci lain atau pilih kategori lain. Anda juga bisa tanya stok terbaru ke admin.'
                 : 'Katalog sedang diperbarui. Tanya admin lewat WhatsApp untuk model dan stok terbaru.'}
             </p>
