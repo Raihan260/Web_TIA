@@ -60,7 +60,6 @@ const AdminPanel: FC = () => {
   const [galleryUrls, setGalleryUrls] = useState<string[]>([]);
   const [tagsInput, setTagsInput] = useState('');
   const [isAvailable, setIsAvailable] = useState(true);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
@@ -71,6 +70,7 @@ const AdminPanel: FC = () => {
     getDefaultSeries('Denim Anak Perempuan'),
   );
   const [adminSearch, setAdminSearch] = useState('');
+  const [savingSlot, setSavingSlot] = useState<number | null>(null);
 
   const adminSearchNormalized = adminSearch.trim().toLowerCase();
 
@@ -81,6 +81,32 @@ const AdminPanel: FC = () => {
       product.id.toLowerCase().includes(adminSearchNormalized)
     );
   });
+
+
+  // 3 produk favorit pertama (urutan terbaru lebih dulu), sama dengan yang tampil di halaman utama.
+  const favoriteProducts = [...productList].reverse().filter((product) => product.isFavorite).slice(0, 3);
+
+  const handleChangeFavorite = async (slot: number, newId: string | null) => {
+    const current = favoriteProducts[slot];
+    setSavingSlot(slot);
+    try {
+      if (current) {
+        const removed = await updateProduct(current.id, { isFavorite: false });
+        if (!removed.success) {
+          alert(`Gagal mengubah favorit: ${removed.error ?? 'Terjadi kesalahan tak terduga.'}`);
+          return;
+        }
+      }
+      if (newId) {
+        const added = await updateProduct(newId, { isFavorite: true });
+        if (!added.success) {
+          alert(`Gagal menyimpan favorit: ${added.error ?? 'Terjadi kesalahan tak terduga.'}`);
+        }
+      }
+    } finally {
+      setSavingSlot(null);
+    }
+  };
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -105,7 +131,6 @@ const AdminPanel: FC = () => {
       tags: tags.length ? tags : undefined,
       seriesOptions: customSeries,
       isAvailable,
-      isFavorite,
     };
 
     try {
@@ -138,7 +163,6 @@ const AdminPanel: FC = () => {
       setGalleryUrls([]);
       setCustomSeries(getDefaultSeries('Denim Anak Perempuan'));
       setIsAvailable(true);
-      setIsFavorite(false);
       setEditingId(null);
     } finally {
       setIsSaving(false);
@@ -155,7 +179,6 @@ const AdminPanel: FC = () => {
     setGalleryUrls([]);
     setCustomSeries(getDefaultSeries('Denim Anak Perempuan'));
     setIsAvailable(true);
-    setIsFavorite(false);
   };
 
   if (isCheckingAuth) {
@@ -420,21 +443,6 @@ const AdminPanel: FC = () => {
               </p>
             </div>
 
-            <label className="flex cursor-pointer items-start gap-2.5 rounded-lg border border-slate-200 bg-white px-3 py-2.5">
-              <input
-                type="checkbox"
-                checked={isFavorite}
-                onChange={(e) => setIsFavorite(e.target.checked)}
-                className="mt-0.5 h-4 w-4 accent-pink-600"
-              />
-              <span>
-                <span className="block text-xs font-semibold text-slate-800">Produk favorit</span>
-                <span className="block text-[11px] text-slate-500">
-                  Tampil di bagian "Produk favorit" pada halaman utama.
-                </span>
-              </span>
-            </label>
-
             <div className="mt-4 rounded-xl bg-slate-50 p-4 ring-1 ring-slate-200">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-600">
                 Atur Pilihan Seri &amp; Harga
@@ -589,6 +597,64 @@ const AdminPanel: FC = () => {
           </form>
         </div>
 
+
+        <div className="mt-10 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+          <h2 className="text-base font-semibold text-slate-900">Produk Favorit di Halaman Utama</h2>
+          <p className="mt-1 text-xs text-slate-500">
+            Pilih 3 produk yang tampil di bagian "Produk favorit". Ganti kapan saja, perubahan langsung
+            terlihat di website. Kalau semuanya dikosongkan, website otomatis menampilkan 3 produk terbaru.
+          </p>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {[0, 1, 2].map((slot) => {
+              const current = favoriteProducts[slot];
+              return (
+                <div key={slot} className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                  <div className="flex items-center gap-2">
+                    <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-white ring-1 ring-slate-200">
+                      {current?.imageUrl && (
+                        <img src={current.imageUrl} alt="" className="h-full w-full object-cover" />
+                      )}
+                    </div>
+                    <p className="min-w-0 flex-1 truncate text-sm font-semibold text-slate-900">
+                      {current ? current.name : 'Slot kosong'}
+                    </p>
+                  </div>
+                  <select
+                    value=""
+                    disabled={savingSlot !== null}
+                    onChange={(e) => {
+                      if (e.target.value) handleChangeFavorite(slot, e.target.value);
+                    }}
+                    className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-2 py-2 text-xs text-slate-800 outline-none focus:border-pink-400"
+                    aria-label={`Ganti produk favorit ${slot + 1}`}
+                  >
+                    <option value="">
+                      {savingSlot === slot ? 'Menyimpan...' : current ? 'Ganti dengan...' : 'Pilih produk...'}
+                    </option>
+                    {productList
+                      .filter((product) => !product.isFavorite)
+                      .map((product) => (
+                        <option key={product.id} value={product.id}>
+                          {product.name} ({product.category})
+                        </option>
+                      ))}
+                  </select>
+                  {current && (
+                    <button
+                      type="button"
+                      disabled={savingSlot !== null}
+                      onClick={() => handleChangeFavorite(slot, null)}
+                      className="mt-2 text-[11px] font-semibold text-red-600 underline underline-offset-2 disabled:opacity-60"
+                    >
+                      Kosongkan slot
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="mt-10 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
           <div className="mb-4 flex items-center justify-between gap-2">
             <div>
@@ -670,7 +736,6 @@ const AdminPanel: FC = () => {
                         setTagsInput(product.tags ? product.tags.join(', ') : '');
                         setGalleryUrls(product.gallery || []);
                         setIsAvailable(product.isAvailable ?? true);
-                        setIsFavorite(product.isFavorite ?? false);
                         setCustomSeries(
                           product.seriesOptions && product.seriesOptions.length > 0
                             ? product.seriesOptions
@@ -707,24 +772,6 @@ const AdminPanel: FC = () => {
                         : product.isAvailable === false
                           ? 'Tandai Tersedia'
                           : 'Tandai Habis'}
-                    </button>
-                    <button
-                      type="button"
-                      disabled={togglingId === product.id}
-                      onClick={async () => {
-                        setTogglingId(product.id);
-                        const result = await updateProduct(product.id, {
-                          isFavorite: !(product.isFavorite ?? false),
-                        });
-                        setTogglingId(null);
-
-                        if (!result.success) {
-                          alert(`Gagal mengubah status favorit: ${result.error ?? 'Terjadi kesalahan tak terduga.'}`);
-                        }
-                      }}
-                      className="rounded-full bg-pink-600 px-3 py-1 text-[11px] font-semibold text-white shadow-sm transition hover:bg-pink-700 disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      {product.isFavorite ? 'Hapus Favorit' : 'Jadikan Favorit'}
                     </button>
                     <button
                       type="button"

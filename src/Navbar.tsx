@@ -1,11 +1,12 @@
 import type { FC } from 'react';
 import { Phone, Menu, X, ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useCartStore } from './store/useCartStore';
 import { waLink } from './lib/contact';
 
 const links = [
+  { to: '/', label: 'Beranda' },
   { to: '/katalog', label: 'Katalog' },
   { to: '/#cara-pesan', label: 'Cara pesan' },
   { to: '/#tentang', label: 'Tentang kami' },
@@ -14,6 +15,9 @@ const links = [
 
 const Navbar: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { pathname, hash } = useLocation();
+  const isActive = (to: string) =>
+    to === '/' ? pathname === '/' && !hash : to === '/katalog' ? pathname === '/katalog' : false;
   const cartCount = useCartStore((state) => state.cartCount());
   const setIsCartOpen = useCartStore((state) => state.setIsCartOpen);
 
@@ -35,7 +39,10 @@ const Navbar: FC = () => {
             <Link
               key={link.to}
               to={link.to}
-              className="text-sm font-semibold text-ink/80 transition hover:text-rose"
+              className={`text-sm font-semibold transition hover:text-rose ${
+                isActive(link.to) ? 'text-rose' : 'text-ink/80'
+              }`}
+              aria-current={isActive(link.to) ? 'page' : undefined}
             >
               {link.label}
             </Link>
