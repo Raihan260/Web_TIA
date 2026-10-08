@@ -1,17 +1,22 @@
 import { create } from 'zustand';
-import type { Product } from '../data/products';
+import type { Product, SeriesOption } from '../data/products';
 
 export interface CartItem {
   product: Product;
+  series: SeriesOption;
   quantity: number;
 }
+
+// Satu baris keranjang = kombinasi produk + seri yang dipilih.
+export const getCartItemKey = (productId: string, seriesName: string) =>
+  `${productId}::${seriesName}`;
 
 interface CartState {
   items: CartItem[];
   isCartOpen: boolean;
-  addToCart: (product: Product) => void;
-  removeFromCart: (productId: string) => void;
-  updateQuantity: (productId: string, delta: number) => void;
+  addToCart: (product: Product, series: SeriesOption) => void;
+  removeFromCart: (key: string) => void;
+  updateQuantity: (key: string, delta: number) => void;
   setIsCartOpen: (isOpen: boolean) => void;
   cartCount: () => number;
 }
@@ -20,45 +25,39 @@ export const useCartStore = create<CartState>((set, get) => ({
   items: [],
   isCartOpen: false,
 
-  addToCart: (product) => {
+  addToCart: (product, series) => {
     const { items } = get();
-    const existingIndex = items.findIndex((item) => item.product.id === product.id);
+    const key = getCartItemKey(product.id, series.name);
+    const exists = items.some((item) => getCartItemKey(item.product.id, item.series.name) === key);
 
-    let newItems: CartItem[];
-    if (existingIndex !== -1) {
-      newItems = items.map((item, index) =>
-        index === existingIndex ? { ...item, quantity: item.quantity + 1 } : item,
-      );
-    } else {
-      newItems = [...items, { product, quantity: 1 }];
-    }
+    const newItems: CartItem[] = exists
+      ? items.map((item) =>
+          getCartItemKey(item.product.id, item.series.name) === key
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        )
+      : [...items, { product, series, quantity: 1 }];
 
     set({ items: newItems, isCartOpen: true });
   },
 
-  removeFromCart: (productId) => {
-    const { items } = get();
-    const newItems = items.filter((item) => item.product.id !== productId);
-    set({ items: newItems });
+  removeFromCart: (key) => {
+    set({
+      items: get().items.filter((item) => getCartItemKey(item.product.id, item.series.name) !== key),
+    });
   },
 
-  updateQuantity: (productId, delta) => {
-    const { items } = get();
-    const updatedItems = items
-      .map((item) =>
-        item.product.id === productId
+  updateQuantity: (key, delta) => {
+    set({
+      items: get().items.map((item) =>
+        getCartItemKey(item.product.id, item.series.name) === key
           ? { ...item, quantity: Math.max(1, item.quantity + delta) }
           : item,
-      )
-      .filter((item) => item.quantity > 0);
-
-    set({ items: updatedItems });
+      ),
+    });
   },
 
   setIsCartOpen: (isOpen) => set({ isCartOpen: isOpen }),
 
-  cartCount: () => {
-    const { items } = get();
-    return items.reduce((total, item) => total + item.quantity, 0);
-  },
+  cartCount: () => get().items.reduce((total, item) => total + item.quantity, 0),
 }));

@@ -26,6 +26,7 @@ const ProductDetail: FC = () => {
 
   // 1. PINDAHKAN HOOKS KE ATAS SINI (Wajib di React)
   const [activeImage, setActiveImage] = useState<string>('');
+  const [selectedSeriesName, setSelectedSeriesName] = useState<string>('');
   // Melacak produk terakhir yang sudah di-render, untuk tahu kapan harus
   // me-reset activeImage (dilakukan saat render, bukan di useEffect, mengikuti
   // pola resmi React untuk "Resetting state when a prop changes":
@@ -44,6 +45,7 @@ const ProductDetail: FC = () => {
   if (product && renderedProductId !== product.id) {
     setRenderedProductId(product.id);
     setActiveImage(product.imageUrl || placeholderImage);
+    setSelectedSeriesName('');
   }
 
   useEffect(() => {
@@ -71,6 +73,11 @@ const ProductDetail: FC = () => {
       </section>
     );
   }
+
+  // Seri terpilih; kalau belum memilih, otomatis seri pertama.
+  const selectedSeries =
+    product.seriesOptions.find((option) => option.name === selectedSeriesName) ??
+    product.seriesOptions[0];
 
   const minPricePerPiece = Math.min(
     ...product.seriesOptions.map((option) => option.pricePerPiece),
@@ -193,34 +200,45 @@ const ProductDetail: FC = () => {
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-600">
                   Pilihan Ukuran Seri
                 </p>
-                <div className="mt-3 space-y-2">
-                  {product.seriesOptions.map((option) => (
-                    <div
-                      key={option.name}
-                      className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 text-xs ring-1 ring-slate-200"
-                    >
-                      <div className="min-w-0">
-                        <p className="truncate font-semibold text-slate-800">{option.name}</p>
-                        <p className="text-[11px] text-slate-500">
-                          {formatRupiah(option.pricePerPiece)} / pcs &times; {option.pieces || 3} pcs
+                <div className="mt-3 space-y-2" role="radiogroup" aria-label="Pilih seri">
+                  {product.seriesOptions.map((option) => {
+                    const isSelected = selectedSeries?.name === option.name;
+                    return (
+                      <button
+                        key={option.name}
+                        type="button"
+                        role="radio"
+                        aria-checked={isSelected}
+                        onClick={() => setSelectedSeriesName(option.name)}
+                        className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-xs transition ${
+                          isSelected
+                            ? 'bg-pink-50 ring-2 ring-pink-500'
+                            : 'bg-slate-50 ring-1 ring-slate-200 hover:ring-pink-300'
+                        }`}
+                      >
+                        <div className="min-w-0">
+                          <p className="truncate font-semibold text-slate-800">{option.name}</p>
+                          <p className="text-[11px] text-slate-500">
+                            {formatRupiah(option.pricePerPiece)} / pcs &times; {option.pieces || 3} pcs
+                          </p>
+                        </div>
+                        <p className="ml-3 whitespace-nowrap text-sm font-extrabold text-slate-900">
+                          {formatRupiah(option.totalPrice)}
                         </p>
-                      </div>
-                      <p className="ml-3 whitespace-nowrap text-sm font-extrabold text-slate-900">
-                        {formatRupiah(option.totalPrice)}
-                      </p>
-                    </div>
-                  ))}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
               <div className="mt-6 flex flex-col gap-3 md:flex-row">
                 <button
                   type="button"
-                  disabled={product.isAvailable === false}
-                  onClick={() => addToCart(product)}
+                  disabled={product.isAvailable === false || !selectedSeries}
+                  onClick={() => selectedSeries && addToCart(product, selectedSeries)}
                   className="inline-flex flex-1 items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-slate-700/60 transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
                 >
-                  {product.isAvailable === false ? 'Stok Habis' : 'Tambah Model Ini ke Keranjang'}
+                  {product.isAvailable === false ? 'Stok Habis' : `Tambah ke Keranjang${selectedSeries ? ` · ${formatRupiah(selectedSeries.totalPrice)}` : ''}`}
                 </button>
                 <button
                   type="button"

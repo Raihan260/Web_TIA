@@ -1,15 +1,13 @@
 import type { FC } from 'react';
-import { Shirt, ShoppingBag } from 'lucide-react';
+import { Shirt, ListChecks } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { Product } from './data/products';
-import { useCartStore } from './store/useCartStore';
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
-  const addToCart = useCartStore((state) => state.addToCart);
   const isOutOfStock = product.isAvailable === false;
 
   const placeholderImage =
@@ -72,21 +70,13 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
           )}
         </div>
 
-        <div className="mt-1 flex flex-col gap-1.5 sm:mt-2 sm:gap-2">
-          <button
-            type="button"
-            disabled={isOutOfStock}
-            onClick={() => addToCart(product)}
-            className="inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-slate-900 px-2 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300 sm:gap-2 sm:px-4 sm:text-sm"
-          >
-            <ShoppingBag className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
-            <span className="truncate">{isOutOfStock ? 'Stok Habis' : 'Tambah ke Keranjang'}</span>
-          </button>
+        <div className="mt-1 sm:mt-2">
           <Link
             to={`/product/${product.id}`}
-            className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white px-2 py-2 text-xs font-semibold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 sm:px-4 sm:text-sm"
+            className="inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-slate-900 px-2 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-800 sm:gap-2 sm:px-4 sm:text-sm"
           >
-            Lihat Detail
+            <ListChecks className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
+            <span className="truncate">{isOutOfStock ? 'Lihat Detail' : 'Pilih Seri'}</span>
           </Link>
         </div>
       </div>

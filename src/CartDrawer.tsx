@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
-import { useCartStore } from './store/useCartStore';
+import { useCartStore, getCartItemKey } from './store/useCartStore';
 
 const formatRupiah = (value: number) =>
   new Intl.NumberFormat('id-ID', {
@@ -12,6 +12,8 @@ const formatRupiah = (value: number) =>
 
 const CartDrawer: FC = () => {
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart } = useCartStore();
+
+  const totalPrice = items.reduce((sum, item) => sum + item.series.totalPrice * item.quantity, 0);
 
   const handleClose = () => setIsCartOpen(false);
 
@@ -33,9 +35,12 @@ const CartDrawer: FC = () => {
 
     items.forEach((item, index) => {
       lines.push(
-        `${index + 1}. ${item.product.name} - Jumlah: ${item.quantity} Seri`,
+        `${index + 1}. ${item.product.name} (${item.product.category})\n   ${item.series.name} - ${item.quantity} Seri x ${formatRupiah(item.series.totalPrice)} = ${formatRupiah(item.series.totalPrice * item.quantity)}`,
       );
     });
+
+    lines.push('');
+    lines.push(`Estimasi total: ${formatRupiah(totalPrice)} (belum termasuk ongkir)`);
 
     lines.push('');
     lines.push('Mohon info stok dan total harganya ya!');
@@ -45,10 +50,6 @@ const CartDrawer: FC = () => {
     window.open(url, '_blank');
   };
 
-  const getMinPrice = (seriesOptions: { pricePerPiece: number }[]) => {
-    if (!seriesOptions.length) return 0;
-    return Math.min(...seriesOptions.map((opt) => opt.pricePerPiece));
-  };
 
   return (
     <>
@@ -77,7 +78,7 @@ const CartDrawer: FC = () => {
               <div>
                 <h2 className="text-sm font-semibold text-slate-900">Keranjang Inquiry</h2>
                 <p className="text-[11px] text-slate-500">
-                  Pilih model yang ingin ditanyakan ke Admin
+                  Seri pilihan Anda akan dikirim ke Admin
                 </p>
               </div>
             </div>
@@ -104,10 +105,10 @@ const CartDrawer: FC = () => {
             ) : (
               <div className="space-y-3">
                 {items.map((item) => {
-                  const minPrice = getMinPrice(item.product.seriesOptions);
+                  const itemKey = getCartItemKey(item.product.id, item.series.name);
                   return (
                     <div
-                      key={item.product.id}
+                      key={itemKey}
                       className="flex gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm"
                     >
                       <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-slate-100">
@@ -126,8 +127,11 @@ const CartDrawer: FC = () => {
                           <h3 className="line-clamp-2 text-sm font-bold text-slate-900">
                             {item.product.name}
                           </h3>
-                          <p className="mt-1 text-[11px] font-medium text-orange-600">
-                            Mulai dari {formatRupiah(minPrice)} / pcs
+                          <p className="mt-0.5 text-[11px] font-medium text-slate-600">
+                            {item.series.name}
+                          </p>
+                          <p className="mt-0.5 text-[11px] font-semibold text-orange-600">
+                            {formatRupiah(item.series.totalPrice)} / seri
                           </p>
                         </div>
 
@@ -135,7 +139,7 @@ const CartDrawer: FC = () => {
                           <div className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-1.5 py-1">
                             <button
                               type="button"
-                              onClick={() => updateQuantity(item.product.id, -1)}
+                              onClick={() => updateQuantity(itemKey, -1)}
                               className="flex h-6 w-6 items-center justify-center rounded-full text-slate-600 hover:bg-slate-200"
                               aria-label="Kurangi jumlah"
                             >
@@ -146,7 +150,7 @@ const CartDrawer: FC = () => {
                             </span>
                             <button
                               type="button"
-                              onClick={() => updateQuantity(item.product.id, 1)}
+                              onClick={() => updateQuantity(itemKey, 1)}
                               className="flex h-6 w-6 items-center justify-center rounded-full text-slate-600 hover:bg-slate-200"
                               aria-label="Tambah jumlah"
                             >
@@ -156,7 +160,7 @@ const CartDrawer: FC = () => {
 
                           <button
                             type="button"
-                            onClick={() => removeFromCart(item.product.id)}
+                            onClick={() => removeFromCart(itemKey)}
                             className="rounded-full p-1.5 text-slate-400 hover:bg-red-50 hover:text-red-500"
                             aria-label="Hapus dari keranjang"
                           >
@@ -173,8 +177,14 @@ const CartDrawer: FC = () => {
 
           {/* Footer */}
           <div className="border-t border-slate-200 bg-slate-50 px-4 py-4 text-xs text-slate-600">
+            {items.length > 0 && (
+              <div className="mb-3 flex items-center justify-between text-sm">
+                <span className="font-medium text-slate-700">Estimasi total</span>
+                <span className="font-extrabold text-slate-900">{formatRupiah(totalPrice)}</span>
+              </div>
+            )}
             <p className="mb-3 text-[11px] leading-relaxed">
-              Total harga dan ongkir akan dihitungkan Admin via WhatsApp setelah Anda kirim daftar model yang dipilih.
+              Ongkir dan total akhir akan dikonfirmasi Admin via WhatsApp setelah Anda kirim daftar pesanan.
             </p>
             <button
               type="button"
