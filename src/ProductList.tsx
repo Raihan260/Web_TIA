@@ -7,7 +7,6 @@ import ProductCard from './ProductCard';
 import { useProductStore } from './store/useProductStore';
 import { CATEGORIES, waLink } from './lib/contact';
 
-const categories = ['Semua', ...CATEGORIES];
 
 const ProductList: FC = () => {
   const productList = useProductStore((state) => state.productList);
@@ -23,6 +22,11 @@ const ProductList: FC = () => {
   });
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Hanya kategori yang sudah punya produk yang ditampilkan sebagai tab.
+  const availableCategories = CATEGORIES.filter((category) =>
+    productList.some((p) => p.category === category),
+  );
+  const categories = ['Semua', ...availableCategories];
   const categoryParam = searchParams.get('kategori');
   const activeCategory = categories.includes(categoryParam ?? '') ? (categoryParam as string) : 'Semua';
 
@@ -70,7 +74,11 @@ const ProductList: FC = () => {
         />
 
         <div className="mt-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Kategori">
+          <div
+            className={`flex gap-2 overflow-x-auto pb-1 ${availableCategories.length < 2 ? 'hidden' : ''}`}
+            role="tablist"
+            aria-label="Kategori"
+          >
             {categories.map((category) => {
               const isActive = activeCategory === category;
               return (

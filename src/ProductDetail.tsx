@@ -97,7 +97,7 @@ const ProductDetail: FC = () => {
   }
 
   return (
-    <div className="bg-white min-h-screen pb-16">
+    <div className="min-h-screen bg-paper pb-28 md:pb-16">
       <section className="border-t border-b border-slate-200 bg-paper">
         <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
           <div className="mb-6 text-sm text-slate-600">
@@ -161,7 +161,7 @@ const ProductDetail: FC = () => {
             <div className="space-y-4">
               <div className="flex flex-wrap items-center gap-2">
                 <div className="inline-flex items-center gap-2 rounded-full bg-blush px-3 py-1 text-xs font-semibold text-rose-deep">
-                  <span className="uppercase tracking-wide">{product.category}</span>
+                  <span>{product.category}</span>
                 </div>
                 {product.isAvailable === false && (
                   <div className="inline-flex items-center gap-2 rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
@@ -180,7 +180,7 @@ const ProductDetail: FC = () => {
               </div>
 
               <div className="rounded-lg bg-rose px-3 py-2 text-xs font-extrabold text-white inline-flex items-center">
-                HANYA JUAL PER SERI
+                Hanya dijual per seri
               </div>
 
               {product.tags && product.tags.length > 0 && (
@@ -197,9 +197,7 @@ const ProductDetail: FC = () => {
               )}
 
               <div className="mt-4 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-600">
-                  Pilihan Ukuran Seri
-                </p>
+                <p className="text-sm font-bold text-ink">Pilih seri ukuran</p>
                 <div className="mt-3 space-y-2" role="radiogroup" aria-label="Pilih seri">
                   {product.seriesOptions.map((option) => {
                     const isSelected = selectedSeries?.name === option.name;
@@ -236,7 +234,7 @@ const ProductDetail: FC = () => {
                   type="button"
                   disabled={product.isAvailable === false || !selectedSeries}
                   onClick={() => selectedSeries && addToCart(product, selectedSeries)}
-                  className="inline-flex flex-1 items-center justify-center rounded-full bg-mauve px-6 py-3 text-sm font-semibold text-white shadow-md shadow-mauve/30 transition hover:bg-mauve-deep disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+                  className="hidden flex-1 items-center justify-center rounded-full bg-mauve px-6 py-3 text-sm font-semibold text-white shadow-md shadow-mauve/30 md:inline-flex transition hover:bg-mauve-deep disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
                 >
                   {product.isAvailable === false ? 'Stok Habis' : `Tambah ke Keranjang${selectedSeries ? ` · ${formatRupiah(selectedSeries.totalPrice)}` : ''}`}
                 </button>
@@ -264,8 +262,10 @@ const ProductDetail: FC = () => {
       <section className="mx-auto max-w-6xl px-4 mt-12 md:mt-16">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-3">
           <div>
-            <h2 className="text-xl md:text-2xl font-bold text-ink">Mungkin Anda Juga Suka</h2>
-            <p className="text-sm text-slate-600 mt-1">Rekomendasi model terlaris untuk melengkapi etalase toko Anda</p>
+            <h2 className="text-xl font-extrabold uppercase tracking-[0.14em] text-ink md:text-2xl">
+              Model <span className="text-rose">lainnya</span>
+            </h2>
+            <p className="mt-1 text-sm text-ink/70">Pilihan lain untuk melengkapi etalase toko Anda</p>
           </div>
           <Link to="/" className="text-sm font-bold text-rose hover:text-rose-deep underline underline-offset-4">
             Lihat Semua Produk
@@ -278,6 +278,26 @@ const ProductDetail: FC = () => {
           ))}
         </div>
       </section>
+
+      {/* Bar tetap di bawah layar HP supaya tombol tambah selalu terlihat */}
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink/10 bg-cream-light/95 px-4 py-3 backdrop-blur-sm md:hidden">
+        <div className="mx-auto flex max-w-md items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-xs text-ink/70">{selectedSeries?.name}</p>
+            <p className="text-base font-extrabold text-ink">
+              {selectedSeries ? formatRupiah(selectedSeries.totalPrice) : ''}
+            </p>
+          </div>
+          <button
+            type="button"
+            disabled={product.isAvailable === false || !selectedSeries}
+            onClick={() => selectedSeries && addToCart(product, selectedSeries)}
+            className="shrink-0 rounded-full bg-mauve px-6 py-3 text-sm font-bold text-white transition hover:bg-mauve-deep disabled:cursor-not-allowed disabled:bg-slate-300"
+          >
+            {product.isAvailable === false ? 'Stok habis' : 'Tambah ke keranjang'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

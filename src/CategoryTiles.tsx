@@ -12,16 +12,20 @@ const tone: Record<string, string> = {
 
 const CategoryTiles: FC = () => {
   const productList = useProductStore((state) => state.productList);
+  const available = CATEGORIES.filter((category) => productList.some((p) => p.category === category));
+
+  // Dengan satu kategori saja, kartu tidak berguna (katalog sudah menampilkannya).
+  if (available.length < 2) return null;
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
       <SectionHeading
         title="Pilih kategori"
-        subtitle="Tiga kategori yang kami jual. Pilih satu untuk melihat model dan seri yang tersedia."
+        subtitle="Pilih satu untuk melihat model dan seri yang tersedia."
       />
 
-      <div className="mt-10 grid gap-4 md:grid-cols-3">
-        {CATEGORIES.map((category) => {
+      <div className={`mt-10 grid gap-4 ${available.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'}`}>
+        {available.map((category) => {
           const items = productList.filter((p) => p.category === category);
           const cover = [...items].reverse().find((p) => p.imageUrl)?.imageUrl;
           return (
@@ -42,7 +46,7 @@ const CategoryTiles: FC = () => {
               <div className="relative w-full p-5">
                 <h3 className="text-xl font-extrabold leading-tight">{category}</h3>
                 <p className="mt-1 text-sm text-white/85">
-                  {items.length > 0 ? `${items.length} model tersedia` : 'Model segera hadir'}
+                  {items.length} model tersedia
                 </p>
               </div>
             </Link>

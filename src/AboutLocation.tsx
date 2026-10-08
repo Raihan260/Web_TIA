@@ -6,19 +6,14 @@ import { STORES, OPEN_HOURS, mapsLink, waLink } from './lib/contact';
 const AboutLocation: FC = () => {
   return (
     <section id="tentang" className="bg-cream-light">
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 md:grid-cols-2 md:py-20">
+      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 md:grid-cols-2 md:py-16">
         <div>
           <SectionHeading align="left" title="Pemasok pakaian anak dan gamis sejak 2024" />
-          <div className="mt-4 space-y-3 leading-relaxed text-ink/75">
-            <p>
-              Fathia Kids melayani pemilik toko dan reseller yang mencari pemasok langsung yang jujur dan
-              profesional.
-            </p>
-            <p>
-              Kami membuat Denim Anak Perempuan, Gamis Anak Perempuan, dan Gamis Dewasa. Fokus kami sederhana:
-              pakaian yang nyaman dipakai dan mudah dijual kembali.
-            </p>
-          </div>
+          <p className="mt-4 leading-relaxed text-ink/75">
+            Fathia Kids melayani pemilik toko dan reseller dengan Denim Anak Perempuan, Gamis Anak Perempuan,
+            dan Gamis Dewasa buatan sendiri. Fokus kami sederhana: pakaian yang nyaman dipakai dan mudah
+            dijual kembali.
+          </p>
           <a
             href={waLink('Halo Admin Fathia Kids, saya mau konsultasi stok untuk toko saya.')}
             target="_blank"
