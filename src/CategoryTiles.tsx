@@ -4,9 +4,9 @@ import { useProductStore } from './store/useProductStore';
 import { CATEGORIES } from './lib/contact';
 
 const tone: Record<string, string> = {
-  'Denim Anak Perempuan': 'bg-denim',
-  'Gamis Anak Perempuan': 'bg-pink-600',
-  'Gamis Dewasa': 'bg-plum',
+  'Denim Anak Perempuan': 'bg-sage',
+  'Gamis Anak Perempuan': 'bg-rose',
+  'Gamis Dewasa': 'bg-[#9a7b8a]',
 };
 
 const CategoryTiles: FC = () => {

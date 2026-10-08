@@ -21,7 +21,7 @@ const Navbar: FC = () => {
     <header className="sticky top-0 z-30 border-b-2 border-dashed border-thread/60 bg-paper/95 backdrop-blur-sm">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link to="/" className="flex items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-denim font-display text-sm font-extrabold text-white ring-2 ring-thread ring-offset-2 ring-offset-paper">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sage font-display text-sm font-extrabold text-white ring-2 ring-thread ring-offset-2 ring-offset-paper">
             FK
           </span>
           <span className="flex flex-col leading-tight">
@@ -35,7 +35,7 @@ const Navbar: FC = () => {
             <Link
               key={link.to}
               to={link.to}
-              className="text-sm font-semibold text-ink/80 transition hover:text-pink-600"
+              className="text-sm font-semibold text-ink/80 transition hover:text-rose"
             >
               {link.label}
             </Link>
@@ -43,12 +43,12 @@ const Navbar: FC = () => {
           <button
             type="button"
             onClick={() => setIsCartOpen(true)}
-            className="relative inline-flex items-center justify-center rounded-full border border-ink/15 bg-white p-2.5 text-ink transition hover:border-pink-300"
+            className="relative inline-flex items-center justify-center rounded-full border border-ink/15 bg-white p-2.5 text-ink transition hover:border-blush"
             aria-label="Buka keranjang"
           >
             <ShoppingBag className="h-5 w-5" />
             {cartCount > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-pink-600 px-1 text-[11px] font-bold text-white">
+              <span className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-rose px-1 text-[11px] font-bold text-white">
                 {cartCount}
               </span>
             )}
@@ -73,7 +73,7 @@ const Navbar: FC = () => {
           >
             <ShoppingBag className="h-5 w-5" />
             {cartCount > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-pink-600 px-1 text-[11px] font-bold text-white">
+              <span className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-rose px-1 text-[11px] font-bold text-white">
                 {cartCount}
               </span>
             )}

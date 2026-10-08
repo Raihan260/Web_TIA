@@ -39,10 +39,10 @@ const Highlights: FC = () => {
               Kami menjual untuk pemilik toko dan reseller, jadi semuanya diatur supaya kulakan jadi mudah.
             </p>
           </div>
-          <dl className="divide-y-2 divide-dashed divide-thread/60">
+          <dl className="divide-y-2 divide-dashed divide-thread/70">
             {benefits.map((item) => (
               <div key={item.title} className="py-5 first:pt-0 last:pb-0">
-                <dt className="font-display text-lg font-extrabold text-denim">{item.title}</dt>
+                <dt className="font-display text-lg font-extrabold text-sage-deep">{item.title}</dt>
                 <dd className="mt-1 max-w-xl text-ink/75">{item.desc}</dd>
               </div>
             ))}
@@ -50,14 +50,14 @@ const Highlights: FC = () => {
         </div>
       </section>
 
-      <section id="cara-pesan" className="bg-denim-soft">
+      <section id="cara-pesan" className="bg-sage-soft">
         <div className="mx-auto max-w-6xl px-4 py-14 md:py-20">
           <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">Cara pesan</h2>
           <p className="mt-2 max-w-md text-ink/70">Empat langkah, semuanya lewat website dan WhatsApp.</p>
           <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, index) => (
-              <li key={step.title} className="rounded-2xl bg-white p-5 ring-1 ring-denim/10">
-                <span className="font-display text-3xl font-extrabold text-pink-600">{index + 1}</span>
+              <li key={step.title} className="rounded-2xl bg-white p-5 ring-1 ring-blush">
+                <span className="font-display text-3xl font-extrabold text-rose">{index + 1}</span>
                 <h3 className="mt-2 text-base font-extrabold text-ink">{step.title}</h3>
                 <p className="mt-1 text-sm text-ink/70">{step.desc}</p>
               </li>

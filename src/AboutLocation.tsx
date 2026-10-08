@@ -33,18 +33,18 @@ const AboutLocation: FC = () => {
 
         <div id="kontak" className="scroll-mt-24">
           <h2 className="text-2xl font-extrabold text-ink sm:text-3xl">Kunjungi toko kami</h2>
-          <ul className="mt-5 divide-y-2 divide-dashed divide-thread/60">
+          <ul className="mt-5 divide-y-2 divide-dashed divide-thread/70">
             {STORES.map((store) => (
               <li key={store.name} className="flex gap-3 py-4 first:pt-0">
-                <MapPin className="mt-1 h-5 w-5 shrink-0 text-pink-600" />
+                <MapPin className="mt-1 h-5 w-5 shrink-0 text-rose" />
                 <div>
-                  <p className="font-display font-extrabold text-denim">{store.name}</p>
+                  <p className="font-display font-extrabold text-sage-deep">{store.name}</p>
                   <p className="text-ink/75">{store.address}</p>
                   <a
                     href={mapsLink(`Fathia Kids ${store.name} ${store.address}`)}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-1 inline-block text-sm font-semibold text-pink-600 underline underline-offset-4"
+                    className="mt-1 inline-block text-sm font-semibold text-rose underline underline-offset-4"
                   >
                     Buka di Google Maps
                   </a>
@@ -52,9 +52,9 @@ const AboutLocation: FC = () => {
               </li>
             ))}
             <li className="flex gap-3 pt-4">
-              <Clock className="mt-1 h-5 w-5 shrink-0 text-pink-600" />
+              <Clock className="mt-1 h-5 w-5 shrink-0 text-rose" />
               <div>
-                <p className="font-display font-extrabold text-denim">Jam operasional</p>
+                <p className="font-display font-extrabold text-sage-deep">Jam operasional</p>
                 <p className="text-ink/75">{OPEN_HOURS}</p>
               </div>
             </li>
