@@ -54,7 +54,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
             Mulai {formatRupiah(minPricePerPiece)} <span className="font-medium text-ink/60">/ pcs</span>
           </p>
           <p className="mt-0.5 text-xs text-ink/60">
-            {product.seriesOptions.length} pilihan seri, isi {product.seriesOptions[0]?.pieces ?? 3} pcs
+            {product.seriesOptions.length} pilihan seri
           </p>
           {product.tags && product.tags.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">

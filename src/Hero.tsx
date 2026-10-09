@@ -48,7 +48,7 @@ const Hero: FC = () => {
         </div>
 
         <p className="mt-6 max-w-md text-sm text-cream/70">
-          Satu seri berisi 3 pcs dengan ukuran berurutan, misalnya ukuran 4, 5, 6.
+          Isi satu seri berbeda di tiap model, detailnya ada di halaman produk.
         </p>
       </div>
     </section>

@@ -228,7 +228,7 @@ const ProductDetail: FC = () => {
                         <div className="min-w-0">
                           <p className="truncate font-semibold text-slate-800">{option.name}</p>
                           <p className="text-[11px] text-slate-500">
-                            {formatRupiah(option.pricePerPiece)} / pcs &times; {option.pieces || 3} pcs
+                            {formatRupiah(option.pricePerPiece)} / pcs{option.pieces ? <> &times; {option.pieces} pcs</> : null}
                           </p>
                         </div>
                         <p className="ml-3 whitespace-nowrap text-sm font-extrabold text-ink">

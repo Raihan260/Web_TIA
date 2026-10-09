@@ -31,7 +31,7 @@ const isOpenNow = () => {
 
 const POINTS = [
   { icon: Scissors, title: 'Dibuat sendiri', text: 'Diproduksi langsung oleh keluarga kami, jadi kualitas terjaga.' },
-  { icon: Layers, title: 'Dijual per seri', text: 'Satu seri berisi 3 pcs dengan ukuran berurutan.' },
+  { icon: Layers, title: 'Dijual per seri', text: 'Isi satu seri berbeda di tiap model, detailnya ada di halaman produk.' },
   { icon: Tag, title: 'Harga jelas', text: 'Harga per pcs tertera di setiap produk, tanpa harga tersembunyi.' },
 ];
 

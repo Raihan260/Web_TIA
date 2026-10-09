@@ -7,7 +7,7 @@ import { waLink } from './lib/contact';
 import { usePageTitle } from './lib/usePageTitle';
 
 const notes = [
-  'Harga tertera per pcs dan dijual per seri. Satu seri berisi 3 pcs dengan ukuran berurutan.',
+  'Harga tertera per pcs dan dijual per seri. Isi satu seri berbeda di tiap model, jumlah dan ukurannya tertera di halaman produk.',
   'Stok bisa berubah sewaktu-waktu, jadi admin akan memastikan ketersediaan sebelum Anda membayar.',
   'Total akhir dan ongkir dikonfirmasi admin lewat WhatsApp. Estimasi di keranjang belum termasuk ongkir.',
   'Pesanan dikirim lewat ekspedisi atau kargo pilihan Anda.',
