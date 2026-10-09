@@ -88,7 +88,7 @@ const ProductList: FC = () => {
         </div>
 
         {isLoading ? (
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
             {[0, 1, 2].map((i) => (
               <div key={i} className="animate-pulse overflow-hidden rounded-2xl bg-white ring-1 ring-ink/10">
                 <div className="aspect-[4/5] bg-mauve-soft" />
@@ -140,7 +140,7 @@ const ProductList: FC = () => {
             </div>
           </div>
         ) : (
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
             {displayedProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

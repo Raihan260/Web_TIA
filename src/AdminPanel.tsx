@@ -83,8 +83,8 @@ const AdminPanel: FC = () => {
   });
 
 
-  // 3 produk favorit pertama (urutan terbaru lebih dulu), sama dengan yang tampil di halaman utama.
-  const favoriteProducts = [...productList].reverse().filter((product) => product.isFavorite).slice(0, 3);
+  // 4 produk favorit pertama (urutan terbaru lebih dulu), sama dengan yang tampil di halaman utama.
+  const favoriteProducts = [...productList].reverse().filter((product) => product.isFavorite).slice(0, 4);
 
   const handleChangeFavorite = async (slot: number, newId: string | null) => {
     const current = favoriteProducts[slot];
@@ -601,11 +601,11 @@ const AdminPanel: FC = () => {
         <div className="mt-10 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
           <h2 className="text-base font-semibold text-slate-900">Produk Favorit di Halaman Utama</h2>
           <p className="mt-1 text-xs text-slate-500">
-            Pilih 3 produk yang tampil di bagian "Produk favorit". Ganti kapan saja, perubahan langsung
-            terlihat di website. Kalau semuanya dikosongkan, website otomatis menampilkan 3 produk terbaru.
+            Pilih 4 produk yang tampil di bagian "Produk favorit". Ganti kapan saja, perubahan langsung
+            terlihat di website. Kalau semuanya dikosongkan, website otomatis menampilkan 4 produk terbaru.
           </p>
-          <div className="mt-4 grid gap-3 md:grid-cols-3">
-            {[0, 1, 2].map((slot) => {
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            {[0, 1, 2, 3].map((slot) => {
               const current = favoriteProducts[slot];
               return (
                 <div key={slot} className="rounded-xl border border-slate-200 bg-slate-50 p-3">
