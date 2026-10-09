@@ -8,16 +8,14 @@ import { waLink } from './lib/contact';
 const links = [
   { to: '/', label: 'Beranda' },
   { to: '/katalog', label: 'Katalog' },
-  { to: '/#cara-pesan', label: 'Cara pesan' },
-  { to: '/#tentang', label: 'Tentang kami' },
-  { to: '/#kontak', label: 'Lokasi' },
+  { to: '/cara-pesan', label: 'Cara pesan' },
+  { to: '/tentang', label: 'Tentang dan lokasi' },
 ];
 
 const Navbar: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { pathname, hash } = useLocation();
-  const isActive = (to: string) =>
-    to === '/' ? pathname === '/' && !hash : to === '/katalog' ? pathname === '/katalog' : false;
+  const { pathname } = useLocation();
+  const isActive = (to: string) => pathname === to;
   const cartCount = useCartStore((state) => state.cartCount());
   const setIsCartOpen = useCartStore((state) => state.setIsCartOpen);
 

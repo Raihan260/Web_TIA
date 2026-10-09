@@ -3,6 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { MessageCircle } from 'lucide-react';
 import { CATEGORIES, EMAIL, WA_DISPLAY, OPEN_HOURS, waLink } from './lib/contact';
 
+const PAGES = [
+  { to: '/', label: 'Beranda' },
+  { to: '/katalog', label: 'Katalog' },
+  { to: '/cara-pesan', label: 'Cara pesan' },
+  { to: '/tentang', label: 'Tentang dan lokasi' },
+];
+
 const Footer: FC = () => {
   const { pathname } = useLocation();
   // Di halaman produk & admin tombol melayang menutupi harga/form, jadi disembunyikan.
@@ -11,12 +18,24 @@ const Footer: FC = () => {
   return (
     <>
       <footer className="bg-ink text-cream/80">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-3">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 md:grid-cols-4">
           <div>
             <p className="font-display text-xl font-extrabold text-cream">Fathia Kids</p>
             <p className="mt-2 max-w-xs text-sm">
               Grosir denim anak perempuan, gamis anak perempuan, dan gamis dewasa untuk toko dan reseller.
             </p>
+          </div>
+          <div>
+            <p className="font-display font-extrabold text-cream">Halaman</p>
+            <ul className="mt-3 space-y-2 text-sm">
+              {PAGES.map((page) => (
+                <li key={page.to}>
+                  <Link to={page.to} className="transition hover:text-rose-light">
+                    {page.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
           <div>
             <p className="font-display font-extrabold text-cream">Katalog</p>

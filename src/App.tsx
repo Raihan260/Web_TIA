@@ -9,8 +9,10 @@ import ProductDetail from './ProductDetail';
 import CartDrawer from './CartDrawer';
 import AdminPanel from './AdminPanel';
 import CategoryTiles from './CategoryTiles';
-import Highlights from './Highlights';
+import Benefits, { HowToOrderPreview } from './Highlights';
 import AboutLocation from './AboutLocation';
+import AboutTeaser from './AboutTeaser';
+import HowToOrderPage from './HowToOrderPage';
 import Footer from './Footer';
 import { useProductStore } from './store/useProductStore';
 import { isSupabaseConfigured } from './lib/supabase';
@@ -21,34 +23,20 @@ const Home: FC = () => {
       <Hero />
       <CategoryTiles />
       <Favorites />
-      <Highlights />
-      <AboutLocation />
+      <Benefits />
+      <HowToOrderPreview />
+      <AboutTeaser />
     </>
   );
 };
 
+// Setiap pindah halaman, mulai dari paling atas. Ganti filter di katalog (query) tidak ikut menggulir.
 const ScrollToTop = () => {
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    if (location.hash) {
-      const id = location.hash.substring(1);
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        return;
-      }
-    }
-
-    if (location.pathname === '/' && !location.hash) {
-      window.scrollTo(0, 0);
-      return;
-    }
-
-    if (location.pathname.startsWith('/product') || location.pathname === '/katalog') {
-      window.scrollTo(0, 0);
-    }
-  }, [location.pathname, location.hash, location.search]);
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return null;
 };
@@ -61,7 +49,7 @@ const App: FC = () => {
   }, [fetchProducts]);
 
   return (
-    <div className="min-h-screen bg-paper font-sans text-ink">
+    <div className="flex min-h-screen flex-col bg-paper font-sans text-ink">
       {!isSupabaseConfigured && (
         <div className="bg-red-600 px-4 py-2 text-center text-xs font-semibold text-white">
           Konfigurasi database belum lengkap (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY). Katalog
@@ -72,10 +60,12 @@ const App: FC = () => {
         <ScrollToTop />
         <Navbar />
         <CartDrawer />
-        <main>
+        <main className="flex-1">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/katalog" element={<ProductList />} />
+            <Route path="/cara-pesan" element={<HowToOrderPage />} />
+            <Route path="/tentang" element={<AboutLocation />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/admin" element={<AdminPanel />} />
           </Routes>
