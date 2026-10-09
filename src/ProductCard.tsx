@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { Product } from './data/products';
 
@@ -25,32 +26,55 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
   );
 
   const mainImage = product.imageUrl || placeholderImage;
-  const hoverImage = product.gallery?.find((image) => image && image !== product.imageUrl);
+  const images = Array.from(
+    new Set([mainImage, ...(product.gallery ?? [])].filter((image): image is string => Boolean(image))),
+  );
+  const [hovering, setHovering] = useState(false);
+  const [slide, setSlide] = useState({ current: 0, previous: -1 });
+
+  // Saat kursor di atas kartu, foto berganti satu per satu dan berulang. Saat kursor pergi, kembali ke foto utama.
+  useEffect(() => {
+    if (!hovering || images.length < 2) return;
+    const timer = window.setInterval(() => {
+      setSlide((s) => ({ current: (s.current + 1) % images.length, previous: s.current }));
+    }, 1800);
+    return () => window.clearInterval(timer);
+  }, [hovering, images.length]);
+
+  const startHover = () => setHovering(true);
+  const stopHover = () => {
+    setHovering(false);
+    setSlide((s) => ({ current: 0, previous: s.current === 0 ? -1 : s.current }));
+  };
   const seriesCount = product.seriesOptions.length;
 
   return (
-    <Link to={`/product/${product.id}`} className="group block h-full">
+    <Link
+      to={`/product/${product.id}`}
+      className="group block h-full"
+      onMouseEnter={startHover}
+      onMouseLeave={stopHover}
+      onFocus={startHover}
+      onBlur={stopHover}
+    >
       <article className="flex h-full flex-col">
         <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-cream-deep">
-          <img
-            src={mainImage}
-            alt={product.name}
-            className={`absolute inset-0 h-full w-full object-cover transition duration-500 ${
-              hoverImage ? '' : 'group-hover:scale-105'
-            } ${isOutOfStock ? 'grayscale' : ''}`}
-            loading="lazy"
-          />
-          {hoverImage && (
-            <img
-              src={hoverImage}
-              alt=""
-              aria-hidden="true"
-              className={`absolute inset-0 h-full w-full object-cover opacity-0 transition duration-500 group-hover:opacity-100 ${
-                isOutOfStock ? 'grayscale' : ''
-              }`}
-              loading="lazy"
-            />
-          )}
+          {images.map((src, i) => {
+            const isActive = i === slide.current;
+            const isPrev = i === slide.previous;
+            return (
+              <img
+                key={src}
+                src={src}
+                alt={i === 0 ? product.name : ''}
+                aria-hidden={i === 0 ? undefined : true}
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity ease-in-out ${hovering ? 'duration-[900ms]' : 'duration-300'} ${
+                  isActive ? 'z-20 opacity-100' : isPrev ? 'z-10 opacity-100' : 'z-0 opacity-0'
+                } ${isOutOfStock ? 'grayscale' : ''}`}
+                loading="lazy"
+              />
+            );
+          })}
 
           {product.tags && product.tags.length > 0 && (
             <div className="absolute left-2 top-2 flex flex-wrap gap-1">
