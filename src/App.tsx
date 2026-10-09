@@ -32,11 +32,13 @@ const Home: FC = () => {
 
 // Setiap pindah halaman, mulai dari paling atas. Ganti filter di katalog (query) tidak ikut menggulir.
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    const target = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
+    if (target) target.scrollIntoView();
+    else window.scrollTo(0, 0);
+  }, [pathname, hash]);
 
   return null;
 };

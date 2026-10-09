@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import SectionHeading from './SectionHeading';
 import { MapPin, Clock, MessageCircle } from 'lucide-react';
 import { usePageTitle } from './lib/usePageTitle';
-import { STORES, OPEN_HOURS, mapsLink, waLink } from './lib/contact';
+import { STORES, OPEN_HOURS, mapsLink, storeAnchor, waLink } from './lib/contact';
 
 const AboutLocation: FC = () => {
   usePageTitle('Tentang dan Lokasi');
@@ -31,31 +31,38 @@ const AboutLocation: FC = () => {
 
         <div>
           <SectionHeading align="left" title="Kunjungi toko kami" />
-          <ul className="mt-5 divide-y-2 divide-dashed divide-thread/70">
+          <p className="mt-3 text-sm text-ink/70">
+            Tiap kategori punya toko sendiri. Pilih sesuai produk yang kamu cari.
+          </p>
+          <ul className="mt-5 space-y-4">
             {STORES.map((store) => (
-              <li key={store.name} className="flex gap-3 py-4 first:pt-0">
-                <MapPin className="mt-1 h-5 w-5 shrink-0 text-rose" />
-                <div>
-                  <p className="font-display font-extrabold text-mauve-deep">{store.name}</p>
-                  <p className="text-ink/75">{store.address}</p>
-                  <a
-                    href={mapsLink(`Fathia Kids ${store.name} ${store.address}`)}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-1 inline-block text-sm font-semibold text-rose underline underline-offset-4"
-                  >
-                    Buka di Google Maps
-                  </a>
+              <li
+                key={store.category}
+                id={storeAnchor(store.category)}
+                className="scroll-mt-24 rounded-2xl border border-thread/60 bg-white p-5"
+              >
+                <p className="text-xs font-bold uppercase tracking-wider text-rose">{store.category}</p>
+                <div className="mt-2 flex gap-3">
+                  <MapPin className="mt-1 h-5 w-5 shrink-0 text-rose" />
+                  <div>
+                    <p className="font-display font-extrabold text-mauve-deep">{store.place}</p>
+                    <p className="text-ink/75">{store.address}</p>
+                    <a
+                      href={mapsLink(`Fathia Kids ${store.place} ${store.address}`)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-1 inline-block text-sm font-semibold text-rose underline underline-offset-4"
+                    >
+                      Buka di Google Maps
+                    </a>
+                  </div>
+                </div>
+                <div className="mt-3 flex items-center gap-3 border-t border-dashed border-thread/70 pt-3 text-sm text-ink/75">
+                  <Clock className="h-4 w-4 shrink-0 text-rose" />
+                  {OPEN_HOURS}
                 </div>
               </li>
             ))}
-            <li className="flex gap-3 pt-4">
-              <Clock className="mt-1 h-5 w-5 shrink-0 text-rose" />
-              <div>
-                <p className="font-display font-extrabold text-mauve-deep">Jam operasional</p>
-                <p className="text-ink/75">{OPEN_HOURS}</p>
-              </div>
-            </li>
           </ul>
         </div>
       </div>
