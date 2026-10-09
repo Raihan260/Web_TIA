@@ -6,9 +6,11 @@ import { useSearchParams } from 'react-router-dom';
 import ProductCard from './ProductCard';
 import { useProductStore } from './store/useProductStore';
 import { CATEGORIES, waLink } from './lib/contact';
+import { usePageTitle } from './lib/usePageTitle';
 
 
 const ProductList: FC = () => {
+  usePageTitle('Katalog Grosir');
   const productList = useProductStore((state) => state.productList);
   const isLoading = useProductStore((state) => state.isLoading);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,6 +46,7 @@ const ProductList: FC = () => {
     <section id="katalog" className="scroll-mt-16 bg-paper">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <SectionHeading
+          as="h1"
           title="Katalog grosir"
           subtitle="Harga tertera per pcs dan dijual per seri. Stok bisa berubah, jadi konfirmasi ke admin sebelum membayar."
         />

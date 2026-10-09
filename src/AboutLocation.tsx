@@ -1,13 +1,17 @@
 import type { FC } from 'react';
 import SectionHeading from './SectionHeading';
 import { MapPin, Clock, MessageCircle } from 'lucide-react';
+import { usePageTitle } from './lib/usePageTitle';
 import { STORES, OPEN_HOURS, mapsLink, waLink } from './lib/contact';
 
 const AboutLocation: FC = () => {
+  usePageTitle('Tentang dan Lokasi');
+
   return (
-    <section id="tentang" className="bg-cream-light">
+    <section className="bg-cream-light">
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 md:grid-cols-2 md:py-16">
         <div>
+          <h1 className="sr-only">Tentang Fathia Kids dan lokasi toko</h1>
           <SectionHeading align="left" title="Pemasok pakaian anak dan gamis sejak 2024" />
           <p className="mt-4 leading-relaxed text-ink/75">
             Fathia Kids melayani pemilik toko dan reseller dengan Denim Anak Perempuan, Gamis Anak Perempuan,
@@ -25,7 +29,7 @@ const AboutLocation: FC = () => {
           </a>
         </div>
 
-        <div id="kontak" className="scroll-mt-24">
+        <div>
           <SectionHeading align="left" title="Kunjungi toko kami" />
           <ul className="mt-5 divide-y-2 divide-dashed divide-thread/70">
             {STORES.map((store) => (
