@@ -36,7 +36,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
             src={mainImage}
             alt={product.name}
             className={`absolute inset-0 h-full w-full object-cover transition duration-500 ${
-              hoverImage ? 'group-hover:opacity-0' : 'group-hover:scale-105'
+              hoverImage ? '' : 'group-hover:scale-105'
             } ${isOutOfStock ? 'grayscale' : ''}`}
             loading="lazy"
           />

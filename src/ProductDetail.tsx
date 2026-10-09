@@ -29,6 +29,10 @@ const ProductDetail: FC = () => {
   // 1. PINDAHKAN HOOKS KE ATAS SINI (Wajib di React)
   const [activeImage, setActiveImage] = useState<string>('');
   const [selectedSeriesName, setSelectedSeriesName] = useState<string>('');
+  // Foto sebelumnya tetap tampil di bawah foto baru supaya pergantian tidak berkedip.
+  const [prevImage, setPrevImage] = useState<string>('');
+  // Rasio foto utama dipakai sebagai ukuran tetap kotak, supaya halaman tidak melompat saat foto diganti.
+  const [ratio, setRatio] = useState<number | null>(null);
   // Melacak produk terakhir yang sudah di-render, untuk tahu kapan harus
   // me-reset activeImage (dilakukan saat render, bukan di useEffect, mengikuti
   // pola resmi React untuk "Resetting state when a prop changes":
@@ -48,6 +52,8 @@ const ProductDetail: FC = () => {
     setRenderedProductId(product.id);
     setActiveImage(product.imageUrl || placeholderImage);
     setSelectedSeriesName('');
+    setPrevImage('');
+    setRatio(null);
   }
 
   useEffect(() => {
@@ -114,11 +120,27 @@ const ProductDetail: FC = () => {
 
           <div className="grid gap-8 md:grid-cols-2">
             <div className="mx-auto w-full max-w-[560px] md:mx-0">
-              <div className="overflow-hidden rounded-2xl border border-thread/60 bg-cream-light shadow-sm">
+              <div
+                className="relative overflow-hidden rounded-2xl border border-thread/60 bg-cream-deep shadow-sm"
+                style={{ aspectRatio: ratio ?? 3 / 4 }}
+              >
+                {prevImage && prevImage !== activeImage && (
+                  <img
+                    src={prevImage}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                )}
                 <img
+                  key={activeImage}
                   src={activeImage}
                   alt={product.name}
-                  className="block h-auto w-full transition-opacity duration-300"
+                  onLoad={(e) => {
+                    const { naturalWidth, naturalHeight } = e.currentTarget;
+                    if (ratio === null && naturalWidth && naturalHeight) setRatio(naturalWidth / naturalHeight);
+                  }}
+                  className="photo-in absolute inset-0 h-full w-full object-cover"
                 />
               </div>
               {(() => {
@@ -141,7 +163,11 @@ const ProductDetail: FC = () => {
                         <button
                           key={image}
                           type="button"
-                          onClick={() => setActiveImage(image)}
+                          onClick={() => {
+                            if (image === activeImage) return;
+                            setPrevImage(activeImage);
+                            setActiveImage(image);
+                          }}
                           className={`h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 ${isActive
                               ? 'border-rose'
                               : 'border-transparent hover:border-blush'
