@@ -32,7 +32,7 @@ const AboutLocation: FC = () => {
         <div>
           <SectionHeading align="left" title="Kunjungi toko kami" />
           <p className="mt-3 text-sm text-ink/70">
-            Tiap kategori punya toko sendiri. Pilih sesuai produk yang kamu cari.
+            Pemesanan online semuanya lewat WhatsApp admin. Kunjungan langsung ke toko sesuai kategori produk yang kamu cari.
           </p>
           <ul className="mt-5 space-y-4">
             {STORES.map((store) => (
