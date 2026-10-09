@@ -11,16 +11,19 @@ export const STORES = [
   {
     category: 'Denim Anak Perempuan',
     place: 'Pasar Jaya Cipulir',
+    mapQuery: 'Pasar Jaya Cipulir, Jakarta',
     address: 'Lt. 1 BKS No. 51, Pasar Jaya Cipulir, Jakarta',
   },
   {
     category: 'Gamis Anak Perempuan',
     place: 'Tanah Abang',
+    mapQuery: 'Pasar Tanah Abang Blok A, Jakarta Pusat',
     address: 'Blok A Lt. Ground Los B No. 89, Tanah Abang, Jakarta',
   },
   {
     category: 'Gamis Dewasa',
     place: 'Gedung Metro Tanah Abang',
+    mapQuery: 'Pusat Grosir Metro Tanah Abang, Jakarta Pusat',
     address: 'PGMTA Lt. LG Blok B No. 53-55, Tanah Abang, Jakarta',
   },
 ] as const;
