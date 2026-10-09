@@ -19,7 +19,7 @@ export const STORES = [
     category: 'Gamis Anak Perempuan',
     place: 'Tanah Abang',
     mapQuery: 'Pasar Tanah Abang Blok B, Jakarta Pusat',
-    address: 'Blok A Lt. Ground Los B No. 89, Tanah Abang, Jakarta',
+    address: 'Blok B Lt. Ground Los B No. 89, Tanah Abang, Jakarta',
   },
   {
     category: 'Gamis Dewasa',
