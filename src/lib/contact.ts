@@ -10,15 +10,16 @@ export const waLink = (text?: string) =>
 export const STORES = [
   {
     category: 'Denim Anak Perempuan',
-    place: 'Pasar Jaya Cipulir',
-    mapQuery: 'Pasar Jaya Cipulir, Jakarta',
-    address: 'Lt. 1 BKS No. 51, Pasar Jaya Cipulir, Jakarta',
+    place: 'Tanah Abang',
+    mapQuery: 'Pasar Tanah Abang Blok A, Jakarta Pusat',
+    // Alamat Denim Anak masih DATA DUMMY, ganti dengan alamat asli.
+    address: 'Alamat toko Denim Anak (data contoh), Tanah Abang, Jakarta',
   },
   {
     category: 'Gamis Anak Perempuan',
     place: 'Tanah Abang',
-    mapQuery: 'Pasar Tanah Abang Blok A, Jakarta Pusat',
-    address: 'Blok A Lt. Ground Los B No. 89, Tanah Abang, Jakarta',
+    mapQuery: 'Pasar Tanah Abang Blok B, Jakarta Pusat',
+    address: 'Blok B Lt. Ground Los B No. 89, Tanah Abang, Jakarta',
   },
   {
     category: 'Gamis Dewasa',
