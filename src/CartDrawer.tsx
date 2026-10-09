@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
+import { CATEGORIES } from './lib/contact';
 import { useCartStore, getCartItemKey } from './store/useCartStore';
 
 const formatRupiah = (value: number) =>
@@ -33,13 +34,23 @@ const CartDrawer: FC = () => {
     lines.push('Halo Admin Fathia Kids, saya mau order/tanya model berikut:');
     lines.push('');
 
-    items.forEach((item, index) => {
-      lines.push(
-        `${index + 1}. ${item.product.name} (${item.product.category})\n   ${item.series.name} - ${item.quantity} Seri x ${formatRupiah(item.series.totalPrice)} = ${formatRupiah(item.series.totalPrice * item.quantity)}`,
-      );
+    const known: string[] = [...CATEGORIES];
+    const extra = items.map((i) => i.product.category).filter((c) => !known.includes(c));
+    const order = [...known, ...Array.from(new Set(extra))];
+    let n = 0;
+    order.forEach((category) => {
+      const group = items.filter((i) => i.product.category === category);
+      if (group.length === 0) return;
+      lines.push(`*${category}*`);
+      group.forEach((item) => {
+        n += 1;
+        lines.push(
+          `${n}. ${item.product.name}\n   ${item.series.name} - ${item.quantity} Seri x ${formatRupiah(item.series.totalPrice)} = ${formatRupiah(item.series.totalPrice * item.quantity)}`,
+        );
+      });
+      lines.push('');
     });
 
-    lines.push('');
     lines.push(`Estimasi total: ${formatRupiah(totalPrice)} (belum termasuk ongkir)`);
 
     lines.push('');
