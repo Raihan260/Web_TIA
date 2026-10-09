@@ -1,8 +1,10 @@
 import type { FC } from 'react';
 import SectionHeading from './SectionHeading';
-import { MapPin, Clock, MessageCircle } from 'lucide-react';
+import { MapPin, Clock } from 'lucide-react';
 import { usePageTitle } from './lib/usePageTitle';
-import { STORES, OPEN_HOURS, mapsLink, storeAnchor, waLink } from './lib/contact';
+import { STORES, OPEN_HOURS, mapsLink, storeAnchor } from './lib/contact';
+
+const MAP_QUERY = 'Pasar Tanah Abang Blok A, Jakarta Pusat';
 
 const AboutLocation: FC = () => {
   usePageTitle('Tentang dan Lokasi');
@@ -12,20 +14,23 @@ const AboutLocation: FC = () => {
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 md:grid-cols-2 md:py-16">
         <div>
           <h1 className="sr-only">Tentang Fathia Kids dan lokasi toko</h1>
-          <SectionHeading align="left" title="Pemasok pakaian anak dan gamis sejak 2024" />
-          <p className="mt-4 leading-relaxed text-ink/75">
-            Fathia Kids melayani pemilik toko dan reseller dengan Denim Anak Perempuan, Gamis Anak Perempuan,
-            dan Gamis Dewasa buatan sendiri. Fokus kami sederhana: pakaian yang nyaman dipakai dan mudah
-            dijual kembali.
-          </p>
+          <div className="overflow-hidden rounded-2xl border border-thread/60 bg-white md:sticky md:top-24">
+            <iframe
+              title="Peta lokasi toko Fathia Kids di Tanah Abang"
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(MAP_QUERY)}&z=16&output=embed`}
+              className="h-80 w-full md:h-[28rem]"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          </div>
           <a
-            href={waLink('Halo Admin Fathia Kids, saya mau konsultasi stok untuk toko saya.')}
+            href={mapsLink(MAP_QUERY)}
             target="_blank"
             rel="noreferrer"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-green-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-green-700"
+            className="mt-3 inline-block text-sm font-semibold text-rose underline underline-offset-4"
           >
-            <MessageCircle className="h-4 w-4" />
-            Konsultasi stok via WhatsApp
+            Buka peta lebih besar
           </a>
         </div>
 
