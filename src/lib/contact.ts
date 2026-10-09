@@ -6,7 +6,7 @@ export const OPEN_HOURS = 'Senin - Sabtu, 08.00 - 17.00';
 export const waLink = (text?: string) =>
   `https://wa.me/${WA_NUMBER}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
 
-// Setiap kategori punya toko sendiri. Alamat Gamis Dewasa masih DATA DUMMY, ganti dengan alamat asli.
+// Setiap kategori punya toko sendiri.
 export const STORES = [
   {
     category: 'Denim Anak Perempuan',
@@ -20,8 +20,8 @@ export const STORES = [
   },
   {
     category: 'Gamis Dewasa',
-    place: 'Segera diumumkan',
-    address: 'Alamat toko Gamis Dewasa (data contoh), Jakarta',
+    place: 'Gedung Metro Tanah Abang',
+    address: 'PGMTA Lt. LG Blok B No. 53-55, Tanah Abang, Jakarta',
   },
 ] as const;
 
