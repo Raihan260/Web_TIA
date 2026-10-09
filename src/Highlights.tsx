@@ -9,7 +9,7 @@ const benefits = [
   },
   {
     title: 'Dijual per seri',
-    desc: 'Satu seri berisi 3 pcs ukuran berurutan. Pilih seri sesuai kebutuhan toko.',
+    desc: 'Isi satu seri berbeda di tiap model, selalu lebih dari 1 pcs. Pilih seri sesuai kebutuhan toko.',
   },
   {
     title: 'Bahan nyaman, jahitan rapi',
