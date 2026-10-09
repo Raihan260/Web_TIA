@@ -11,7 +11,7 @@ const AboutTeaser: FC = () => {
         <SectionHeading title="Tentang Fathia Kids" />
         <p className="mx-auto mt-4 max-w-xl leading-relaxed text-ink/75">
           Pemasok pakaian anak dan gamis untuk pemilik toko dan reseller sejak 2024. Setiap kategori punya toko
-          sendiri di Jakarta, mulai dari Tanah Abang sampai Pasar Jaya Cipulir.
+          sendiri di Tanah Abang, Jakarta.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
