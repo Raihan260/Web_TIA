@@ -1,6 +1,8 @@
 import type { FC, MouseEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { MapPin } from 'lucide-react';
+import { STORES, storeAnchor } from './lib/contact';
 import ProductCard from './ProductCard'; // <-- Import komponen kartu produk
 import { useCartStore } from './store/useCartStore';
 import { useProductStore } from './store/useProductStore';
@@ -163,6 +165,15 @@ const ProductDetail: FC = () => {
                 <div className="inline-flex items-center gap-2 rounded-full bg-blush px-3 py-1 text-xs font-semibold text-rose-deep">
                   <span>{product.category}</span>
                 </div>
+                {STORES.some((st) => st.category === product.category) && (
+                  <Link
+                    to={`/tentang#${storeAnchor(product.category)}`}
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-rose underline underline-offset-4"
+                  >
+                    <MapPin className="h-3.5 w-3.5" />
+                    Tersedia di {STORES.find((st) => st.category === product.category)?.place}
+                  </Link>
+                )}
                 {product.isAvailable === false && (
                   <div className="inline-flex items-center gap-2 rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
                     Stok Habis
