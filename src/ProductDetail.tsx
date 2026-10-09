@@ -113,12 +113,12 @@ const ProductDetail: FC = () => {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
-            <div>
-              <div className="aspect-[4/5] max-h-[78vh] w-full overflow-hidden rounded-2xl border border-thread/60 bg-cream-light shadow-sm">
+            <div className="mx-auto w-full max-w-[560px] md:mx-0">
+              <div className="overflow-hidden rounded-2xl border border-thread/60 bg-cream-light shadow-sm">
                 <img
                   src={activeImage}
                   alt={product.name}
-                  className="h-full w-full object-contain transition-opacity duration-300"
+                  className="block h-auto w-full transition-opacity duration-300"
                 />
               </div>
               {(() => {
