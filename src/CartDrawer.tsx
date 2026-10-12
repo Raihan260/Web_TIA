@@ -200,7 +200,7 @@ const CartDrawer: FC = () => {
             <button
               type="button"
               onClick={handleCheckoutWhatsApp}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-green-500 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-green-400/60 transition hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-80"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-ink px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-ink/25 transition hover:bg-ink disabled:cursor-not-allowed disabled:opacity-80"
             >
               <ShoppingBag className="h-4 w-4" />
               <span>Checkout via WhatsApp</span>

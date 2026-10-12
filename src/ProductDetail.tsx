@@ -106,7 +106,7 @@ const ProductDetail: FC = () => {
 
   return (
     <div className="min-h-screen bg-paper pb-28 md:pb-16">
-      <section className="border-t border-b border-slate-200 bg-paper">
+      <section className="border-t border-thread/40">
         <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
           <div className="mb-6 text-sm text-slate-600">
             <Link

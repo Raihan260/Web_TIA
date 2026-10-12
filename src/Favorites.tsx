@@ -17,8 +17,8 @@ const Favorites: FC = () => {
   const shown = (favorites.length > 0 ? favorites : newestFirst).slice(0, MAX_ITEMS);
 
   return (
-    <section id="favorit" className="scroll-mt-16 border-t-2 border-dashed border-thread/60">
-      <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+    <section id="favorit" className="scroll-mt-16">
+      <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <SectionHeading
           title="Produk favorit"
           subtitle="Model pilihan yang paling sering dicari reseller. Harga per pcs, dijual per seri."
@@ -46,7 +46,7 @@ const Favorites: FC = () => {
               href={waLink('Halo Admin Fathia Kids, saya mau tanya model dan stok terbaru.')}
               target="_blank"
               rel="noreferrer"
-              className="rounded-full bg-green-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-green-700"
+              className="rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-white transition hover:bg-ink/85"
             >
               Tanya admin
             </a>

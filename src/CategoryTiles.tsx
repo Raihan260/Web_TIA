@@ -4,6 +4,14 @@ import { Link } from 'react-router-dom';
 import { useProductStore } from './store/useProductStore';
 import { CATEGORIES } from './lib/contact';
 
+// Foto cadangan per kategori (file di folder public/). Dipakai kalau kategori
+// belum punya produk berfoto. Kalau file belum ada, tile balik ke warna polos.
+const fallbackCover: Record<string, string> = {
+  'Denim Anak Perempuan': '/kategori-denim-anak.jpg',
+  'Gamis Anak Perempuan': '/kategori-gamis-anak.jpg',
+  'Gamis Dewasa': '/kategori-gamis-dewasa.jpg',
+};
+
 const tone: Record<string, string> = {
   'Denim Anak Perempuan': 'bg-[#d98ba3]',
   'Gamis Anak Perempuan': 'bg-rose',
@@ -14,7 +22,7 @@ const CategoryTiles: FC = () => {
   const productList = useProductStore((state) => state.productList);
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+    <section className="mx-auto max-w-6xl px-4 py-16 md:py-20">
       <SectionHeading
         title="Pilih kategori"
         subtitle="Tiga kategori yang kami jual. Pilih satu untuk melihat model dan seri yang tersedia."
@@ -23,7 +31,8 @@ const CategoryTiles: FC = () => {
       <div className="mt-10 grid gap-4 md:grid-cols-3">
         {CATEGORIES.map((category) => {
           const items = productList.filter((p) => p.category === category);
-          const cover = [...items].reverse().find((p) => p.imageUrl)?.imageUrl;
+          const cover =
+            [...items].reverse().find((p) => p.imageUrl)?.imageUrl ?? fallbackCover[category];
           return (
             <Link
               key={category}
@@ -35,6 +44,9 @@ const CategoryTiles: FC = () => {
                   src={cover}
                   alt=""
                   loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
               )}

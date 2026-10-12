@@ -44,7 +44,7 @@ const ProductList: FC = () => {
 
   return (
     <section id="katalog" className="scroll-mt-16 bg-paper">
-      <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+      <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <SectionHeading
           as="h1"
           title="Katalog grosir"
@@ -133,7 +133,7 @@ const ProductList: FC = () => {
                 href={waLink('Halo Admin Fathia Kids, saya mau tanya model dan stok terbaru.')}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full bg-green-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-700"
+                className="rounded-full bg-ink px-4 py-2 text-sm font-bold text-white transition hover:bg-ink/85"
               >
                 Tanya admin
               </a>
