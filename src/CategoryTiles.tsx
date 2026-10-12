@@ -36,9 +36,14 @@ const CategoryTiles: FC = () => {
       <div className="mt-10 grid gap-4 md:grid-cols-3">
         {CATEGORIES.map((category) => {
           const items = productList.filter((p) => p.category === category);
-          const cover =
-            [...items].reverse().find((p) => p.imageUrl)?.imageUrl ?? fallbackCover[category];
-          const showCover = Boolean(cover) && !brokenSrc.includes(cover);
+          // Foto kategori didahulukan karena komposisinya seragam; foto produk
+          // dipakai kalau foto kategori belum ada atau gagal dimuat.
+          const candidates = [
+            fallbackCover[category],
+            [...items].reverse().find((p) => p.imageUrl)?.imageUrl,
+          ].filter((url): url is string => Boolean(url));
+          const cover = candidates.find((url) => !brokenSrc.includes(url));
+          const showCover = Boolean(cover);
           return (
             <Link
               key={category}
@@ -52,7 +57,7 @@ const CategoryTiles: FC = () => {
                   alt=""
                   loading="lazy"
                   onError={() =>
-                    setBrokenSrc((prev) => (prev.includes(cover) ? prev : [...prev, cover]))
+                    setBrokenSrc((prev) => (cover && !prev.includes(cover) ? [...prev, cover] : prev))
                   }
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
