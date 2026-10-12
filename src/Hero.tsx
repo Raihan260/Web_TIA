@@ -1,15 +1,29 @@
 import type { FC } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, MessageCircle } from 'lucide-react';
 import { waLink } from './lib/contact';
 
+// Foto model (file di folder public/). Kalau belum ada, otomatis balik ke foto gudang.
+const MODEL_PHOTO = '/hero-model.jpg';
+const FALLBACK_PHOTO = '/hero-stok-gudang.jpg';
+
 const Hero: FC = () => {
+  const [src, setSrc] = useState(MODEL_PHOTO);
+  const isModel = src === MODEL_PHOTO;
+
   return (
     <section className="relative overflow-hidden bg-ink text-cream">
       <img
-        src="/hero-stok-gudang.jpg"
-        alt="Tumpukan stok pakaian di gudang Fathia Kids"
-        className="absolute inset-0 h-full w-full object-cover"
+        src={src}
+        onError={() => setSrc(FALLBACK_PHOTO)}
+        alt={
+          isModel
+            ? 'Model mengenakan gamis koleksi Fathia Kids'
+            : 'Tumpukan stok pakaian di gudang Fathia Kids'
+        }
+        /* Foto model dicerminkan supaya modelnya ada di kanan dan teks di kiri tetap terbaca. */
+        className={`absolute inset-0 h-full w-full object-cover ${isModel ? 'scale-x-[-1]' : ''}`}
       />
       <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/65 to-ink/30" />
       {/* Jahitan di tepi, seperti topstitch pada jeans */}
