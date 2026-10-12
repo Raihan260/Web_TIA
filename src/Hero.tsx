@@ -13,57 +13,61 @@ const Hero: FC = () => {
   const isModel = src === MODEL_PHOTO;
 
   return (
-    <section className="relative overflow-hidden bg-ink text-cream">
-      <img
-        src={src}
-        onError={() => setSrc(FALLBACK_PHOTO)}
-        alt={
-          isModel
-            ? 'Model mengenakan gamis koleksi Fathia Kids'
-            : 'Tumpukan stok pakaian di gudang Fathia Kids'
-        }
-        /* Foto model dicerminkan supaya modelnya ada di kanan dan teks di kiri tetap terbaca. */
-        className={`absolute inset-0 h-full w-full object-cover ${isModel ? 'scale-x-[-1]' : ''}`}
-      />
-      <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/65 to-ink/30" />
-      {/* Jahitan di tepi, seperti topstitch pada jeans */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-3 rounded-[28px] border-2 border-dashed border-thread/80 md:inset-5"
-      />
+    <section className="relative overflow-hidden bg-cream">
+      {/* Di HP foto ada di atas teks; di layar lebar foto mengisi separuh kanan. */}
+      <div className="relative h-72 sm:h-96 md:absolute md:inset-y-0 md:right-0 md:h-full md:w-[52%]">
+        <img
+          src={src}
+          onError={() => setSrc(FALLBACK_PHOTO)}
+          alt={
+            isModel
+              ? 'Model mengenakan gamis koleksi Fathia Kids'
+              : 'Tumpukan stok pakaian di gudang Fathia Kids'
+          }
+          /* Foto model dicerminkan supaya modelnya menghadap ke arah teks. */
+          className={`h-full w-full object-cover object-top ${isModel ? 'scale-x-[-1]' : ''}`}
+        />
+        {/* Peralihan lembut ke latar krem, supaya foto menyatu dengan halaman. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-cream to-transparent md:inset-y-0 md:left-0 md:h-full md:w-28 md:bg-gradient-to-r"
+        />
+      </div>
 
-      <div className="relative mx-auto flex min-h-[520px] max-w-6xl flex-col justify-center px-8 py-16 md:min-h-[600px] md:px-14">
-        <h1 className="max-w-2xl text-balance text-5xl font-bold leading-[1.05] sm:text-6xl lg:text-7xl">
-          Denim dan gamis,
-          <span className="block text-rose-light">langsung dari produsen.</span>
-        </h1>
-        <p className="mt-6 max-w-lg text-base leading-relaxed text-cream/85 sm:text-lg">
-          Denim anak perempuan, gamis anak perempuan, dan gamis dewasa untuk toko dan reseller. Dijual per
-          seri, harga per pcs tertera jelas di setiap produk.
-        </p>
+      <div className="relative mx-auto flex max-w-6xl flex-col justify-center px-6 py-12 md:min-h-[600px] md:px-10 md:py-24">
+        <div className="md:max-w-[46%]">
+          <h1 className="text-balance font-display text-4xl font-bold leading-[1.05] text-ink sm:text-5xl lg:text-6xl">
+            Denim dan gamis,
+            <span className="block text-rose">langsung dari produsen.</span>
+          </h1>
+          <p className="mt-6 text-base leading-relaxed text-ink/75">
+            Denim anak perempuan, gamis anak perempuan, dan gamis dewasa untuk toko dan reseller. Dijual per
+            seri, harga per pcs tertera jelas di setiap produk.
+          </p>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Link
-            to="/katalog"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-cream px-7 py-3.5 text-sm font-bold text-ink transition hover:bg-white"
-          >
-            <ShoppingBag className="h-4 w-4" />
-            Lihat katalog
-          </Link>
-          <a
-            href={waLink('Halo Admin Fathia Kids, saya mau tanya info kemitraan reseller.')}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-cream/80 px-7 py-3.5 text-sm font-bold text-cream transition hover:bg-cream hover:text-ink"
-          >
-            <MessageCircle className="h-4 w-4" />
-            Tanya info reseller
-          </a>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link
+              to="/katalog"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-rose px-7 py-3.5 text-sm font-bold text-white transition hover:bg-rose-deep"
+            >
+              <ShoppingBag className="h-4 w-4" />
+              Lihat katalog
+            </Link>
+            <a
+              href={waLink('Halo Admin Fathia Kids, saya mau tanya info kemitraan reseller.')}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink/25 px-7 py-3.5 text-sm font-bold text-ink transition hover:border-ink hover:bg-ink hover:text-cream"
+            >
+              <MessageCircle className="h-4 w-4" />
+              Tanya info reseller
+            </a>
+          </div>
+
+          <p className="mt-6 text-sm text-ink/60">
+            Isi satu seri berbeda di tiap model, detailnya ada di halaman produk.
+          </p>
         </div>
-
-        <p className="mt-6 max-w-md text-sm text-cream/70">
-          Isi satu seri berbeda di tiap model, detailnya ada di halaman produk.
-        </p>
       </div>
     </section>
   );
