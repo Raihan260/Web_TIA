@@ -14,7 +14,7 @@ const CategoryTiles: FC = () => {
   const productList = useProductStore((state) => state.productList);
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+    <section className="mx-auto max-w-6xl px-4 py-16 md:py-20">
       <SectionHeading
         title="Pilih kategori"
         subtitle="Tiga kategori yang kami jual. Pilih satu untuk melihat model dan seri yang tersedia."

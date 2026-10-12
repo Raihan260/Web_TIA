@@ -62,7 +62,7 @@ const Navbar: FC = () => {
             href={waLink()}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-green-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-700"
+            className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-bold text-white transition hover:bg-ink/85"
           >
             <Phone className="h-4 w-4" />
             Chat WhatsApp
@@ -112,7 +112,7 @@ const Navbar: FC = () => {
               href={waLink()}
               target="_blank"
               rel="noreferrer"
-              className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-green-600 px-4 py-3 text-sm font-bold text-white"
+              className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-bold text-white"
               onClick={() => setIsOpen(false)}
             >
               <Phone className="h-4 w-4" />

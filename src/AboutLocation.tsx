@@ -48,7 +48,7 @@ const AboutLocation: FC = () => {
   const store = STORES.find((s) => s.category === selected) ?? STORES[0];
 
   return (
-    <div className="bg-cream-light">
+    <div>
       {/* Hero */}
       <section className="denim-twill relative overflow-hidden bg-ink text-cream">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
@@ -87,7 +87,7 @@ const AboutLocation: FC = () => {
       </section>
 
       {/* Tujuan utama */}
-      <section className="seam bg-cream">
+      <section>
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-2 md:py-20">
           <div>
             <SectionHeading align="left" title="Tujuan utama kami" />

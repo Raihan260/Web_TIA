@@ -6,7 +6,7 @@ import { waLink } from './lib/contact';
 
 const AboutTeaser: FC = () => {
   return (
-    <section className="seam bg-cream-light">
+    <section>
       <div className="mx-auto max-w-6xl px-4 py-12 text-center md:py-16">
         <SectionHeading title="Tentang Fathia Kids" />
         <p className="mx-auto mt-4 max-w-xl leading-relaxed text-ink/75">
@@ -24,7 +24,7 @@ const AboutTeaser: FC = () => {
             href={waLink('Halo Admin Fathia Kids, saya mau konsultasi stok untuk toko saya.')}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-green-600 px-7 py-3 text-sm font-bold text-white transition hover:bg-green-700"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3 text-sm font-bold text-white transition hover:bg-ink/85"
           >
             <MessageCircle className="h-4 w-4" />
             Konsultasi via WhatsApp

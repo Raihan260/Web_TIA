@@ -30,7 +30,7 @@ const steps = [
 
 export const Benefits: FC = () => {
   return (
-    <section className="seam bg-cream-light">
+    <section>
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-[0.8fr_1.2fr] md:py-16">
         <div>
           <SectionHeading
@@ -67,8 +67,8 @@ export const StepsList: FC = () => (
 // Ringkasan di halaman utama, dengan link ke halaman Cara pesan.
 export const HowToOrderPreview: FC = () => {
   return (
-    <section className="bg-cream-deep">
-      <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+    <section>
+      <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <SectionHeading title="Cara pesan" subtitle="Empat langkah, semuanya lewat website dan WhatsApp." />
         <div className="mt-10">
           <StepsList />

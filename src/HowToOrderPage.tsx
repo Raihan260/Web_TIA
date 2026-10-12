@@ -17,7 +17,7 @@ const HowToOrderPage: FC = () => {
   usePageTitle('Cara Pesan');
 
   return (
-    <div className="bg-cream-deep">
+    <div>
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <SectionHeading
           as="h1"
@@ -52,7 +52,7 @@ const HowToOrderPage: FC = () => {
             href={waLink('Halo Admin Fathia Kids, saya mau tanya cara pemesanan grosir.')}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-green-600 px-7 py-3.5 text-sm font-bold text-white transition hover:bg-green-700"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-bold text-white transition hover:bg-ink/85"
           >
             <MessageCircle className="h-4 w-4" />
             Tanya admin
