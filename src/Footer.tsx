@@ -20,13 +20,13 @@ const Footer: FC = () => {
       <footer className="bg-ink text-cream/80">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 md:grid-cols-4">
           <div>
-            <p className="font-display text-xl font-extrabold text-cream">Fathia Kids</p>
+            <p className="font-display text-xl font-bold text-cream">Fathia Kids</p>
             <p className="mt-2 max-w-xs text-sm">
               Grosir denim anak perempuan, gamis anak perempuan, dan gamis dewasa untuk toko dan reseller.
             </p>
           </div>
           <div>
-            <p className="font-display font-extrabold text-cream">Halaman</p>
+            <p className="font-display font-bold text-cream">Halaman</p>
             <ul className="mt-3 space-y-2 text-sm">
               {PAGES.map((page) => (
                 <li key={page.to}>
@@ -38,7 +38,7 @@ const Footer: FC = () => {
             </ul>
           </div>
           <div>
-            <p className="font-display font-extrabold text-cream">Katalog</p>
+            <p className="font-display font-bold text-cream">Katalog</p>
             <ul className="mt-3 space-y-2 text-sm">
               {CATEGORIES.map((category) => (
                 <li key={category}>
@@ -53,7 +53,7 @@ const Footer: FC = () => {
             </ul>
           </div>
           <div>
-            <p className="font-display font-extrabold text-cream">Hubungi kami</p>
+            <p className="font-display font-bold text-cream">Hubungi kami</p>
             <ul className="mt-3 space-y-2 text-sm">
               <li>WhatsApp {WA_DISPLAY}</li>
               <li>{EMAIL}</li>

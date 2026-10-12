@@ -27,7 +27,7 @@ const Favorites: FC = () => {
         {isLoading ? (
           <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
             {[0, 1, 2, 3].map((i) => (
-              <div key={i} className="animate-pulse overflow-hidden rounded-2xl bg-white ring-1 ring-ink/10">
+              <div key={i} className="animate-pulse overflow-hidden rounded-lg bg-white ring-1 ring-ink/10">
                 <div className="aspect-[4/5] bg-cream-deep" />
                 <div className="space-y-2 p-4">
                   <div className="h-4 w-3/4 rounded bg-cream-deep" />
@@ -37,7 +37,7 @@ const Favorites: FC = () => {
             ))}
           </div>
         ) : shown.length === 0 ? (
-          <div className="mt-8 flex flex-col items-center gap-3 rounded-2xl border-2 border-dashed border-thread/70 bg-white px-6 py-12 text-center">
+          <div className="mt-8 flex flex-col items-center gap-3 rounded-lg border-2 border-dashed border-thread/70 bg-white px-6 py-12 text-center">
             <p className="font-display text-lg font-bold text-ink">Katalog sedang diperbarui</p>
             <p className="max-w-sm text-sm text-ink/70">
               Tanya admin lewat WhatsApp untuk model dan stok terbaru.

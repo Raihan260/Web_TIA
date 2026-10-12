@@ -121,7 +121,7 @@ const ProductDetail: FC = () => {
           <div className="grid gap-8 md:grid-cols-2">
             <div className="mx-auto w-full max-w-[560px] md:mx-0">
               <div
-                className="relative overflow-hidden rounded-2xl border border-thread/60 bg-cream-deep shadow-sm"
+                className="relative overflow-hidden rounded-lg border border-thread/60 bg-cream-deep shadow-sm"
                 style={{ aspectRatio: ratio ?? 3 / 4 }}
               >
                 {prevImage && prevImage !== activeImage && (
@@ -216,7 +216,7 @@ const ProductDetail: FC = () => {
                 </p>
               </div>
 
-              <div className="rounded-lg bg-rose px-3 py-2 text-xs font-extrabold text-white inline-flex items-center">
+              <div className="rounded-lg bg-rose px-3 py-2 text-xs font-bold text-white inline-flex items-center">
                 Hanya dijual per seri
               </div>
 
@@ -233,7 +233,7 @@ const ProductDetail: FC = () => {
                 </div>
               )}
 
-              <div className="mt-4 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+              <div className="mt-4 rounded-lg bg-white p-4 shadow-sm ring-1 ring-slate-200">
                 <p className="text-sm font-bold text-ink">Pilih seri ukuran</p>
                 <div className="mt-3 space-y-2" role="radiogroup" aria-label="Pilih seri">
                   {product.seriesOptions.map((option) => {
@@ -257,7 +257,7 @@ const ProductDetail: FC = () => {
                             {formatRupiah(option.pricePerPiece)} / pcs{option.pieces ? <> &times; {option.pieces} pcs</> : null}
                           </p>
                         </div>
-                        <p className="ml-3 whitespace-nowrap text-sm font-extrabold text-ink">
+                        <p className="ml-3 whitespace-nowrap text-sm font-bold text-ink">
                           {formatRupiah(option.totalPrice)}
                         </p>
                       </button>
@@ -299,7 +299,7 @@ const ProductDetail: FC = () => {
       <section className="mx-auto max-w-6xl px-4 mt-12 md:mt-16">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-3">
           <div>
-            <h2 className="text-xl font-extrabold uppercase tracking-[0.14em] text-ink md:text-2xl">
+            <h2 className="text-xl font-bold uppercase tracking-[0.14em] text-ink md:text-2xl">
               Model <span className="text-rose">lainnya</span>
             </h2>
             <p className="mt-1 text-sm text-ink/70">Pilihan lain untuk melengkapi etalase toko Anda</p>
@@ -321,7 +321,7 @@ const ProductDetail: FC = () => {
         <div className="mx-auto flex max-w-md items-center gap-3">
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs text-ink/70">{selectedSeries?.name}</p>
-            <p className="text-base font-extrabold text-ink">
+            <p className="text-base font-bold text-ink">
               {selectedSeries ? formatRupiah(selectedSeries.totalPrice) : ''}
             </p>
           </div>

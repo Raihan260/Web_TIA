@@ -90,7 +90,7 @@ const ProductList: FC = () => {
         {isLoading ? (
           <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="animate-pulse overflow-hidden rounded-2xl bg-white ring-1 ring-ink/10">
+              <div key={i} className="animate-pulse overflow-hidden rounded-lg bg-white ring-1 ring-ink/10">
                 <div className="aspect-[4/5] bg-mauve-soft" />
                 <div className="space-y-2 p-4">
                   <div className="h-4 w-3/4 rounded bg-mauve-soft" />
@@ -101,8 +101,8 @@ const ProductList: FC = () => {
             ))}
           </div>
         ) : displayedProducts.length === 0 ? (
-          <div className="mt-8 flex flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-thread/70 bg-white px-6 py-12 text-center">
-            <p className="font-display text-lg font-extrabold text-ink">
+          <div className="mt-8 flex flex-col items-center gap-2 rounded-lg border-2 border-dashed border-thread/70 bg-white px-6 py-12 text-center">
+            <p className="font-display text-lg font-bold text-ink">
               {isCategoryEmpty
                 ? 'Produk kategori ini segera hadir'
                 : isFiltering

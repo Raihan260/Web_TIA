@@ -29,8 +29,8 @@ const HowToOrderPage: FC = () => {
           <StepsList />
         </div>
 
-        <div className="mx-auto mt-12 max-w-2xl rounded-2xl bg-white p-6 ring-1 ring-blush">
-          <h2 className="font-display text-lg font-extrabold text-ink">Perlu diketahui</h2>
+        <div className="mx-auto mt-12 max-w-2xl rounded-lg bg-white p-6 ring-1 ring-blush">
+          <h2 className="font-display text-lg font-bold text-ink">Perlu diketahui</h2>
           <ul className="mt-3 space-y-2 text-ink/75">
             {notes.map((note) => (
               <li key={note} className="flex gap-2">
