@@ -211,7 +211,7 @@ const ProductDetail: FC = () => {
                 <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-ink">
                   {product.name}
                 </h1>
-                <p className="text-base font-semibold text-rose">
+                <p className="text-base font-semibold text-ink">
                   Mulai {formatRupiah(minPricePerPiece)} / pcs
                 </p>
               </div>

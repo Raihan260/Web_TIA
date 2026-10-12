@@ -105,7 +105,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
           <h3 className="mt-1 line-clamp-2 text-base font-medium leading-snug text-ink sm:text-lg">
             {product.name}
           </h3>
-          <p className="mt-1 text-sm font-bold text-rose sm:text-base">
+          <p className="mt-1 text-sm font-semibold text-ink sm:text-base">
             Mulai {formatRupiah(minPricePerPiece)} <span className="font-medium text-ink/60">/ pcs</span>
           </p>
         </div>

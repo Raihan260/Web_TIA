@@ -141,7 +141,7 @@ const CartDrawer: FC = () => {
                           <p className="mt-0.5 text-[11px] font-medium text-slate-600">
                             {item.series.name}
                           </p>
-                          <p className="mt-0.5 text-[11px] font-semibold text-rose">
+                          <p className="mt-0.5 text-[11px] font-semibold text-ink/70">
                             {formatRupiah(item.series.totalPrice)} / seri
                           </p>
                         </div>

@@ -67,10 +67,10 @@ const AboutLocation: FC = () => {
       {/* Arah kami */}
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-14 md:grid-cols-2 md:py-20">
         <div className="rounded-3xl bg-blush p-8 md:p-10">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-rose">Tiga koleksi kami</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-ink/55">Tiga koleksi kami</p>
           <ul className="mt-4 space-y-3">
             {CATEGORIES.map((c) => (
-              <li key={c} className="border-b border-dashed border-rose/40 pb-3 font-display text-2xl font-bold text-mauve-deep last:border-0 last:pb-0">
+              <li key={c} className="border-b border-dashed border-rose/40 pb-3 font-display text-2xl font-bold text-ink last:border-0 last:pb-0">
                 {c}
               </li>
             ))}
@@ -146,7 +146,7 @@ const AboutLocation: FC = () => {
                   active ? 'border-rose bg-blush' : 'border-thread/60 bg-white hover:border-rose/60'
                 }`}
               >
-                <p className="font-display text-xl font-bold text-rose">{s.category}</p>
+                <p className="font-display text-xl font-bold text-ink">{s.category}</p>
                 <p className="mt-3 flex gap-2 text-sm text-ink/75">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-rose" />
                   <span>
@@ -160,7 +160,7 @@ const AboutLocation: FC = () => {
 
         <div className="mt-12">
           <div className="flex flex-wrap items-center gap-3">
-            <h2 className="font-display text-3xl font-bold uppercase text-rose sm:text-4xl">{store.category}</h2>
+            <h2 className="font-display text-3xl font-bold uppercase text-ink sm:text-4xl">{store.category}</h2>
             <span
               className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold ${
                 open ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-700'
@@ -216,7 +216,7 @@ const AboutLocation: FC = () => {
                 Alamat
               </h3>
               <div className="mt-1 h-0.5 w-10 bg-rose" />
-              <p className="mt-4 font-bold text-mauve-deep">{store.place}</p>
+              <p className="mt-4 font-bold text-ink">{store.place}</p>
               <p className="mt-1 text-ink/75">{store.address}</p>
             </div>
           </div>
