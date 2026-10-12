@@ -42,7 +42,7 @@ export const Benefits: FC = () => {
         <dl className="divide-y-2 divide-dashed divide-thread/70">
           {benefits.map((item) => (
             <div key={item.title} className="py-5 first:pt-0 last:pb-0">
-              <dt className="font-display text-lg font-extrabold text-mauve-deep">{item.title}</dt>
+              <dt className="font-display text-lg font-bold text-ink">{item.title}</dt>
               <dd className="mt-1 max-w-xl text-sm text-ink/75 sm:text-base">{item.desc}</dd>
             </div>
           ))}
@@ -56,7 +56,7 @@ export const StepsList: FC = () => (
   <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
     {steps.map((step, index) => (
       <li key={step.title} className="rounded-2xl bg-white p-5 ring-1 ring-blush">
-        <span className="font-display text-3xl font-extrabold text-rose">{index + 1}</span>
+        <span className="font-display text-3xl font-bold text-ink/35">{index + 1}</span>
         <h3 className="mt-2 text-base font-extrabold text-ink">{step.title}</h3>
         <p className="mt-1 text-sm text-ink/70">{step.desc}</p>
       </li>

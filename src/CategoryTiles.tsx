@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useState } from 'react';
 import SectionHeading from './SectionHeading';
 import { Link } from 'react-router-dom';
 import { useProductStore } from './store/useProductStore';
@@ -20,6 +21,10 @@ const tone: Record<string, string> = {
 
 const CategoryTiles: FC = () => {
   const productList = useProductStore((state) => state.productList);
+  // Simpan alamat foto yang gagal dimuat, supaya tile balik ke warna polos.
+  // Disimpan per alamat, bukan dengan menyembunyikan elemennya, agar foto
+  // produk yang datang belakangan tetap bisa tampil.
+  const [brokenSrc, setBrokenSrc] = useState<string[]>([]);
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 md:py-20">
@@ -33,20 +38,22 @@ const CategoryTiles: FC = () => {
           const items = productList.filter((p) => p.category === category);
           const cover =
             [...items].reverse().find((p) => p.imageUrl)?.imageUrl ?? fallbackCover[category];
+          const showCover = Boolean(cover) && !brokenSrc.includes(cover);
           return (
             <Link
               key={category}
               to={`/katalog?kategori=${encodeURIComponent(category)}`}
-              className={`group relative flex aspect-[16/9] items-end overflow-hidden rounded-2xl text-white md:aspect-[5/4] ${cover ? '' : 'twill'} ${tone[category]}`}
+              className={`group relative flex aspect-[16/9] items-end overflow-hidden rounded-2xl text-white md:aspect-[5/4] ${showCover ? '' : 'twill'} ${tone[category]}`}
             >
-              {cover && (
+              {showCover && (
                 <img
+                  key={cover}
                   src={cover}
                   alt=""
                   loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                  }}
+                  onError={() =>
+                    setBrokenSrc((prev) => (prev.includes(cover) ? prev : [...prev, cover]))
+                  }
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
               )}
