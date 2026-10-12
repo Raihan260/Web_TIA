@@ -36,6 +36,7 @@ export const Benefits: FC = () => {
           <SectionHeading
             align="left"
             title="Kenapa belanja di Fathia Kids"
+            accent={false}
             subtitle="Kami menjual untuk pemilik toko dan reseller, jadi semuanya diatur supaya kulakan jadi mudah."
           />
         </div>
