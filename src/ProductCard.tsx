@@ -37,7 +37,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
     if (!hovering || images.length < 2) return;
     const timer = window.setInterval(() => {
       setSlide((s) => ({ current: (s.current + 1) % images.length, previous: s.current }));
-    }, 1800);
+    }, 1000);
     return () => window.clearInterval(timer);
   }, [hovering, images.length]);
 
@@ -68,7 +68,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                 src={src}
                 alt={i === 0 ? product.name : ''}
                 aria-hidden={i === 0 ? undefined : true}
-                className={`absolute inset-0 h-full w-full object-cover transition-opacity ease-in-out ${hovering ? 'duration-[900ms]' : 'duration-300'} ${
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity ease-in-out ${hovering ? 'duration-[600ms]' : 'duration-300'} ${
                   isActive ? 'z-20 opacity-100' : isPrev ? 'z-10 opacity-100' : 'z-0 opacity-0'
                 } ${isOutOfStock ? 'grayscale' : ''}`}
                 loading="lazy"
