@@ -66,7 +66,7 @@ const AboutLocation: FC = () => {
 
       {/* Arah kami */}
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-14 md:grid-cols-2 md:py-20">
-        <div className="rounded-3xl bg-blush p-8 md:p-10">
+        <div className="rounded-lg bg-blush p-8 md:p-10">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-ink/55">Tiga koleksi kami</p>
           <ul className="mt-4 space-y-3">
             {CATEGORIES.map((c) => (
@@ -142,7 +142,7 @@ const AboutLocation: FC = () => {
                 type="button"
                 onClick={() => setPicked({ hash, category: s.category })}
                 aria-pressed={active}
-                className={`scroll-mt-24 rounded-2xl border-2 p-5 text-left transition ${
+                className={`scroll-mt-24 rounded-lg border-2 p-5 text-left transition ${
                   active ? 'border-rose bg-blush' : 'border-thread/60 bg-white hover:border-rose/60'
                 }`}
               >
@@ -173,7 +173,7 @@ const AboutLocation: FC = () => {
 
           <div className="mt-6 grid gap-8 md:grid-cols-[1.1fr_1fr_1fr]">
             <div>
-              <div className="overflow-hidden rounded-2xl border border-thread/60 bg-white">
+              <div className="overflow-hidden rounded-lg border border-thread/60 bg-white">
                 <iframe
                   key={store.category}
                   title={`Peta toko ${store.category}`}

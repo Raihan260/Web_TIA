@@ -120,7 +120,7 @@ const CartDrawer: FC = () => {
                   return (
                     <div
                       key={itemKey}
-                      className="flex gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm"
+                      className="flex gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm"
                     >
                       <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-slate-100">
                         <img
@@ -191,7 +191,7 @@ const CartDrawer: FC = () => {
             {items.length > 0 && (
               <div className="mb-3 flex items-center justify-between text-sm">
                 <span className="font-medium text-slate-700">Estimasi total</span>
-                <span className="font-extrabold text-ink">{formatRupiah(totalPrice)}</span>
+                <span className="font-bold text-ink">{formatRupiah(totalPrice)}</span>
               </div>
             )}
             <p className="mb-3 text-[11px] leading-relaxed">

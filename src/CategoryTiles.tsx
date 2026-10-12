@@ -43,7 +43,7 @@ const CategoryTiles: FC = () => {
             <Link
               key={category}
               to={`/katalog?kategori=${encodeURIComponent(category)}`}
-              className={`group relative flex aspect-[16/9] items-end overflow-hidden rounded-2xl text-white md:aspect-[5/4] ${showCover ? '' : 'twill'} ${tone[category]}`}
+              className={`group relative flex aspect-[16/9] items-end overflow-hidden rounded-lg text-white md:aspect-[5/4] ${showCover ? '' : 'twill'} ${tone[category]}`}
             >
               {showCover && (
                 <img
@@ -59,7 +59,7 @@ const CategoryTiles: FC = () => {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
               <div className="relative w-full p-5">
-                <h3 className="text-xl font-extrabold leading-tight">{category}</h3>
+                <h3 className="text-xl font-bold leading-tight">{category}</h3>
                 <p className="mt-1 text-sm text-white/85">
                   {items.length > 0 ? `${items.length} model tersedia` : 'Segera hadir'}
                 </p>

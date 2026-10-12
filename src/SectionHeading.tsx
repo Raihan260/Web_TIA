@@ -15,7 +15,7 @@ const SectionHeading: FC<SectionHeadingProps> = ({ title, subtitle, align = 'cen
 
   return (
     <div className={`${alignment} max-w-2xl`}>
-      <Tag className="font-sans text-xl font-extrabold uppercase tracking-[0.14em] text-ink sm:text-2xl">
+      <Tag className="font-sans text-xl font-semibold uppercase tracking-[0.14em] text-ink sm:text-2xl">
         {words.join(' ')} <span className="text-rose">{last}</span>
       </Tag>
       {subtitle && <p className="mt-3 text-ink/70">{subtitle}</p>}
