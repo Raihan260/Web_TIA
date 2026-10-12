@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { PHOTO_PLACEHOLDER } from './lib/contact';
 import type { Product } from './data/products';
 
 interface ProductCardProps {
@@ -10,8 +11,6 @@ interface ProductCardProps {
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const isOutOfStock = product.isAvailable === false;
 
-  const placeholderImage =
-    'https://via.placeholder.com/400x300.png?text=Denim+Anak+Perempuan';
 
   const formatRupiah = (value: number) =>
     new Intl.NumberFormat('id-ID', {
@@ -25,7 +24,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
     ...product.seriesOptions.map((option) => option.pricePerPiece),
   );
 
-  const mainImage = product.imageUrl || placeholderImage;
+  const mainImage = product.imageUrl || PHOTO_PLACEHOLDER;
   const images = Array.from(
     new Set([mainImage, ...(product.gallery ?? [])].filter((image): image is string => Boolean(image))),
   );
