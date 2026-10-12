@@ -2,7 +2,7 @@ import type { FC, MouseEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { MapPin } from 'lucide-react';
-import { STORES, storeAnchor } from './lib/contact';
+import { PHOTO_PLACEHOLDER, STORES, storeAnchor } from './lib/contact';
 import ProductCard from './ProductCard'; // <-- Import komponen kartu produk
 import { useCartStore } from './store/useCartStore';
 import { useProductStore } from './store/useProductStore';
@@ -23,8 +23,6 @@ const ProductDetail: FC = () => {
   const addToCart = useCartStore((state) => state.addToCart);
   const setIsCartOpen = useCartStore((state) => state.setIsCartOpen);
 
-  const placeholderImage =
-    'https://via.placeholder.com/800x600.png?text=Denim+Anak+Perempuan';
 
   // 1. PINDAHKAN HOOKS KE ATAS SINI (Wajib di React)
   const [activeImage, setActiveImage] = useState<string>('');
@@ -50,7 +48,7 @@ const ProductDetail: FC = () => {
 
   if (product && renderedProductId !== product.id) {
     setRenderedProductId(product.id);
-    setActiveImage(product.imageUrl || placeholderImage);
+    setActiveImage(product.imageUrl || PHOTO_PLACEHOLDER);
     setSelectedSeriesName('');
     setPrevImage('');
     setRatio(null);

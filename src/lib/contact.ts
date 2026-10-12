@@ -36,3 +36,23 @@ export const mapsLink = (query: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
 export const CATEGORIES = ['Denim Anak Perempuan', 'Gamis Anak Perempuan', 'Gamis Dewasa'] as const;
+
+// Kotak krem bertuliskan "Foto menyusul", dipakai untuk produk yang belum berfoto.
+// Dibuat sendiri sebagai SVG supaya tidak bergantung pada layanan gambar di luar.
+export const PHOTO_PLACEHOLDER =
+  'data:image/svg+xml;utf8,' +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">' +
+      '<rect width="600" height="800" fill="#f1e8d8"/>' +
+      '<text x="300" y="400" text-anchor="middle" dominant-baseline="middle" ' +
+      'font-family="Figtree, system-ui, sans-serif" font-size="28" fill="#2f2a2d" ' +
+      'fill-opacity="0.45">Foto menyusul</text>' +
+    '</svg>',
+  );
+
+// Satu kalimat pengantar per kategori di beranda. Ubah di sini kalau mau ganti teksnya.
+export const CATEGORY_BLURB: Record<string, string> = {
+  'Denim Anak Perempuan': 'Dibuat sendiri dengan jahitan rapi dan ukuran yang konsisten antar produksi.',
+  'Gamis Anak Perempuan': 'Warna lembut yang mudah dipadukan, nyaman dipakai anak sepanjang hari.',
+  'Gamis Dewasa': 'Potongan sederhana untuk pemakaian harian, tersedia sampai ukuran besar.',
+};

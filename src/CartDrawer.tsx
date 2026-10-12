@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
-import { CATEGORIES } from './lib/contact';
+import { CATEGORIES, PHOTO_PLACEHOLDER } from './lib/contact';
 import { useCartStore, getCartItemKey } from './store/useCartStore';
 
 const formatRupiah = (value: number) =>
@@ -124,7 +124,7 @@ const CartDrawer: FC = () => {
                     >
                       <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-slate-100">
                         <img
-                          src={item.product.imageUrl || 'https://via.placeholder.com/200x200'}
+                          src={item.product.imageUrl || PHOTO_PLACEHOLDER}
                           alt={item.product.name}
                           className="h-full w-full object-cover"
                         />
