@@ -90,7 +90,7 @@ const AboutLocation: FC = () => {
       <section>
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-2 md:py-20">
           <div>
-            <SectionHeading align="left" title="Tujuan utama kami" />
+            <SectionHeading align="left" title="Tujuan utama kami" accent={false} />
             <p className="mt-4 leading-relaxed text-ink/75">
               Membantu usaha kamu tumbuh dengan produk grosir berkualitas yang terjangkau. Mulai dari satu
               seri pun kami layani dengan senang hati.
