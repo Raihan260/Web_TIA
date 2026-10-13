@@ -124,7 +124,7 @@ const ProductDetail: FC = () => {
                   kalau dipakai bersama tinggi tetap, lebarnya ikut rasio dan halaman
                   jadi bisa digeser menyamping. */}
               <div
-                className="relative h-[46vh] max-h-[460px] min-h-[260px] w-full min-w-0 overflow-hidden bg-cream-deep sm:h-[55vh] sm:max-h-[520px] md:h-auto md:max-h-none md:min-h-0 md:rounded-lg md:border md:border-thread/60 md:[aspect-ratio:var(--rasio-foto)]"
+                className="relative max-h-[52vh] w-full min-w-0 overflow-hidden bg-cream-deep [aspect-ratio:var(--rasio-foto)] md:max-h-none md:rounded-lg md:border md:border-thread/60"
                 style={{ '--rasio-foto': String(ratio ?? 3 / 4) } as CSSProperties}
               >
                 {prevImage && prevImage !== activeImage && (
@@ -132,7 +132,7 @@ const ProductDetail: FC = () => {
                     src={prevImage}
                     alt=""
                     aria-hidden="true"
-                    className="absolute inset-0 h-full w-full object-cover"
+                    className="absolute inset-0 h-full w-full object-contain"
                   />
                 )}
                 <img
@@ -143,7 +143,7 @@ const ProductDetail: FC = () => {
                     const { naturalWidth, naturalHeight } = e.currentTarget;
                     if (ratio === null && naturalWidth && naturalHeight) setRatio(naturalWidth / naturalHeight);
                   }}
-                  className="photo-in absolute inset-0 h-full w-full object-cover"
+                  className="photo-in absolute inset-0 h-full w-full object-contain"
                 />
 
                 {product.tags && product.tags.length > 0 && (
@@ -165,7 +165,7 @@ const ProductDetail: FC = () => {
                 if (allImages.length <= 1) return null;
 
                 return (
-                  <div className="relative z-10 -mt-16 flex gap-2 overflow-x-auto px-3 pb-1 md:z-auto md:mt-3 md:px-0">
+                  <div className="mt-3 flex gap-2 overflow-x-auto px-4 pb-1 md:px-0">
                     {allImages.map((image) => {
                       const isActive = activeImage === image;
                       return (
@@ -178,7 +178,7 @@ const ProductDetail: FC = () => {
                             setActiveImage(image);
                           }}
                           className={`h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg border-2 md:h-16 md:w-16 ${
-                            isActive ? 'border-white md:border-rose' : 'border-white/60 md:border-transparent md:hover:border-blush'
+                            isActive ? 'border-rose' : 'border-transparent hover:border-blush'
                           }`}
                         >
                           <img
