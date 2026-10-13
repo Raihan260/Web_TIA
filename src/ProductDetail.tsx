@@ -122,7 +122,7 @@ const ProductDetail: FC = () => {
                   kalau dipakai bersama tinggi tetap, lebarnya ikut rasio dan halaman
                   jadi bisa digeser menyamping. */}
               <div
-                className="relative h-[460px] w-full min-w-0 overflow-hidden bg-cream-deep sm:h-[520px] md:h-auto md:rounded-lg md:border md:border-thread/60 md:[aspect-ratio:var(--rasio-foto)]"
+                className="relative h-[46vh] max-h-[460px] min-h-[260px] w-full min-w-0 overflow-hidden bg-cream-deep sm:h-[55vh] sm:max-h-[520px] md:h-auto md:max-h-none md:min-h-0 md:rounded-lg md:border md:border-thread/60 md:[aspect-ratio:var(--rasio-foto)]"
                 style={{ '--rasio-foto': String(ratio ?? 3 / 4) } as CSSProperties}
               >
                 {prevImage && prevImage !== activeImage && (
@@ -278,7 +278,7 @@ const ProductDetail: FC = () => {
                 {selectedSeries?.pieces && (
                   <>
                     <dt className="text-ink/60">Isi seri</dt>
-                    <dd className="m-0 text-ink">{selectedSeries.pieces} pcs, ukuran berurutan</dd>
+                    <dd className="m-0 text-ink">{selectedSeries.pieces} pcs per seri</dd>
                   </>
                 )}
                 {STORES.some((st) => st.category === product.category) && (
