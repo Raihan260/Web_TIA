@@ -104,8 +104,8 @@ const ProductDetail: FC = () => {
 
   return (
     <div className="min-h-screen bg-paper pb-28 md:pb-16">
-      <section className="md:border-t md:border-thread/40">
-        <div className="mx-auto max-w-6xl pb-10 md:px-4 md:py-14">
+      <section className="border-t border-thread/40">
+        <div className="mx-auto max-w-6xl py-10 md:px-4 md:py-14">
           <div className="mb-6 hidden px-4 text-sm text-ink/70 md:block md:px-0">
             <Link
               to="/katalog"

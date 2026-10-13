@@ -44,21 +44,6 @@ const ScrollToTop = () => {
   return null;
 };
 
-// Di halaman detail produk, bilah atas disembunyikan pada layar HP: halaman itu
-// sudah punya tombol kembali dan keranjang yang melayang di atas foto, jadi bilah
-// atas hanya memakan ruang. Di layar lebar bilah atas tetap ada, karena di sana
-// tombol melayangnya tidak dipakai dan menu tetap dibutuhkan.
-const NavbarSlot: FC = () => {
-  const { pathname } = useLocation();
-  const diDetailProduk = pathname.startsWith('/product/');
-
-  return (
-    <div className={diDetailProduk ? 'hidden md:block' : undefined}>
-      <Navbar />
-    </div>
-  );
-};
-
 const App: FC = () => {
   const fetchProducts = useProductStore((state) => state.fetchProducts);
   const productList = useProductStore((state) => state.productList);
@@ -84,7 +69,7 @@ const App: FC = () => {
       )}
       <BrowserRouter>
         <ScrollToTop />
-        <NavbarSlot />
+        <Navbar />
         <CartDrawer />
         <main className="flex-1">
           <Routes>
