@@ -124,7 +124,7 @@ const ProductDetail: FC = () => {
                   kalau dipakai bersama tinggi tetap, lebarnya ikut rasio dan halaman
                   jadi bisa digeser menyamping. */}
               <div
-                className="relative max-h-[52vh] w-full min-w-0 overflow-hidden bg-cream-deep [aspect-ratio:var(--rasio-foto)] md:max-h-none md:rounded-lg md:border md:border-thread/60"
+                className="relative w-full min-w-0 overflow-hidden bg-cream-deep [aspect-ratio:var(--rasio-foto)] md:rounded-lg md:border md:border-thread/60"
                 style={{ '--rasio-foto': String(ratio ?? 3 / 4) } as CSSProperties}
               >
                 {prevImage && prevImage !== activeImage && (
@@ -132,7 +132,7 @@ const ProductDetail: FC = () => {
                     src={prevImage}
                     alt=""
                     aria-hidden="true"
-                    className="absolute inset-0 h-full w-full object-contain"
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
                 )}
                 <img
@@ -143,7 +143,7 @@ const ProductDetail: FC = () => {
                     const { naturalWidth, naturalHeight } = e.currentTarget;
                     if (ratio === null && naturalWidth && naturalHeight) setRatio(naturalWidth / naturalHeight);
                   }}
-                  className="photo-in absolute inset-0 h-full w-full object-contain"
+                  className="photo-in absolute inset-0 h-full w-full object-cover"
                 />
 
                 {product.tags && product.tags.length > 0 && (
