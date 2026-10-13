@@ -44,6 +44,20 @@ const ScrollToTop = () => {
   return null;
 };
 
+// Halaman detail produk memakai bilah atas ramping sendiri di layar HP,
+// jadi bilah utama disembunyikan di sana. Di layar lebar bilah utama tetap
+// dipakai, karena menunya masih dibutuhkan.
+const NavbarSlot: FC = () => {
+  const { pathname } = useLocation();
+  const diDetailProduk = pathname.startsWith('/product/');
+
+  return (
+    <div className={diDetailProduk ? 'hidden md:block' : undefined}>
+      <Navbar />
+    </div>
+  );
+};
+
 const App: FC = () => {
   const fetchProducts = useProductStore((state) => state.fetchProducts);
   const productList = useProductStore((state) => state.productList);
@@ -69,7 +83,7 @@ const App: FC = () => {
       )}
       <BrowserRouter>
         <ScrollToTop />
-        <Navbar />
+        <NavbarSlot />
         <CartDrawer />
         <main className="flex-1">
           <Routes>
