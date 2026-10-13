@@ -15,6 +15,7 @@ import AboutTeaser from './AboutTeaser';
 import HowToOrderPage from './HowToOrderPage';
 import Footer from './Footer';
 import { useProductStore } from './store/useProductStore';
+import { useCartStore } from './store/useCartStore';
 import { isSupabaseConfigured } from './lib/supabase';
 
 const Home: FC = () => {
@@ -45,10 +46,18 @@ const ScrollToTop = () => {
 
 const App: FC = () => {
   const fetchProducts = useProductStore((state) => state.fetchProducts);
+  const productList = useProductStore((state) => state.productList);
+  const syncCartWithProducts = useCartStore((state) => state.syncWithProducts);
 
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
+
+  // Keranjang bertahan setelah halaman dimuat ulang, jadi isinya perlu
+  // disegarkan begitu data produk terbaru tersedia.
+  useEffect(() => {
+    syncCartWithProducts(productList);
+  }, [productList, syncCartWithProducts]);
 
   return (
     <div className="flex min-h-screen flex-col bg-paper font-sans text-ink">
