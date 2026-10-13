@@ -15,7 +15,8 @@ export const getCartItemKey = (productId: string, seriesName: string) =>
 interface CartState {
   items: CartItem[];
   isCartOpen: boolean;
-  addToCart: (product: Product, series: SeriesOption) => void;
+  /** Tambah seri ke keranjang. `quantity` dipakai kalau pembeli sudah memilih jumlah di halaman produk. */
+  addToCart: (product: Product, series: SeriesOption, quantity?: number) => void;
   removeFromCart: (key: string) => void;
   updateQuantity: (key: string, delta: number) => void;
   setIsCartOpen: (isOpen: boolean) => void;
@@ -33,18 +34,19 @@ export const useCartStore = create<CartState>()(
       items: [],
       isCartOpen: false,
 
-      addToCart: (product, series) => {
+      addToCart: (product, series, quantity = 1) => {
         const { items } = get();
         const key = getCartItemKey(product.id, series.name);
         const exists = items.some((item) => getCartItemKey(item.product.id, item.series.name) === key);
 
+        const tambahan = Math.max(1, Math.round(quantity));
         const newItems: CartItem[] = exists
           ? items.map((item) =>
               getCartItemKey(item.product.id, item.series.name) === key
-                ? { ...item, quantity: item.quantity + 1 }
+                ? { ...item, quantity: item.quantity + tambahan }
                 : item,
             )
-          : [...items, { product, series, quantity: 1 }];
+          : [...items, { product, series, quantity: tambahan }];
 
         set({ items: newItems, isCartOpen: true });
       },
