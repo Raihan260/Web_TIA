@@ -1,8 +1,9 @@
 import type { CSSProperties, FC, MouseEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, MapPin, ShoppingBag } from 'lucide-react';
+import { MapPin, ShoppingBag } from 'lucide-react';
 import { PHOTO_PLACEHOLDER, STORES, storeAnchor } from './lib/contact';
+import ProductTopBar from './ProductTopBar';
 import ProductCard from './ProductCard'; // <-- Import komponen kartu produk
 import { useCartStore } from './store/useCartStore';
 import { useProductStore } from './store/useProductStore';
@@ -104,8 +105,9 @@ const ProductDetail: FC = () => {
 
   return (
     <div className="min-h-screen bg-paper pb-28 md:pb-16">
-      <section className="border-t border-thread/40">
-        <div className="mx-auto max-w-6xl py-10 md:px-4 md:py-14">
+      <ProductTopBar />
+      <section className="md:border-t md:border-thread/40">
+        <div className="mx-auto max-w-6xl pb-10 md:px-4 md:py-14">
           <div className="mb-6 hidden px-4 text-sm text-ink/70 md:block md:px-0">
             <Link
               to="/katalog"
@@ -144,26 +146,8 @@ const ProductDetail: FC = () => {
                   className="photo-in absolute inset-0 h-full w-full object-cover"
                 />
 
-                {/* Tombol melayang hanya di HP; di layar lebar sudah ada tautan teks dan navbar. */}
-                <Link
-                  to="/katalog"
-                  onClick={handleGoBack}
-                  aria-label="Kembali ke katalog"
-                  className="absolute left-3 top-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-light/90 text-ink backdrop-blur-sm md:hidden"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => setIsCartOpen(true)}
-                  aria-label="Buka keranjang"
-                  className="absolute right-3 top-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-light/90 text-ink backdrop-blur-sm md:hidden"
-                >
-                  <ShoppingBag className="h-5 w-5" />
-                </button>
-
                 {product.tags && product.tags.length > 0 && (
-                  <span className="absolute left-3 top-[64px] rounded bg-cream-light/95 px-2 py-0.5 text-[11px] font-semibold text-rose-deep md:hidden">
+                  <span className="absolute left-3 top-3 rounded bg-cream-light/95 px-2 py-0.5 text-[11px] font-semibold text-rose-deep md:hidden">
                     {product.tags[0]}
                   </span>
                 )}
