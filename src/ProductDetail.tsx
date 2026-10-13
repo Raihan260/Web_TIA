@@ -1,7 +1,7 @@
 import type { CSSProperties, FC, MouseEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { MapPin, ShoppingBag } from 'lucide-react';
+import { MapPin, Minus, Plus, ShoppingBag } from 'lucide-react';
 import { PHOTO_PLACEHOLDER, STORES, storeAnchor } from './lib/contact';
 import ProductTopBar from './ProductTopBar';
 import ProductCard from './ProductCard'; // <-- Import komponen kartu produk
@@ -28,6 +28,9 @@ const ProductDetail: FC = () => {
   // 1. PINDAHKAN HOOKS KE ATAS SINI (Wajib di React)
   const [activeImage, setActiveImage] = useState<string>('');
   const [selectedSeriesName, setSelectedSeriesName] = useState<string>('');
+  // Berapa seri yang mau dimasukkan sekaligus. Dipilih di sini, bukan baru
+  // ditambah satu per satu setelah masuk keranjang.
+  const [jumlahSeri, setJumlahSeri] = useState(1);
   // Foto sebelumnya tetap tampil di bawah foto baru supaya pergantian tidak berkedip.
   const [prevImage, setPrevImage] = useState<string>('');
   // Rasio foto utama dipakai sebagai ukuran tetap kotak, supaya halaman tidak melompat saat foto diganti.
@@ -51,6 +54,7 @@ const ProductDetail: FC = () => {
     setRenderedProductId(product.id);
     setActiveImage(product.imageUrl || PHOTO_PLACEHOLDER);
     setSelectedSeriesName('');
+    setJumlahSeri(1);
     setPrevImage('');
     setRatio(null);
   }
@@ -82,6 +86,8 @@ const ProductDetail: FC = () => {
   }
 
   // Seri terpilih; kalau belum memilih, otomatis seri pertama.
+  const ubahJumlah = (delta: number) => setJumlahSeri((n) => Math.min(99, Math.max(1, n + delta)));
+
   const selectedSeries =
     product.seriesOptions.find((option) => option.name === selectedSeriesName) ??
     product.seriesOptions[0];
@@ -255,6 +261,43 @@ const ProductDetail: FC = () => {
                 </div>
               </div>
 
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm font-semibold text-ink">Jumlah seri</p>
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex items-center rounded-full border border-ink/15 bg-white">
+                    <button
+                      type="button"
+                      onClick={() => ubahJumlah(-1)}
+                      disabled={jumlahSeri <= 1}
+                      aria-label="Kurangi jumlah seri"
+                      className="flex h-11 w-11 items-center justify-center rounded-full text-ink transition hover:bg-cream-deep disabled:text-ink/25 disabled:hover:bg-transparent"
+                    >
+                      <Minus className="h-4 w-4" />
+                    </button>
+                    <span
+                      aria-live="polite"
+                      className="min-w-[32px] text-center text-sm font-semibold text-ink"
+                    >
+                      {jumlahSeri}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => ubahJumlah(1)}
+                      disabled={jumlahSeri >= 99}
+                      aria-label="Tambah jumlah seri"
+                      className="flex h-11 w-11 items-center justify-center rounded-full text-ink transition hover:bg-cream-deep disabled:text-ink/25 disabled:hover:bg-transparent"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </button>
+                  </span>
+                  {selectedSeries && (
+                    <span className="min-w-[96px] text-right text-sm font-semibold text-ink">
+                      {formatRupiah(selectedSeries.totalPrice * jumlahSeri)}
+                    </span>
+                  )}
+                </div>
+              </div>
+
               {/* Keterangan yang dulu berupa chip berserakan, kini satu daftar tenang. */}
               <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 border-t border-thread/60 pt-4 text-sm">
                 <dt className="text-ink/60">Penjualan</dt>
@@ -290,13 +333,13 @@ const ProductDetail: FC = () => {
                 <button
                   type="button"
                   disabled={product.isAvailable === false || !selectedSeries}
-                  onClick={() => selectedSeries && addToCart(product, selectedSeries)}
+                  onClick={() => selectedSeries && addToCart(product, selectedSeries, jumlahSeri)}
                   className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-rose px-6 py-3.5 text-sm font-bold text-white transition hover:bg-rose-deep disabled:cursor-not-allowed disabled:bg-ink/25"
                 >
                   <ShoppingBag className="h-4 w-4" />
                   {product.isAvailable === false
                     ? 'Stok habis'
-                    : `Masukkan keranjang${selectedSeries ? ` · ${formatRupiah(selectedSeries.totalPrice)}` : ''}`}
+                    : `Masukkan ${jumlahSeri} seri${selectedSeries ? ` · ${formatRupiah(selectedSeries.totalPrice * jumlahSeri)}` : ''}`}
                 </button>
                 <button
                   type="button"
@@ -336,15 +379,18 @@ const ProductDetail: FC = () => {
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink/10 bg-cream-light/95 px-4 py-3 backdrop-blur-sm md:hidden">
         <div className="mx-auto flex max-w-md items-center gap-3">
           <div className="min-w-0 flex-1">
-            <p className="truncate text-xs text-ink/70">{selectedSeries?.name}</p>
+            <p className="truncate text-xs text-ink/70">
+              {selectedSeries?.name}
+              {selectedSeries ? ` · ${jumlahSeri} seri` : ''}
+            </p>
             <p className="text-base font-bold text-ink">
-              {selectedSeries ? formatRupiah(selectedSeries.totalPrice) : ''}
+              {selectedSeries ? formatRupiah(selectedSeries.totalPrice * jumlahSeri) : ''}
             </p>
           </div>
           <button
             type="button"
             disabled={product.isAvailable === false || !selectedSeries}
-            onClick={() => selectedSeries && addToCart(product, selectedSeries)}
+            onClick={() => selectedSeries && addToCart(product, selectedSeries, jumlahSeri)}
             className="inline-flex shrink-0 items-center gap-2 rounded-full bg-rose px-6 py-3 text-sm font-bold text-white transition hover:bg-rose-deep disabled:cursor-not-allowed disabled:bg-ink/25"
           >
             <ShoppingBag className="h-4 w-4" />
