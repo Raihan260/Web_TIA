@@ -1,7 +1,7 @@
-import type { FC, MouseEvent } from 'react';
+import type { CSSProperties, FC, MouseEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { MapPin } from 'lucide-react';
+import { ChevronLeft, MapPin, ShoppingBag } from 'lucide-react';
 import { PHOTO_PLACEHOLDER, STORES, storeAnchor } from './lib/contact';
 import ProductCard from './ProductCard'; // <-- Import komponen kartu produk
 import { useCartStore } from './store/useCartStore';
@@ -105,8 +105,8 @@ const ProductDetail: FC = () => {
   return (
     <div className="min-h-screen bg-paper pb-28 md:pb-16">
       <section className="border-t border-thread/40">
-        <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
-          <div className="mb-6 text-sm text-slate-600">
+        <div className="mx-auto max-w-6xl py-10 md:px-4 md:py-14">
+          <div className="mb-6 hidden px-4 text-sm text-ink/70 md:block md:px-0">
             <Link
               to="/katalog"
               onClick={handleGoBack}
@@ -117,10 +117,13 @@ const ProductDetail: FC = () => {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
-            <div className="mx-auto w-full max-w-[560px] md:mx-0">
+            <div className="w-full min-w-0 md:max-w-[560px]">
+              {/* Di HP tingginya dipatok. Rasio asli foto baru dipakai di layar lebar:
+                  kalau dipakai bersama tinggi tetap, lebarnya ikut rasio dan halaman
+                  jadi bisa digeser menyamping. */}
               <div
-                className="relative overflow-hidden rounded-lg border border-thread/60 bg-cream-deep shadow-sm"
-                style={{ aspectRatio: ratio ?? 3 / 4 }}
+                className="relative h-[460px] w-full min-w-0 overflow-hidden bg-cream-deep sm:h-[520px] md:h-auto md:rounded-lg md:border md:border-thread/60 md:[aspect-ratio:var(--rasio-foto)]"
+                style={{ '--rasio-foto': String(ratio ?? 3 / 4) } as CSSProperties}
               >
                 {prevImage && prevImage !== activeImage && (
                   <img
@@ -140,6 +143,30 @@ const ProductDetail: FC = () => {
                   }}
                   className="photo-in absolute inset-0 h-full w-full object-cover"
                 />
+
+                {/* Tombol melayang hanya di HP; di layar lebar sudah ada tautan teks dan navbar. */}
+                <Link
+                  to="/katalog"
+                  onClick={handleGoBack}
+                  aria-label="Kembali ke katalog"
+                  className="absolute left-3 top-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-light/90 text-ink backdrop-blur-sm md:hidden"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setIsCartOpen(true)}
+                  aria-label="Buka keranjang"
+                  className="absolute right-3 top-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-light/90 text-ink backdrop-blur-sm md:hidden"
+                >
+                  <ShoppingBag className="h-5 w-5" />
+                </button>
+
+                {product.tags && product.tags.length > 0 && (
+                  <span className="absolute left-3 top-[64px] rounded bg-cream-light/95 px-2 py-0.5 text-[11px] font-semibold text-rose-deep md:hidden">
+                    {product.tags[0]}
+                  </span>
+                )}
               </div>
               {(() => {
                 // Gabungkan gambar utama + galeri jadi satu daftar thumbnail,
@@ -154,7 +181,7 @@ const ProductDetail: FC = () => {
                 if (allImages.length <= 1) return null;
 
                 return (
-                  <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+                  <div className="relative z-10 -mt-16 flex gap-2 overflow-x-auto px-3 pb-1 md:z-auto md:mt-3 md:px-0">
                     {allImages.map((image) => {
                       const isActive = activeImage === image;
                       return (
@@ -166,10 +193,9 @@ const ProductDetail: FC = () => {
                             setPrevImage(activeImage);
                             setActiveImage(image);
                           }}
-                          className={`h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 ${isActive
-                              ? 'border-rose'
-                              : 'border-transparent hover:border-blush'
-                            }`}
+                          className={`h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg border-2 md:h-16 md:w-16 ${
+                            isActive ? 'border-white md:border-rose' : 'border-white/60 md:border-transparent md:hover:border-blush'
+                          }`}
                         >
                           <img
                             src={image}
@@ -184,56 +210,28 @@ const ProductDetail: FC = () => {
               })()}
             </div>
 
-            <div className="space-y-4">
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="inline-flex items-center gap-2 rounded-full bg-blush px-3 py-1 text-xs font-semibold text-rose-deep">
-                  <span>{product.category}</span>
-                </div>
-                {STORES.some((st) => st.category === product.category) && (
-                  <Link
-                    to={`/tentang#${storeAnchor(product.category)}`}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-rose underline underline-offset-4"
-                  >
-                    <MapPin className="h-3.5 w-3.5" />
-                    Tersedia di {STORES.find((st) => st.category === product.category)?.place}
-                  </Link>
-                )}
-                {product.isAvailable === false && (
-                  <div className="inline-flex items-center gap-2 rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
-                    Stok Habis
-                  </div>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-ink">
+            <div className="space-y-5 px-4 md:px-0">
+              <div className="space-y-1.5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/50">
+                  {product.category}
+                </p>
+                <h1 className="font-display text-2xl font-bold leading-tight text-ink md:text-3xl">
                   {product.name}
                 </h1>
-                <p className="text-base font-semibold text-ink">
-                  Mulai {formatRupiah(minPricePerPiece)} / pcs
+                <p className="text-lg font-semibold text-ink">
+                  Mulai {formatRupiah(minPricePerPiece)}{' '}
+                  <span className="font-medium text-ink/60">/ pcs</span>
                 </p>
+                {product.isAvailable === false && (
+                  <p className="inline-flex rounded bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-700">
+                    Stok habis
+                  </p>
+                )}
               </div>
 
-              <div className="rounded-lg bg-rose px-3 py-2 text-xs font-bold text-white inline-flex items-center">
-                Hanya dijual per seri
-              </div>
-
-              {product.tags && product.tags.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {product.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-blush-soft px-2 py-0.5 text-[11px] font-medium text-rose-deep ring-1 ring-blush"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              <div className="mt-4 rounded-lg bg-white p-4 shadow-sm ring-1 ring-slate-200">
-                <p className="text-sm font-bold text-ink">Pilih seri ukuran</p>
-                <div className="mt-3 space-y-2" role="radiogroup" aria-label="Pilih seri">
+              <div className="space-y-2.5">
+                <p className="text-sm font-semibold text-ink">Pilih seri ukuran</p>
+                <div className="space-y-2" role="radiogroup" aria-label="Pilih seri ukuran">
                   {product.seriesOptions.map((option) => {
                     const isSelected = selectedSeries?.name === option.name;
                     return (
@@ -243,50 +241,86 @@ const ProductDetail: FC = () => {
                         role="radio"
                         aria-checked={isSelected}
                         onClick={() => setSelectedSeriesName(option.name)}
-                        className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-xs transition ${
+                        className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left transition ${
                           isSelected
-                            ? 'bg-blush-soft ring-2 ring-rose'
-                            : 'bg-slate-50 ring-1 ring-slate-200 hover:ring-blush'
+                            ? 'border-2 border-rose bg-blush-soft'
+                            : 'border border-ink/15 bg-white hover:border-rose/50'
                         }`}
                       >
-                        <div className="min-w-0">
-                          <p className="truncate font-semibold text-slate-800">{option.name}</p>
-                          <p className="text-[11px] text-slate-500">
-                            {formatRupiah(option.pricePerPiece)} / pcs{option.pieces ? <> &times; {option.pieces} pcs</> : null}
-                          </p>
-                        </div>
-                        <p className="ml-3 whitespace-nowrap text-sm font-bold text-ink">
+                        <span
+                          aria-hidden="true"
+                          className={`flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full border-2 ${
+                            isSelected ? 'border-rose' : 'border-ink/30'
+                          }`}
+                        >
+                          {isSelected && <span className="h-2.5 w-2.5 rounded-full bg-rose" />}
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-semibold text-ink">{option.name}</span>
+                          <span className="block text-xs text-ink/65">
+                            {option.pieces ? `${option.pieces} pcs · ` : ''}
+                            {formatRupiah(option.pricePerPiece)} / pcs
+                          </span>
+                        </span>
+                        <span className="whitespace-nowrap text-sm font-semibold text-ink">
                           {formatRupiah(option.totalPrice)}
-                        </p>
+                        </span>
                       </button>
                     );
                   })}
                 </div>
               </div>
 
-              <div className="mt-6 flex flex-col gap-3 md:flex-row">
+              {/* Keterangan yang dulu berupa chip berserakan, kini satu daftar tenang. */}
+              <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 border-t border-thread/60 pt-4 text-sm">
+                <dt className="text-ink/60">Penjualan</dt>
+                <dd className="m-0 text-ink">Hanya per seri, tidak satuan</dd>
+                {selectedSeries?.pieces && (
+                  <>
+                    <dt className="text-ink/60">Isi seri</dt>
+                    <dd className="m-0 text-ink">{selectedSeries.pieces} pcs, ukuran berurutan</dd>
+                  </>
+                )}
+                {STORES.some((st) => st.category === product.category) && (
+                  <>
+                    <dt className="text-ink/60">Toko</dt>
+                    <dd className="m-0">
+                      <Link
+                        to={`/tentang#${storeAnchor(product.category)}`}
+                        className="inline-flex items-center gap-1 text-rose underline underline-offset-4"
+                      >
+                        <MapPin className="h-3.5 w-3.5" />
+                        {STORES.find((st) => st.category === product.category)?.place}
+                      </Link>
+                    </dd>
+                  </>
+                )}
+              </dl>
+
+              <p className="text-sm leading-relaxed text-ink/65">
+                Stok bisa berubah. Admin memastikan ketersediaan dan ongkir sebelum Anda membayar.
+              </p>
+
+              {/* Di HP tombolnya ada di bilah bawah yang selalu terlihat. */}
+              <div className="hidden gap-3 md:flex">
                 <button
                   type="button"
                   disabled={product.isAvailable === false || !selectedSeries}
                   onClick={() => selectedSeries && addToCart(product, selectedSeries)}
-                  className="hidden flex-1 items-center justify-center rounded-full bg-mauve px-6 py-3 text-sm font-semibold text-white shadow-md shadow-mauve/30 md:inline-flex transition hover:bg-mauve-deep disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-rose px-6 py-3.5 text-sm font-bold text-white transition hover:bg-rose-deep disabled:cursor-not-allowed disabled:bg-ink/25"
                 >
-                  {product.isAvailable === false ? 'Stok Habis' : `Tambah ke Keranjang${selectedSeries ? ` · ${formatRupiah(selectedSeries.totalPrice)}` : ''}`}
+                  <ShoppingBag className="h-4 w-4" />
+                  {product.isAvailable === false
+                    ? 'Stok habis'
+                    : `Masukkan keranjang${selectedSeries ? ` · ${formatRupiah(selectedSeries.totalPrice)}` : ''}`}
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsCartOpen(true)}
-                  className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
+                  className="inline-flex items-center justify-center rounded-full border-2 border-ink/25 px-6 py-3 text-sm font-bold text-ink transition hover:border-ink hover:bg-ink hover:text-cream"
                 >
-                  Lihat Keranjang Saya
+                  Lihat keranjang
                 </button>
-                <Link
-                  to="/katalog"
-                  onClick={handleGoBack}
-                  className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-50"
-                >
-                  Kembali ke Katalog
-                </Link>
               </div>
             </div>
           </div>
@@ -327,9 +361,10 @@ const ProductDetail: FC = () => {
             type="button"
             disabled={product.isAvailable === false || !selectedSeries}
             onClick={() => selectedSeries && addToCart(product, selectedSeries)}
-            className="shrink-0 rounded-full bg-mauve px-6 py-3 text-sm font-bold text-white transition hover:bg-mauve-deep disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-rose px-6 py-3 text-sm font-bold text-white transition hover:bg-rose-deep disabled:cursor-not-allowed disabled:bg-ink/25"
           >
-            {product.isAvailable === false ? 'Stok habis' : 'Tambah ke keranjang'}
+            <ShoppingBag className="h-4 w-4" />
+            {product.isAvailable === false ? 'Stok habis' : 'Masukkan'}
           </button>
         </div>
       </div>
