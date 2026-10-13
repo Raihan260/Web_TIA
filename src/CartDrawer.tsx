@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
+import { X, Trash2, Plus, Minus, ShoppingBag, MessageCircle } from 'lucide-react';
 import { CATEGORIES, PHOTO_PLACEHOLDER } from './lib/contact';
 import { useCartStore, getCartItemKey } from './store/useCartStore';
 
@@ -15,6 +15,14 @@ const CartDrawer: FC = () => {
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart } = useCartStore();
 
   const totalPrice = items.reduce((sum, item) => sum + item.series.totalPrice * item.quantity, 0);
+  const totalSeries = items.reduce((sum, item) => sum + item.quantity, 0);
+  // Urutan kategori mengikuti CATEGORIES, sama dengan urutan di pesan WhatsApp.
+  const categoriesInCart = [
+    ...CATEGORIES.filter((c) => items.some((i) => i.product.category === c)),
+    ...Array.from(new Set(items.map((i) => i.product.category))).filter(
+      (c) => !CATEGORIES.includes(c as (typeof CATEGORIES)[number]),
+    ),
+  ];
 
   const handleClose = () => setIsCartOpen(false);
 
@@ -74,136 +82,136 @@ const CartDrawer: FC = () => {
 
       {/* Drawer */}
       <aside
-        className={`fixed inset-y-0 right-0 z-50 w-full max-w-md transform border-l border-slate-200 bg-white shadow-xl transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-y-0 right-0 z-50 w-full max-w-md transform border-l border-thread/60 bg-cream shadow-xl transition-transform duration-300 ease-in-out ${
           isCartOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         aria-hidden={!isCartOpen}
       >
         <div className="flex h-full flex-col">
-          {/* Header */}
-          <div className="flex items-center justify-between border-b border-slate-200 px-4 py-4">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-mauve text-white">
-                <ShoppingBag className="h-4 w-4" />
-              </div>
-              <div>
-                <h2 className="text-sm font-semibold text-ink">Keranjang Inquiry</h2>
-                <p className="text-[11px] text-slate-500">
-                  Seri pilihan Anda akan dikirim ke Admin
-                </p>
-              </div>
+          {/* Kepala */}
+          <div className="flex items-center justify-between gap-3 border-b border-dashed border-thread px-4 py-3">
+            <div>
+              <h2 className="font-display text-lg font-bold text-ink">Keranjang</h2>
+              <p className="text-xs text-ink/60">
+                {items.length === 0
+                  ? 'Belum ada seri yang dipilih'
+                  : `${totalSeries} seri dari ${categoriesInCart.length} kategori`}
+              </p>
             </div>
             <button
               type="button"
               onClick={handleClose}
-              className="rounded-full border border-slate-200 p-1.5 text-slate-500 hover:bg-slate-100"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition hover:bg-cream-deep"
               aria-label="Tutup keranjang"
             >
-              <X className="h-4 w-4" />
+              <X className="h-5 w-5" />
             </button>
           </div>
 
-          {/* Content */}
+          {/* Isi, dikelompokkan per kategori seperti pesan WhatsApp yang nanti terkirim */}
           <div className="flex-1 overflow-y-auto px-4 py-4">
             {items.length === 0 ? (
-              <div className="flex h-full flex-col items-center justify-center text-center text-sm text-slate-500">
-                <ShoppingBag className="mb-2 h-8 w-8 text-slate-300" />
-                <p className="font-semibold text-slate-700">Keranjang Inquiry Masih Kosong</p>
-                <p className="mt-1 text-xs text-slate-500">
-                  Tambahkan dulu beberapa model yang ingin Anda tanyakan.
+              <div className="flex h-full flex-col items-center justify-center px-6 text-center">
+                <ShoppingBag className="mb-3 h-8 w-8 text-ink/25" />
+                <p className="font-semibold text-ink">Keranjang masih kosong</p>
+                <p className="mt-1 text-sm text-ink/60">
+                  Pilih seri di halaman produk, lalu daftarnya muncul di sini.
                 </p>
               </div>
             ) : (
-              <div className="space-y-3">
-                {items.map((item) => {
-                  const itemKey = getCartItemKey(item.product.id, item.series.name);
-                  return (
-                    <div
-                      key={itemKey}
-                      className="flex gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm"
-                    >
-                      <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-slate-100">
-                        <img
-                          src={item.product.imageUrl || PHOTO_PLACEHOLDER}
-                          alt={item.product.name}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-
-                      <div className="flex flex-1 flex-col justify-between">
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            {item.product.category}
-                          </p>
-                          <h3 className="line-clamp-2 text-sm font-bold text-ink">
-                            {item.product.name}
-                          </h3>
-                          <p className="mt-0.5 text-[11px] font-medium text-slate-600">
-                            {item.series.name}
-                          </p>
-                          <p className="mt-0.5 text-[11px] font-semibold text-ink/70">
-                            {formatRupiah(item.series.totalPrice)} / seri
-                          </p>
-                        </div>
-
-                        <div className="mt-2 flex items-center justify-between">
-                          <div className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-1.5 py-1">
-                            <button
-                              type="button"
-                              onClick={() => updateQuantity(itemKey, -1)}
-                              className="flex h-6 w-6 items-center justify-center rounded-full text-slate-600 hover:bg-slate-200"
-                              aria-label="Kurangi jumlah"
-                            >
-                              <Minus className="h-3 w-3" />
-                            </button>
-                            <span className="min-w-[2rem] text-center text-xs font-semibold text-slate-800">
-                              {item.quantity} Seri
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() => updateQuantity(itemKey, 1)}
-                              className="flex h-6 w-6 items-center justify-center rounded-full text-slate-600 hover:bg-slate-200"
-                              aria-label="Tambah jumlah"
-                            >
-                              <Plus className="h-3 w-3" />
-                            </button>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() => removeFromCart(itemKey)}
-                            className="rounded-full p-1.5 text-slate-400 hover:bg-red-50 hover:text-red-500"
-                            aria-label="Hapus dari keranjang"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        </div>
-                      </div>
+              <div className="space-y-6">
+                {categoriesInCart.map((category, index) => (
+                  <div
+                    key={category}
+                    className={index > 0 ? 'border-t border-thread/60 pt-5' : undefined}
+                  >
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/50">
+                      {category}
+                    </p>
+                    <div className="mt-3 space-y-4">
+                      {items
+                        .filter((item) => item.product.category === category)
+                        .map((item) => {
+                          const itemKey = getCartItemKey(item.product.id, item.series.name);
+                          return (
+                            <div key={itemKey} className="flex gap-3">
+                              <img
+                                src={item.product.imageUrl || PHOTO_PLACEHOLDER}
+                                alt=""
+                                className="h-24 w-[72px] shrink-0 rounded-lg bg-cream-deep object-cover"
+                              />
+                              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+                                <p className="line-clamp-2 text-[15px] font-medium leading-tight text-ink">
+                                  {item.product.name}
+                                </p>
+                                <p className="text-[13px] text-ink/65">
+                                  {item.series.name} · {formatRupiah(item.series.totalPrice)} / seri
+                                </p>
+                                <div className="flex items-center gap-2">
+                                  <span className="inline-flex items-center rounded-full border border-ink/15 bg-white">
+                                    <button
+                                      type="button"
+                                      onClick={() => updateQuantity(itemKey, -1)}
+                                      className="flex h-10 w-10 items-center justify-center rounded-full text-ink transition hover:bg-cream-deep"
+                                      aria-label="Kurangi jumlah"
+                                    >
+                                      <Minus className="h-4 w-4" />
+                                    </button>
+                                    <span className="min-w-[28px] text-center text-sm font-semibold text-ink">
+                                      {item.quantity}
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() => updateQuantity(itemKey, 1)}
+                                      className="flex h-10 w-10 items-center justify-center rounded-full text-ink transition hover:bg-cream-deep"
+                                      aria-label="Tambah jumlah"
+                                    >
+                                      <Plus className="h-4 w-4" />
+                                    </button>
+                                  </span>
+                                  <span className="flex-1 text-right text-[15px] font-semibold text-ink">
+                                    {formatRupiah(item.series.totalPrice * item.quantity)}
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => removeFromCart(itemKey)}
+                                    className="flex h-10 w-10 items-center justify-center rounded-full text-ink/45 transition hover:bg-red-50 hover:text-red-600"
+                                    aria-label="Hapus dari keranjang"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
                     </div>
-                  );
-                })}
+                  </div>
+                ))}
               </div>
             )}
           </div>
 
-          {/* Footer */}
-          <div className="border-t border-slate-200 bg-slate-50 px-4 py-4 text-xs text-slate-600">
+          {/* Penutup: total, lalu satu tombol hubungi admin */}
+          <div className="space-y-3 border-t border-ink/10 bg-cream-light px-4 py-4">
             {items.length > 0 && (
-              <div className="mb-3 flex items-center justify-between text-sm">
-                <span className="font-medium text-slate-700">Estimasi total</span>
-                <span className="font-bold text-ink">{formatRupiah(totalPrice)}</span>
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="text-[15px] text-ink">Estimasi total</span>
+                <span className="font-display text-[22px] font-bold text-ink">
+                  {formatRupiah(totalPrice)}
+                </span>
               </div>
             )}
-            <p className="mb-3 text-[11px] leading-relaxed">
-              Ongkir dan total akhir akan dikonfirmasi Admin via WhatsApp setelah Anda kirim daftar pesanan.
+            <p className="text-xs leading-relaxed text-ink/65">
+              Belum termasuk ongkir. Admin memastikan stok dan total akhir sebelum Anda membayar.
             </p>
             <button
               type="button"
               onClick={handleCheckoutWhatsApp}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-ink px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-ink/25 transition hover:bg-ink disabled:cursor-not-allowed disabled:opacity-80"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-5 py-3.5 text-[15px] font-bold text-white transition hover:bg-ink/85"
             >
-              <ShoppingBag className="h-4 w-4" />
-              <span>Checkout via WhatsApp</span>
+              <MessageCircle className="h-[18px] w-[18px]" />
+              {items.length === 0 ? 'Tanya admin' : 'Kirim pesanan ke admin'}
             </button>
           </div>
         </div>
